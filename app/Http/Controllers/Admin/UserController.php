@@ -11,9 +11,6 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = User::latest()
@@ -21,7 +18,6 @@ class UserController extends Controller
 
         return inertia('Admin/Users/Index', ['users' => $users]);
     }
-
 
     public function create()
     {
