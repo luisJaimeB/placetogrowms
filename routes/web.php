@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
@@ -28,6 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('roles.store');
     Route::patch('admin/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
     Route::delete('/admin/roles/{role}', [RoleController::class, 'destroy'])->middleware('can:roles.delete')->name('roles.destroy');
+
+    Route::get('/admin/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('/admin/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+    Route::get('/admin/permissions/{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::post('/admin/permissions', [PermissionController::class, 'store'])->name('permissions.store');
+    Route::patch('admin/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::delete('/admin/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
 });
 

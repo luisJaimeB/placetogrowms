@@ -38,6 +38,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
                                     Roles
                                 </NavLink>
+                                <NavLink :href="route('permissions.index')" :active="route().current('permissions.*')">
+                                    Permisions
+                                </NavLink>
                             </div>
                         </div>
 
@@ -127,7 +130,9 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('rolesindex')">
                             Roles
                         </ResponsiveNavLink>
-
+                        <ResponsiveNavLink :href="route('permissions.index')" :active="route().current('permissions.*')">
+                            Permissions
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

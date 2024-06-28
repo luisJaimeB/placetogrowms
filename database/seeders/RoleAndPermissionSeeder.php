@@ -28,6 +28,11 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::ROLES_CREATE,
                     Permissions::ROLES_UPDATE,
                     Permissions::ROLES_DELETE,
+
+                    Permissions::PERMISSIONS_INDEX,
+                    Permissions::PERMISSIONS_CREATE,
+                    Permissions::PERMISSIONS_UPDATE,
+                    Permissions::PERMISSIONS_DELETE,
                 ],
             ],
             [

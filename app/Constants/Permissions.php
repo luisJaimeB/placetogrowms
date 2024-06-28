@@ -15,6 +15,11 @@ final class Permissions
     public const string ROLES_CREATE = 'roles.create';
     public const string ROLES_UPDATE = 'roles.update';
     public const string ROLES_DELETE = 'roles.delete';
+
+    public const string PERMISSIONS_INDEX = 'permissions.index';
+    public const string PERMISSIONS_CREATE = 'permissions.create';
+    public const string PERMISSIONS_UPDATE = 'permissions.update';
+    public const string PERMISSIONS_DELETE = 'permissions.delete';
     
     public static function toArray (): array
     {
