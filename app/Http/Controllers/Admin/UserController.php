@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -21,7 +21,11 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia('Admin/Users/Create');
+        $roles = Role::all();
+        
+        return Inertia('Admin/Users/Create', [
+            'roles' => $roles,
+        ]);
     }
 
     public function store(UserRequest $request): RedirectResponse
@@ -34,16 +38,21 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $roles = Role::all();
         $userPermissions = $user->getAllPermissions()->pluck('name');
         return inertia('Admin/Users/Edit', [
             'user' => $user,
             'userPermissions' => $userPermissions,
+            'roles' => $roles,
         ]);
     }
 
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $user->update($request->validated());
+        if (!empty($request->input('roles'))) {
+            $user->roles()->sync($request->input('roles'));
+        }
         return redirect()->route('users.index');
     }
 

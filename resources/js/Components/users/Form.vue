@@ -20,7 +20,11 @@ defineProps({
         type: Boolean,
         required: false,
         default: false
-    }
+    },
+    roles: {
+            type: Array,
+            required: true
+        },
 }) 
 
 defineEmits(['submit'])
@@ -53,6 +57,15 @@ defineEmits(['submit'])
                 <InputLabel for="password" value="password" />
                 <TextInput id="password" v-model="form.password" type="password" autocomplete="password" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.password" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-6">
+                <InputLabel for="roles" value="Roles" />
+                <div v-for="role in roles" :key="role.id" class="flex items-center">
+                    <input type="radio" :value="role.id" v-model="form.roles" :id="'role_' + role.id" class="mr-2 leading-tight">
+                    <label :for="'role_' + role.id" class="text-gray-700">{{ role.name }}</label>
+                </div>
+                <InputError :message="$page.props.errors.roles" class="mt-2" />
             </div>
         </template>
 

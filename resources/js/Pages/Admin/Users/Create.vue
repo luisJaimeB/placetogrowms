@@ -10,10 +10,18 @@ import UserForm from '@/Components/users/Form.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useSSRContext } from 'vue';
 
+const props = defineProps({
+    roles: {
+        type: Array,
+        required: true
+    },
+})
+
 const form = useForm({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    roles: []
 })
 </script>
 
@@ -30,7 +38,7 @@ const form = useForm({
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <UserForm :form="form" @submit="form.post(route('users.store'))" />
+                            <UserForm :form="form" :roles="roles" @submit="form.post(route('users.store'))" />
                         </div>
                     </div>
                 </div>
