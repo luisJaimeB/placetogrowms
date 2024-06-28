@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
@@ -18,7 +18,7 @@ defineProps({
 
 const deleteUser = id =>{
     if (confirm('¿Estás seguro?')) {
-        Inertia.delete(route('users.destroy', id))
+        router.delete(route('users.destroy', id))
     }
 }
 </script>
@@ -60,8 +60,8 @@ const deleteUser = id =>{
                             <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
                                 <Link :href="route('users.edit', user.id)">Edit</Link>
                             </button>
-                            <button class="bg-red-500 text-white px-4 py-1 rounded">
-                                <Link @click="deleteUser(user.id)">Delete</Link>
+                            <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-1 rounded">
+                                Delete
                             </button>
                             </td>
                         </tr>

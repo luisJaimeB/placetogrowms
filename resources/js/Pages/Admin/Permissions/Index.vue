@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
@@ -18,7 +18,7 @@ defineProps({
 
 const deletePermission = id =>{
     if (confirm('¿Estás seguro?')) {
-        Inertia.delete(route('permissions.destroy', id))
+        router.delete(route('permissions.destroy', id))
     }
 }
 </script>
