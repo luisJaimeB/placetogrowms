@@ -32,17 +32,13 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
     public function edit(User $user)
     {
-        return inertia('Admin/Users/Edit', ['user' => $user]);
+        $userPermissions = $user->getAllPermissions()->pluck('name');
+        return inertia('Admin/Users/Edit', [
+            'user' => $user,
+            'userPermissions' => $userPermissions,
+        ]);
     }
 
     public function update(UserRequest $request, User $user): RedirectResponse

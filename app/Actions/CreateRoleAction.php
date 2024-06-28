@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Contracts\Executable;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class CreateRoleAction implements Executable
@@ -22,6 +23,9 @@ class CreateRoleAction implements Executable
         $rol->name = $this->data['name'];
         $rol->guard_name = config('auth.defaults.guard');
         $rol->save();
+
+        $permissions = Permission::whereIn('id', $this->data['permissions'])->get();
+        $rol->syncPermissions($permissions);
 
         return $rol;
     }

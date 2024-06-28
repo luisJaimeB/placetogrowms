@@ -14,13 +14,17 @@ const props = defineProps({
     user: {
         type: Object,
         required: true
+    },
+    userPermissions: {
+        type: Array,
+        required: true
     }
 })
 
 const form = useForm({
     name: props.user.name,
     email: props.user.email,
-    password: props.user.password
+    password: ''
 })
 </script>
 
