@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Constants\Permissions;
+use App\Constants\Roles;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -17,7 +18,7 @@ class RoleAndPermissionSeeder extends Seeder
     {
         $basicRolesPermission = [
             [
-                'name' => 'Admin',
+                'name' => Roles::ADMIN,
                 'permissions' => [
                     Permissions::USERS_INDEX,
                     Permissions::USERS_CREATE,
@@ -36,7 +37,7 @@ class RoleAndPermissionSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Customer',
+                'name' => Roles::CUSTOMER,
                 'permissions' => [
 
                 ],
