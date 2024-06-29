@@ -2,8 +2,9 @@ name: SonarCloud
 
 on:
   push:
-    branches:
-      - main
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
 
 jobs:
   sonarqube:
@@ -30,6 +31,11 @@ jobs:
 
       - name: Install composer dependencies
         run: composer install --no-progress --prefer-dist
+
+      - name: Execute tests
+        run: vendor/bin/phpunit --verbose --testdox
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Run SonarCloud Scan
         env:
