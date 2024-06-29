@@ -50,7 +50,9 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
-        ]
+        ],
+        "test:coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --testdox --coverage-html ./tests/coverage",
+        "test": "XDEBUG_MODE=off vendor/bin/phpunit --testdox"
     },
     "extra": {
         "laravel": {
