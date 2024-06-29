@@ -1,36 +1,28 @@
 <script>
 export default {
-    name: 'UsersCreate'
+    name: 'RolesCreate'
 }
 </script>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UserForm from '@/Components/users/Form.vue'
+import RoleForm from '@/Components/roles/Form.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { useSSRContext } from 'vue';
 
-const props = defineProps({
-    roles: {
-        type: Array,
-        required: true
-    },
-})
+const props = defineProps(['permissions']);
 
 const form = useForm({
     name: '',
-    email: '',
-    password: '',
-    roles: []
+    permissions: [],
 })
 </script>
 
 <template>
-    <Head title="Users" />
+    <Head title="Roles" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Users</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
         </template>
 
         <div class="py-12">
@@ -38,7 +30,7 @@ const form = useForm({
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <UserForm :form="form" :roles="roles" @submit="form.post(route('users.store'))" />
+                            <RoleForm :form="form" :permissions="permissions" @submit="form.post(route('roles.store'))" />
                         </div>
                     </div>
                 </div>

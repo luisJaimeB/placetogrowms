@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UserForm from '@/Components/users/Form.vue'
+import UserForm from '@/Components/users/Form.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useSSRContext } from 'vue';
 
@@ -14,13 +14,22 @@ const props = defineProps({
     user: {
         type: Object,
         required: true
-    }
+    },
+    userPermissions: {
+        type: Array,
+        required: true
+    },
+    roles: {
+        type: Array,
+        required: true
+    },
 })
 
 const form = useForm({
     name: props.user.name,
     email: props.user.email,
-    password: props.user.password
+    password: '',
+    roles: [],
 })
 </script>
 
@@ -36,7 +45,7 @@ const form = useForm({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <UserForm :updating="true" :form="form" @submit="form.patch(route('users.update', user.id))" />
+                            <UserForm :updating="true" :roles="roles" :form="form" @submit="form.patch(route('users.update', user.id))" />
                         </div>
                     </div>
             </div>

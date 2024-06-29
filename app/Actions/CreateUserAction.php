@@ -21,6 +21,9 @@ class CreateUserAction implements Executable
         $user->email_verified_at = now();
         $user->save();
 
+        if (!empty($this->data['roles'])) {
+            $user->roles()->sync($this->data['roles']);
+        }
         return $user;
     }
 }

@@ -32,8 +32,14 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('users.index')" :active="route().current('users.*')">
+                                <NavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.permissions.includes('users.index')">
                                     Users
+                                </NavLink>
+                                <NavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
+                                    Roles
+                                </NavLink>
+                                <NavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
+                                    Permisions
                                 </NavLink>
                             </div>
                         </div>
@@ -118,8 +124,14 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')">
+                        <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.permissions.includes('users.index')">
                             Users
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
+                            Roles
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
+                            Permissions
                         </ResponsiveNavLink>
                     </div>
 
