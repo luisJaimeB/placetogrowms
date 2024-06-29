@@ -35,7 +35,7 @@ const deletePermission = id =>{
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">
-                        <Link :href="route('permissions.create')">
+                        <Link :href="route('permissions.create')" v-if="$page.props.user.permissions.includes('permissions.create')">
                             Create Permission
                         </Link>
                     </button>

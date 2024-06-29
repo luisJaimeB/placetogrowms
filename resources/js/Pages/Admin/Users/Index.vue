@@ -34,13 +34,14 @@ const deleteUser = id =>{
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded" v-if="$page.props.user.permissions.includes('users.create')">
                         <Link :href="route('users.create')">
                             Create User
                         </Link>
                     </button>
                 </div>
                 <div class="mt-4">
+                    {{ $page.props }}
                     <table class="min-w-full bg-white border rounded-lg">
                         <thead>
                         <tr>
@@ -57,7 +58,7 @@ const deleteUser = id =>{
                             <td class="py-2 px-4 border-b text-center">{{ user.name }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
                             <td class="py-2 px-4 border-b text-center">
-                            <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
+                            <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('users.update')">
                                 <Link :href="route('users.edit', user.id)">Edit</Link>
                             </button>
                             <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-1 rounded">

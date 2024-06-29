@@ -19,23 +19,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [UserController::class, 'index'])->middleware('can:users.index')->name('users.index');
     Route::get('/admin/users/create', [UserController::class, 'create'])->middleware('can:users.create')->name('users.create');
     Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->middleware('can:users.update')->name('users.edit');
-    Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
-    Route::patch('/admin/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::post('/admin/users', [UserController::class, 'store'])->middleware('can:users.create')->name('users.store');
+    Route::patch('/admin/users/{user}', [UserController::class, 'update'])->middleware('can:users.update')->name('users.update');
     Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->middleware('can:users.delete')->name('users.destroy');
 
     Route::get('/admin/roles', [RoleController::class, 'index'])->middleware('can:roles.index')->name('roles.index');
     Route::get('/admin/roles/create', [RoleController::class, 'create'])->middleware('can:roles.create')->name('roles.create');
     Route::get('/admin/roles/{role}/edit', [RoleController::class, 'edit'])->middleware('can:roles.update')->name('roles.edit');
-    Route::post('/admin/roles', [RoleController::class, 'store'])->name('roles.store');
-    Route::patch('admin/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+    Route::post('/admin/roles', [RoleController::class, 'store'])->middleware('can:roles.create')->name('roles.store');
+    Route::patch('/admin/roles/{role}', [RoleController::class, 'update'])->middleware('can:roles.update')->name('roles.update');
     Route::delete('/admin/roles/{role}', [RoleController::class, 'destroy'])->middleware('can:roles.delete')->name('roles.destroy');
 
-    Route::get('/admin/permissions', [PermissionController::class, 'index'])->name('permissions.index');
-    Route::get('/admin/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
-    Route::get('/admin/permissions/{permission}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::post('/admin/permissions', [PermissionController::class, 'store'])->name('permissions.store');
-    Route::patch('admin/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
-    Route::delete('/admin/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    Route::get('/admin/permissions', [PermissionController::class, 'index'])->middleware('can:permissions.index')->name('permissions.index');
+    Route::get('/admin/permissions/create', [PermissionController::class, 'create'])->middleware('can:permissions.create')->name('permissions.create');
+    Route::get('/admin/permissions/{permission}/edit', [PermissionController::class, 'edit'])->middleware('can:permissions.update')->name('permissions.edit');
+    Route::post('/admin/permissions', [PermissionController::class, 'store'])->middleware('can:permissions.create')->name('permissions.store');
+    Route::patch('/admin/permissions/{permission}', [PermissionController::class, 'update'])->middleware('can:permissions.update')->name('permissions.update');
+    Route::delete('/admin/permissions/{permission}', [PermissionController::class, 'destroy'])->middleware('can:permissions.delete')->name('permissions.destroy');
 
 });
 

@@ -58,7 +58,7 @@ const deleteRole = id =>{
                             <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
                                 <Link :href="route('roles.edit', role.id)">Edit</Link>
                             </button>
-                            <button @click="deleteRole(role.id)" class="bg-red-500 text-white px-4 py-1 rounded">
+                            <button @click="deleteRole(role.id)" class="bg-red-500 text-white px-4 py-1 rounded" v-if="$page.props.user.permissions.includes('roles.delete')">
                                 Delete
                             </button>
                             </td>
