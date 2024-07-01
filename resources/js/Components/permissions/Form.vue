@@ -29,11 +29,11 @@ defineEmits(['submit'])
 <template>
     <FormSection @submitted="$emit('submit')">
         <template #title>
-            {{  updating ? 'Actualiza el nombre del permiso' : 'Crea un nuevo permiso' }}
+            {{  updating ? $page.props.trans.common.strings.updatePermission : $page.props.trans.common.strings.createPermission }}
         </template>
 
         <template #description>
-            {{ updating ? 'Actualiza el permiso seleccionado' : 'Crea un nuevo permiso para luego asignarlo a un rol' }}
+            {{ updating ? $page.props.trans.common.strings.updatePermissionDesc : $page.props.trans.common.strings.createPermissionDesc }}
         </template>
 
         <template #form>
@@ -46,7 +46,7 @@ defineEmits(['submit'])
 
         <template #actions>
             <PrimaryButton>
-                {{ updating ? 'Actualizar' : 'Crear' }}
+                {{ updating ? $page.props.trans.common.buttons.updateB : $page.props.trans.common.buttons.createB }}
             </PrimaryButton>
         </template>
     </FormSection>

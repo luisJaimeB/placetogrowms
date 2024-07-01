@@ -28,7 +28,7 @@ const deleteRole = id =>{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.titles.roles}}</h2>
         </template>
 
         <div class="py-12">
@@ -36,7 +36,7 @@ const deleteRole = id =>{
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">
                         <Link :href="route('roles.create')">
-                            Create Role
+                            {{$page.props.trans.common.actions.roles.create}}
                         </Link>
                     </button>
                 </div>
@@ -44,9 +44,9 @@ const deleteRole = id =>{
                     <table class="min-w-full bg-white border rounded-lg">
                         <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">ID</th>
-                            <th class="py-2 px-4 border-b">Name</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,10 +56,10 @@ const deleteRole = id =>{
                             <td class="py-2 px-4 border-b text-center">{{ role.name }}</td>
                             <td class="py-2 px-4 border-b text-center">
                             <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
-                                <Link :href="route('roles.edit', role.id)">Edit</Link>
+                                <Link :href="route('roles.edit', role.id)">{{$page.props.trans.common.actions.roles.edit}}</Link>
                             </button>
                             <button @click="deleteRole(role.id)" class="bg-red-500 text-white px-4 py-1 rounded" v-if="$page.props.user.permissions.includes('roles.delete')">
-                                Delete
+                                {{$page.props.trans.common.actions.roles.delete}}
                             </button>
                             </td>
                         </tr>

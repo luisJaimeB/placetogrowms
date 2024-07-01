@@ -22,8 +22,7 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Rol</h2>
-            {{ $page.props }}
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.actions.roles.edit}}</h2>
         </template>
 
         <div class="py-12">

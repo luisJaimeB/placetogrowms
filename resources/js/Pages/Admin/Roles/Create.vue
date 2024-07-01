@@ -22,7 +22,7 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.titles.roles}}</h2>
         </template>
 
         <div class="py-12">

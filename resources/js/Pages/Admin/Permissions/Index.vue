@@ -28,7 +28,7 @@ const deletePermission = id =>{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Permissions</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.titles.permissions}}</h2>
         </template>
 
         <div class="py-12">
@@ -36,7 +36,7 @@ const deletePermission = id =>{
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">
                         <Link :href="route('permissions.create')" v-if="$page.props.user.permissions.includes('permissions.create')">
-                            Create Permission
+                            {{$page.props.trans.common.actions.permissions.create}}
                         </Link>
                     </button>
                 </div>
@@ -44,9 +44,9 @@ const deletePermission = id =>{
                     <table class="min-w-full bg-white border rounded-lg">
                         <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">ID</th>
-                            <th class="py-2 px-4 border-b">Name</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
+                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,10 +56,10 @@ const deletePermission = id =>{
                             <td class="py-2 px-4 border-b text-center">{{ permission.name }}</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
-                                    <Link :href="route('permissions.edit', permission.id)">Edit</Link>
+                                    <Link :href="route('permissions.edit', permission.id)">{{$page.props.trans.common.actions.permissions.edit}}</Link>
                                 </button>
                                 <button @click="deletePermission(permission.id)" class="bg-red-500 text-white px-4 py-1 rounded">
-                                    Delete
+                                    {{$page.props.trans.common.actions.permissions.delete}}
                                 </button>
                             </td>
                         </tr>
