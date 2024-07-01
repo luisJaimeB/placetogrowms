@@ -34,12 +34,20 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::PERMISSIONS_CREATE,
                     Permissions::PERMISSIONS_UPDATE,
                     Permissions::PERMISSIONS_DELETE,
+
+                    Permissions::MICROSITES_INDEX,
+                    Permissions::MICROSITES_CREATE,
+                    Permissions::MICROSITES_UPDATE,
+                    Permissions::MICROSITES_DELETE,
                 ],
             ],
             [
                 'name' => Roles::CUSTOMER,
                 'permissions' => [
-
+                    Permissions::MICROSITES_INDEX,
+                    Permissions::MICROSITES_CREATE,
+                    Permissions::MICROSITES_UPDATE,
+                    Permissions::MICROSITES_DELETE,
                 ],
             ],
         ];
@@ -51,7 +59,7 @@ class RoleAndPermissionSeeder extends Seeder
 
 
             foreach ($role['permissions'] as $permission) {
-                Permission::query()->create([
+                Permission::query()->updateOrCreate([
                     'name' => $permission,
                 ]);
             }

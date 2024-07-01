@@ -30,16 +30,19 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    {{ $page.props.trans.common.titles.dashboard }}
                                 </NavLink>
                                 <NavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.permissions.includes('users.index')">
-                                    Users
+                                    {{ $page.props.trans.common.titles.users }}
                                 </NavLink>
                                 <NavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
-                                    Roles
+                                    {{ $page.props.trans.common.titles.roles }}
                                 </NavLink>
                                 <NavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
-                                    Permisions
+                                    {{ $page.props.trans.common.titles.permissions }}
+                                </NavLink>
+                                <NavLink :href="route('microsites.index')" :active="route().current('microsites.*')" v-if="$page.props.user.permissions.includes('microsites.index')">
+                                    {{ $page.props.trans.common.titles.microsites }}
                                 </NavLink>
                             </div>
                         </div>
@@ -132,6 +135,9 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
                             Permissions
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('microsites.index')" :active="route().current('microsites.*')" v-if="$page.props.user.permissions.includes('microsites.index')">
+                            Micrositess
                         </ResponsiveNavLink>
                     </div>
 

@@ -20,6 +20,11 @@ final class Permissions
     public const string PERMISSIONS_CREATE = 'permissions.create';
     public const string PERMISSIONS_UPDATE = 'permissions.update';
     public const string PERMISSIONS_DELETE = 'permissions.delete';
+
+    public const string MICROSITES_INDEX = 'microsites.index';
+    public const string MICROSITES_CREATE = 'microsites.create';
+    public const string MICROSITES_UPDATE = 'microsites.update';
+    public const string MICROSITES_DELETE = 'microsites.delete';
     
     public static function toArray (): array
     {

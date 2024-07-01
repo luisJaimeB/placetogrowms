@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/permissions', [PermissionController::class, 'store'])->middleware('can:permissions.create')->name('permissions.store');
     Route::patch('/admin/permissions/{permission}', [PermissionController::class, 'update'])->middleware('can:permissions.update')->name('permissions.update');
     Route::delete('/admin/permissions/{permission}', [PermissionController::class, 'destroy'])->middleware('can:permissions.delete')->name('permissions.destroy');
+
+    Route::get('/microsites', [MicrositeController::class, 'index'])->middleware('can:microsites.index')->name('microsites.index');
+    Route::get('/microsites/create', [MicrositeController::class, 'create'])->middleware('can:microsites.create')->name('microsites.create');
+    Route::get('/microsites/{microsite}/edit', [MicrositeController::class, 'edit'])->middleware('can:microsites.update')->name('microsites.edit');
+    Route::post('/microsites', [MicrositeController::class, 'store'])->middleware('can:microsites.create')->name('microsites.store');
+    Route::patch('/microsites/{microsite}', [MicrositeController::class, 'update'])->middleware('can:microsites.update')->name('microsites.update');
+    Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->name('microsites.show');
+    Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
+
 
 });
 
