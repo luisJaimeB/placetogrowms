@@ -68,31 +68,31 @@ defineEmits(['submit'])
                 <InputError :message="$page.props.errors.category" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="logo" value="Logo del micrositio" />
-                <input id="logo" type="file" @input="form.logo = $event.target.files[0]" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-                <InputError :message="$page.props.errors.logo" class="mt-2" />
-            </div>
-
+            
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="name" value="Name" />
                 <TextInput id="name" v-model="form.name" type="text" autocomplete="name" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.name" class="mt-2" />
             </div>
-
+            
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="expiration" value="Expiración" />
                 <select 
-                    id="expiration" 
-                    v-model="form.expiration" 
-                    class="mt-1 block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                id="expiration" 
+                v-model="form.expiration" 
+                class="mt-1 block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                    <option value="10">10 minutos</option>
-                    <option value="20">20 minutos</option>
-                    <option value="30">30 minutos</option>
-                </select>
-    <InputError :message="$page.props.errors.expiration" class="mt-2" />
-</div>
+                <option value="10">10 minutos</option>
+                <option value="20">20 minutos</option>
+                <option value="30">30 minutos</option>
+            </select>
+            <InputError :message="$page.props.errors.expiration" class="mt-2" />
+        </div>
+        <div class="col-span-6 sm:col-span-6">
+            <InputLabel for="logo" value="Logo del micrositio" />
+            <input id="logo" type="file" @input="form.logo = $event.target.files[0]" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+            <InputError :message="$page.props.errors.logo" class="mt-2" />
+        </div>
         </template>
 
         <template #actions>
