@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -29,6 +30,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $locale = App::getLocale();
         return [
             ...parent::share($request),
             'auth' => [ 
@@ -36,6 +38,20 @@ class HandleInertiaRequests extends Middleware
             ],
             'user.roles' => $request->user() ? $request->user()->roles->pluck('name') : [],
             'user.permissions' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name') : [],
+            'trans' => $this->getTranslations(),
         ];
+    }
+
+    private function getTranslations()
+    {
+        $locale = app()->getLocale();
+        $files = ['common'];
+
+        $translations = [];
+        foreach ($files as $file) {
+            $translations[$file] = trans($file, [], $locale);
+        }
+
+        return $translations;
     }
 }
