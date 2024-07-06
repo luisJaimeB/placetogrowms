@@ -2,8 +2,7 @@ name: SonarCloud
 
 on:
   push:
-    branches:
-      - develop
+    branches: [Main, develop]
 
 jobs:
   sonarqube:
