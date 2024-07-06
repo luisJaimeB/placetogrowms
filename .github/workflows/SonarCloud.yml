@@ -33,7 +33,7 @@ jobs:
         run: composer install --no-progress --prefer-dist
 
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose --testdox
+        run: vendor/bin/phpunit --testdox
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
