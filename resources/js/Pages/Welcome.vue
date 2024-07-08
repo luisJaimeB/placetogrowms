@@ -2,6 +2,10 @@
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
+    categories: {
+        type: Array,
+        required: true
+    },
     canLogin: {
         type: Boolean,
     },
@@ -28,12 +32,12 @@ function handleImageError() {
 
 <template>
     <Head title="Welcome" />
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <img
+    <div >
+        <!-- <img
             id="background"
             class="absolute -left-20 top-0 max-w-[877px]"
             src="https://laravel.com/assets/img/welcome/background.svg"
-        />
+        /> -->
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
@@ -56,7 +60,7 @@ function handleImageError() {
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                         >
                             Dashboard
                         </Link>
@@ -64,7 +68,7 @@ function handleImageError() {
                         <template v-else>
                             <Link
                                 :href="route('login')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                             >
                                 Log in
                             </Link>
@@ -72,7 +76,7 @@ function handleImageError() {
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                             >
                                 Register
                             </Link>
@@ -81,7 +85,7 @@ function handleImageError() {
                 </header>
 
                 <main class="mt-6">
-                    <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+                    <!-- <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                         <a
                             href="https://laravel.com/docs"
                             id="docs-card"
@@ -334,6 +338,19 @@ function handleImageError() {
                                         >Telescope</a
                                     >, and more.
                                 </p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="container mx-auto p-4">
+                        <div class="text-center mb-8">
+                            <h1 class="text-4xl font-bold">Bienvenido a Nuestro Servicio</h1>
+                            <div class="mt-4">
+                                <input type="text" class="border border-gray-300 rounded-md p-2 w-1/2" placeholder="Buscar por nombre...">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div v-for="category in categories" :key="category.id" class="bg-white rounded-lg shadow-md p-6">
+                                <h2 class="text-xl font-bold mb-2">{{ category.name }}</h2>
                             </div>
                         </div>
                     </div>
