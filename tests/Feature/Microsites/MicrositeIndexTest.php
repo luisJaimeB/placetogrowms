@@ -4,11 +4,8 @@ namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
-use App\Models\Microsite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\AssertableInertia as Assert;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
