@@ -52,7 +52,7 @@ const deleteUser = id =>{
                         </thead>
                         <tbody>
                         
-                        <tr v-for="user in users.data">
+                        <tr :v-for="user in users.data">
                             <td class="py-2 px-4 border-b text-center">{{ user.id }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ user.name }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>

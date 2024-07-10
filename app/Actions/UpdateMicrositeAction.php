@@ -4,42 +4,42 @@ namespace App\Actions;
 
 use App\Contracts\Executable;
 use App\Models\Microsite;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateMicrositeAction implements Executable
 {
-    protected Microsite $microsite;
 
-    public function __construct(private array $data, Microsite $microsite)
-    {
-        $this->data = $data;
-        $this->microsite = $microsite;
-    }
+    const DISK = 'public_upload';
 
-    public function execute(): Microsite
+    /**
+     * @var array $data
+     * @var Model|Microsite $microsite 
+     */
+    public static function execute(array $data, Model|null $microsite = null): Model
     {
-        $this->microsite->name = $this->data['name'];
-        $this->microsite->category_id = $this->data['category'];
-        $this->microsite->expiration = $this->data['expiration'];
-        $this->microsite->type_site_id = $this->data['siteType'];
+        $microsite->name = $data['name'];
+        $microsite->category_id = $data['category'];
+        $microsite->expiration = $data['expiration'];
+        $microsite->type_site_id = $data['siteType'];
         
-        if ($this->data['logo'] =! $this->microsite->logo) {
-            if ($this->microsite->logo) {
-                Storage::delete('public/microsite/logo/' . $this->microsite->logo);
+        if ($data['logo'] =! $microsite->logo) {
+            if ($microsite->logo) {
+                Storage::delete('public/microsite/logo/' . $microsite->logo);
             }
 
-            $disk = "public_upload";
-            $filename = time() . "." . $this->data['logo']->extension();
+            $disk = self::DISK;
+            $filename = time() . "." . $data['logo']->extension();
             
-            $this->data['logo']->storeAs("microsite/logo", $filename, $disk);
+            $data['logo']->storeAs("microsite/logo", $filename, $disk);
             
-            $this->microsite->logo = $filename;
+            $microsite->logo = $filename;
         } else {
 
         }
 
-        $this->microsite->save();
+        $microsite->save();
 
-        return $this->microsite;
+        return $microsite;
     }
 }

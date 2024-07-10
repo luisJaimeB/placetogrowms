@@ -32,10 +32,13 @@ class MicrositeController extends Controller
 
     public function store(MicrositeRequest $request)
     {
-        $createAction = new CreateMicrositeAction($request->validated());
-        $createAction->execute();
+        $result = CreateMicrositeAction::execute($request->validated());
 
-        return redirect()->route('microsites.index');
+        if (!$result) {
+            return back()->with('error', 'Ha ocurrido un error');
+        }
+
+        return redirect()->route('microsites.show', $result);
     }
 
     /**
@@ -44,7 +47,6 @@ class MicrositeController extends Controller
     public function show($id)
     {
         $microsite = Microsite::with(['typeSite', 'category'])->findOrFail($id);
-        //dd($microsite);
         return inertia('Microsites/Show', ['microsite' => $microsite]);
     }
 
@@ -69,8 +71,7 @@ class MicrositeController extends Controller
      */
     public function update(MicrositeRequest $request, Microsite $microsite)
     {
-        $updateMicrositeAction = new UpdateMicrositeAction($request->validated(), $microsite);
-        $microsite = $updateMicrositeAction->execute();
+        $microsite = UpdateMicrositeAction::execute($request->validated(), $microsite);
         return redirect()->route('microsites.index');
     }
 
