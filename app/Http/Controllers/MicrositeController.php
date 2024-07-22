@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateMicrositeAction;
 use App\Actions\UpdateMicrositeAction;
-use App\Constants\TypesSites;
 use App\Http\Requests\MicrositeRequest;
+use App\Http\Requests\MicrositeUpdateRequest;
 use App\Models\Category;
+use App\Models\Currency;
 use App\Models\Microsite;
 use App\Models\TypeSite;
-use Illuminate\Http\Request;
 
 class MicrositeController extends Controller
 {
@@ -24,9 +24,12 @@ class MicrositeController extends Controller
     {
         $sites_type = TypeSite::all();
         $categories = Category::all();
+        $currencies = Currency::all();
+
         return Inertia('Microsites/Create', [
             'sites_type' => $sites_type,
             'categories' => $categories,
+            'currencies' => $currencies
         ]);
     }
 
@@ -46,7 +49,7 @@ class MicrositeController extends Controller
      */
     public function show($id)
     {
-        $microsite = Microsite::with(['typeSite', 'category'])->findOrFail($id);
+        $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
         return inertia('Microsites/Show', ['microsite' => $microsite]);
     }
 
@@ -55,23 +58,26 @@ class MicrositeController extends Controller
      */
     public function edit($id)
     {
-        $microsite = Microsite::with(['typeSite', 'category'])->findOrFail($id);
+        $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
         $categories = Category::all();
         $types = TypeSite::all();
+        $currencies = Currency::all();
 
         return inertia('Microsites/Edit', [
             'microsite' => $microsite,
             'categories' => $categories,
             'types' => $types,
+            'currencies' => $currencies
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(MicrositeRequest $request, Microsite $microsite)
+    public function update(MicrositeUpdateRequest $request, Microsite $microsite)
     {
-        $microsite = UpdateMicrositeAction::execute($request->validated(), $microsite);
+
+        UpdateMicrositeAction::execute($request->validated(), $microsite);
         return redirect()->route('microsites.index');
     }
 
@@ -81,7 +87,7 @@ class MicrositeController extends Controller
     public function destroy(Microsite $microsite)
     {
         $microsite->delete();
-        
+
         return redirect()->route('microsites.index');
     }
 }

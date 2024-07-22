@@ -34,4 +34,9 @@ class Microsite extends Model
     {
         return $this->belongsTo(TypeSite::class, 'type_site_id');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
