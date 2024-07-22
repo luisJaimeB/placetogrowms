@@ -4,26 +4,22 @@ namespace Database\Seeders;
 
 use App\Constants\TypesSites;
 use App\Models\TypeSite;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TypeSiteSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        TypeSite::create([
-            'name' => TypesSites::SITE_TYPE_DONATION,
-        ]);
+        $types = [
+            TypesSites::SITE_TYPE_DONATION,
+            TypesSites::SITE_TYPE_INVOICE,
+            TypesSites::SITE_TYPE_SUBSCRIPTION
+        ];
 
-        TypeSite::create([
-            'name' => TypesSites::SITE_TYPE_INVOICE,
-        ]);
-
-        TypeSite::create([
-            'name' => TypesSites::SITE_TYPE_SUBSCRIPTION,
-        ]);
+        foreach ($types as $type) {
+            TypeSite::query()->create([
+                'name' => $type
+            ]);
+        }
     }
 }

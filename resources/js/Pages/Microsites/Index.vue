@@ -7,7 +7,6 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
     microsites: {
@@ -57,13 +56,13 @@ const deleteMicrosite = id =>{
                         </tr>
                         </thead>
                         <tbody>
-                        
+
                         <tr v-for="microsite in microsites"  :key="microsite.id" >
                             <td class="py-2 px-4 border-b text-center">{{ microsite.id }}</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <button class="text-blue-500 underline cursor-pointer">
                                     <Link :href="route('microsites.show', microsite.id)">{{ microsite.name }}</Link>
-                                </button>    
+                                </button>
                             </td>
                             <td class="py-2 px-4 border-b text-center">{{ microsite.type_site.name }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ microsite.category.name }}</td>

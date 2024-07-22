@@ -7,7 +7,6 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
     users: {
@@ -41,32 +40,37 @@ const deleteUser = id =>{
                     </button>
                 </div>
                 <div class="mt-4">
-                    <table class="min-w-full bg-white border rounded-lg">
-                        <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.users.email}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        
-                        <tr :v-for="user in users.data">
-                            <td class="py-2 px-4 border-b text-center">{{ user.id }}</td>
-                            <td class="py-2 px-4 border-b text-center">{{ user.name }}</td>
-                            <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
-                            <td class="py-2 px-4 border-b text-center">
-                            <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('users.update')">
-                                <Link :href="route('users.edit', user.id)">{{$page.props.trans.common.actions.users.edit}}</Link>
-                            </button>
-                            <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-1 rounded">
-                                {{$page.props.trans.common.actions.users.delete}}
-                            </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div v-if="users" class="mt-4">
+                        <table class="min-w-full bg-white border rounded-lg">
+                            <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
+                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
+                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.users.email}}</th>
+                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr v-for="user in users.data">
+                                <td class="py-2 px-4 border-b text-center">{{ user.id }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ user.name }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
+                                <td class="py-2 px-4 border-b text-center">
+                                <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('users.update')">
+                                    <Link :href="route('users.edit', user.id)">{{$page.props.trans.common.actions.users.edit}}</Link>
+                                </button>
+                                <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-1 rounded">
+                                    {{$page.props.trans.common.actions.users.delete}}
+                                </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-else>
+                        <p>No se encontraron usuarios.</p>
+                    </div>
                 </div>
             </div>
         </div>

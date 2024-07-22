@@ -22,10 +22,18 @@ defineProps({
         default: false
     },
     roles: {
-            type: Array,
-            required: true
-        },
-}) 
+        type: Array,
+        required: true
+    },
+    userRole: {
+        type: Array,
+        required: false
+    },
+    userPermissions: {
+        type: Array,
+        required: false
+    },
+})
 
 defineEmits(['submit'])
 </script>
@@ -62,7 +70,7 @@ defineEmits(['submit'])
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="roles" value="Roles" />
                 <div v-for="role in roles" :key="role.id" class="flex items-center">
-                    <input type="radio" :value="role.id" v-model="form.roles" :id="'role_' + role.id" class="mr-2 leading-tight">
+                    <input type="radio" :value="role.id" v-model="form.rol" :id="'role_' + role.id" class="mr-2 leading-tight">
                     <label :for="'role_' + role.id" class="text-gray-700">{{ role.name }}</label>
                 </div>
                 <InputError :message="$page.props.errors.roles" class="mt-2" />

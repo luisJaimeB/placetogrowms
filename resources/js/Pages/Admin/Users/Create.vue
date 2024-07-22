@@ -7,8 +7,7 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UserForm from '@/Components/users/Form.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { useSSRContext } from 'vue';
+import { Head, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     roles: {
@@ -21,7 +20,7 @@ const form = useForm({
     name: '',
     email: '',
     password: '',
-    roles: []
+    rol: ''
 })
 </script>
 
