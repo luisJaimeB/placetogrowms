@@ -7,13 +7,13 @@ use App\Actions\UpdateRoleAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $roles = Role::latest()
             ->paginate(25);

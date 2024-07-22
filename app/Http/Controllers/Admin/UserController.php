@@ -7,11 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $users = User::latest()
             ->paginate(3);
@@ -19,10 +20,10 @@ class UserController extends Controller
         return inertia('Admin/Users/Index', ['users' => $users]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $roles = Role::all();
-        
+
         return Inertia('Admin/Users/Create', [
             'roles' => $roles,
         ]);
@@ -30,20 +31,22 @@ class UserController extends Controller
 
     public function store(UserRequest $request): RedirectResponse
     {
-        $createAction = new CreateUserAction($request->validated());
-        $createAction->execute();
+        $createAction = CreateUserAction::execute($request->validated());
 
         return redirect()->route('users.index');
     }
 
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
         $roles = Role::all();
         $userPermissions = $user->getAllPermissions()->pluck('name');
+        $userRole = $user->roles;
+
         return inertia('Admin/Users/Edit', [
-            'user' => $user,
+            'userToEdit' => $user,
             'userPermissions' => $userPermissions,
             'roles' => $roles,
+            'userRole' => $userRole,
         ]);
     }
 
@@ -56,7 +59,7 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    
+
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
