@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('currency_microsite', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('microsite_id')->constrained()->onDelete('cascade');
-            $table->foreignId('currency_id')->constrained()->onDelete('cascade');
+            $table->foreignId('microsite_id');
+            $table->foreign('microsite_id')
+                ->references('id')
+                ->on('microsites');
+            $table->foreignId('currency_id');
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies');
             $table->timestamps();
         });
     }
