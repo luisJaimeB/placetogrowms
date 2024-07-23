@@ -8,6 +8,7 @@ export default {
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import {computed} from "vue";
+import SetLocale from "@/Components/SetLocale.vue";
 
 defineProps({
     microsite: {
@@ -84,6 +85,7 @@ const getLogoUrl = (path) => {
                                     </div>
                                     <div>
                                         <p class="text-lg"><strong>Expiración:</strong> {{ microsite.expiration }}</p>
+                                        <SetLocale></SetLocale>
                                     </div>
                                 </div>
                                 <div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4 flex-1">

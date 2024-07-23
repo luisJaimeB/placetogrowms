@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SetLocaleController;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -46,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->name('microsites.show');
     Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
 
-
+    Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->middleware(SetLocale::class)->name('setLang');
 });
 
 require __DIR__.'/auth.php';

@@ -21,7 +21,7 @@ class RoleController extends Controller
         return inertia('Admin/Roles/Index', ['roles' => $roles]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $permissions = Permission::all()->groupBy(function($permission) {
             return explode('.', $permission->name)[0];

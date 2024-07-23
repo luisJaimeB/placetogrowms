@@ -72,6 +72,10 @@ return [
         'users' => [
             'email' => 'Email',
         ],
+        'lang' => [
+            'es' => 'Spanish',
+            'en' => 'Englis',
+        ],
     ],
     'actionsLabel' => 'Actions',
 ];
