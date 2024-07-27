@@ -9,6 +9,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import {computed} from "vue";
 import SetLocale from "@/Components/SetLocale.vue";
+import {useI18n} from "vue-i18n";
 
 defineProps({
     microsite: {
@@ -16,6 +17,8 @@ defineProps({
         required: true
     },
 });
+
+const { t } = useI18n();
 
 const assetsUrl = computed(() => {
     return '/microsite/assets';
@@ -49,7 +52,7 @@ const getLogoUrl = (path) => {
                                         <img alt="icon_id" :src="`${assetsUrl}/idIcon.png`" class="h-12 w-12 object-cover">
                                     </div>
                                     <div>
-                                        <p class="text-lg"><strong>ID:</strong> {{ microsite.id }}</p>
+                                        <p class="text-lg"><strong>{{ t('fields.id') }}:</strong> {{ microsite.id }}</p>
                                     </div>
                                 </div>
 
@@ -58,7 +61,7 @@ const getLogoUrl = (path) => {
                                         <img alt="icon_id" :src="`${assetsUrl}/type.png`" class="h-12 w-12 object-cover">
                                     </div>
                                     <div>
-                                        <p class="text-lg"><strong>Tipo:</strong> {{ microsite.type_site.name }}</p>
+                                        <p class="text-lg"><strong>{{ t('fields.type') }}:</strong> {{ microsite.type_site.name }}</p>
                                     </div>
                                 </div>
 
@@ -67,7 +70,7 @@ const getLogoUrl = (path) => {
                                         <img alt="icon_id" :src="`${assetsUrl}/categories.png`" class="h-12 w-12 object-cover">
                                     </div>
                                     <div>
-                                        <p class="text-lg"><strong>Categoría:</strong> {{ microsite.category.name }}</p>
+                                        <p class="text-lg"><strong>{{ t('fields.category') }}:</strong> {{ microsite.category.name }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +87,7 @@ const getLogoUrl = (path) => {
                                         <img alt="icon_id" :src="`${assetsUrl}/expiration.png`" class="h-12 w-12 object-cover">
                                     </div>
                                     <div>
-                                        <p class="text-lg"><strong>Expiración:</strong> {{ microsite.expiration }}</p>
-                                        <SetLocale></SetLocale>
+                                        <p class="text-lg"><strong>{{ t('fields.expiration') }}:</strong> {{ microsite.expiration }}</p>
                                     </div>
                                 </div>
                                 <div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4 flex-1">

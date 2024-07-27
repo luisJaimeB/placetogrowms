@@ -7,6 +7,7 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     microsites: {
@@ -14,6 +15,8 @@ defineProps({
         required: true
     }
 })
+
+const { t } = useI18n();
 
 const goToMicrositeShow = (micrositeId) => {
     // Redirige al usuario al detalle (show) del micrositio
@@ -32,7 +35,7 @@ const deleteMicrosite = id =>{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.titles.microsites}}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('titles.microsites') }}</h2>
         </template>
 
         <div class="py-12">
@@ -40,7 +43,7 @@ const deleteMicrosite = id =>{
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded" v-if="$page.props.user.permissions.includes('microsites.create')">
                         <Link :href="route('microsites.create')">
-                            {{$page.props.trans.common.actions.microsites.create}}
+                            {{t('actions.microsites.create')}}
                         </Link>
                     </button>
                 </div>
@@ -48,11 +51,11 @@ const deleteMicrosite = id =>{
                     <table class="min-w-full bg-white border rounded-lg">
                         <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.type}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.category}}</th>
-                            <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
+                            <th class="py-2 px-4 border-b">{{t('fields.id')}}</th>
+                            <th class="py-2 px-4 border-b">{{t('fields.name')}}</th>
+                            <th class="py-2 px-4 border-b">{{t('fields.type')}}</th>
+                            <th class="py-2 px-4 border-b">{{t('fields.category')}}</th>
+                            <th class="py-2 px-4 border-b">{{t('actionsLabel')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -68,10 +71,10 @@ const deleteMicrosite = id =>{
                             <td class="py-2 px-4 border-b text-center">{{ microsite.category.name }}</td>
                             <td class="py-2 px-4 border-b text-center">
                             <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('microsites.update')">
-                                <Link :href="route('microsites.edit', microsite.id)">{{$page.props.trans.common.actions.microsites.edit}}</Link>
+                                <Link :href="route('microsites.edit', microsite.id)">{{t('actions.microsites.edit')}}</Link>
                             </button>
                             <button @click="deleteMicrosite(microsite.id)" class="bg-red-500 text-white px-4 py-1 rounded">
-                                {{$page.props.trans.common.actions.microsites.delete}}
+                                {{t('actions.microsites.delete')}}
                             </button>
                             </td>
                         </tr>

@@ -48,7 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->name('microsites.show');
     Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
 
-    Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->middleware(SetLocale::class)->name('setLang');
+    Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
+
 });
 
 require __DIR__.'/auth.php';

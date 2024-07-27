@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
 
 class SetLocaleController extends Controller
 {
-    public function setLang(string $locale): RedirectResponse
+    public function setLang(string $locale): JsonResponse
     {
-        if (! in_array($locale, ['en', 'es'])) {
-            abort(400, 'Invalid locale');
-        }
+        App::setLocale($locale);
 
-        session(['locale' => $locale]);
-        //dd(session('locale'));
+        $messages = Lang::get('common');
 
-        return redirect()->back();
+        //dd($messages);
+
+        return response()->json([
+            'locale' => $locale,
+            'messages' => $messages,
+        ]);
     }
 }

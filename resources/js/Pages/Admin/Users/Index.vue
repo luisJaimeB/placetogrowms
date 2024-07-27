@@ -7,6 +7,7 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import {useI18n} from "vue-i18n";
 
 defineProps({
     users: {
@@ -14,6 +15,8 @@ defineProps({
         required: true
     }
 })
+
+const { t } = useI18n();
 
 const deleteUser = id =>{
     if (confirm('¿Estás seguro?')) {
@@ -27,7 +30,7 @@ const deleteUser = id =>{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.trans.common.titles.users }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('titles.users') }}</h2>
         </template>
 
         <div class="py-12">
@@ -35,7 +38,7 @@ const deleteUser = id =>{
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded" v-if="$page.props.user.permissions.includes('users.create')">
                         <Link :href="route('users.create')">
-                            {{$page.props.trans.common.actions.users.create}}
+                            {{ t('actions.users.create') }}
                         </Link>
                     </button>
                 </div>
@@ -44,10 +47,10 @@ const deleteUser = id =>{
                         <table class="min-w-full bg-white border rounded-lg">
                             <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.id}}</th>
-                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.name}}</th>
-                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.fields.users.email}}</th>
-                                <th class="py-2 px-4 border-b">{{$page.props.trans.common.actionsLabel}}</th>
+                                <th class="py-2 px-4 border-b">{{ t('fields.id') }}</th>
+                                <th class="py-2 px-4 border-b">{{ t('fields.name') }}</th>
+                                <th class="py-2 px-4 border-b">{{ t('fields.email') }}</th>
+                                <th class="py-2 px-4 border-b">{{ t('actionsLabel') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,10 +61,10 @@ const deleteUser = id =>{
                                 <td class="py-2 px-4 border-b text-center">{{ user.email }}</td>
                                 <td class="py-2 px-4 border-b text-center">
                                 <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('users.update')">
-                                    <Link :href="route('users.edit', user.id)">{{$page.props.trans.common.actions.users.edit}}</Link>
+                                    <Link :href="route('users.edit', user.id)">{{ t('actions.users.edit') }}</Link>
                                 </button>
                                 <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-1 rounded">
-                                    {{$page.props.trans.common.actions.users.delete}}
+                                    {{t('actions.users.delete') }}
                                 </button>
                                 </td>
                             </tr>
@@ -69,7 +72,7 @@ const deleteUser = id =>{
                         </table>
                     </div>
                     <div v-else>
-                        <p>No se encontraron usuarios.</p>
+                        <p>{{ t('strings.emptyUsers') }}</p>
                     </div>
                 </div>
             </div>
