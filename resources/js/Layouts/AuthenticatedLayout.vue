@@ -7,8 +7,11 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import SetLocale from "@/Components/SetLocale.vue";
+import {useI18n} from "vue-i18n";
 
 const showingNavigationDropdown = ref(false);
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -31,19 +34,19 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    {{ $page.props.trans.common.titles.dashboard }}
+                                    {{ t('titles.dashboard') }}
                                 </NavLink>
                                 <NavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.permissions.includes('users.index')">
-                                    {{ $page.props.trans.common.titles.users }}
+                                    {{ t('titles.users') }}
                                 </NavLink>
                                 <NavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
-                                    {{ $page.props.trans.common.titles.roles }}
+                                    {{ t('titles.roles') }}
                                 </NavLink>
                                 <NavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
-                                    {{ $page.props.trans.common.titles.permissions }}
+                                    {{ t('titles.permissions') }}
                                 </NavLink>
                                 <NavLink :href="route('microsites.index')" :active="route().current('microsites.*')" v-if="$page.props.user.permissions.includes('microsites.index')">
-                                    {{ $page.props.trans.common.titles.microsites }}
+                                    {{ t('titles.microsites') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -130,19 +133,19 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            {{ t('titles.dashboard') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.permissions.includes('users.index')">
-                            Users
+                            {{ t('titles.users') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('roles.index')" :active="route().current('roles.*')" v-if="$page.props.user.permissions.includes('roles.index')">
-                            Roles
+                            {{ t('titles.roles') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('permissions.index')" :active="route().current('permissions.*')" v-if="$page.props.user.permissions.includes('permissions.index')">
-                            Permissions
+                            {{ t('titles.permissions') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('microsites.index')" :active="route().current('microsites.*')" v-if="$page.props.user.permissions.includes('microsites.index')">
-                            Micrositess
+                            {{ t('titles.microsites') }}
                         </ResponsiveNavLink>
                     </div>
 

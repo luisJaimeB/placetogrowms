@@ -14,6 +14,7 @@ return [
         'updateUserDesc' => 'Actualiza el usuario seleccionado',
         'createUser' => 'Crea un nuevo usuario',
         'createUserDesc' => 'Crea un nuevo usuario como invitado',
+        'EmptyUsers' => 'No encontramos usuarios',
         'updateRol' => 'Actualiza el rol',
         'updateRolDesc' => 'Actualiza el rol seleccionado',
         'createRol' => 'Crea un nuevo rol',
@@ -35,6 +36,12 @@ return [
         'micrositesLabel' => [
             'selectType' => 'Selecciona un tipo de sitio',
             'selectCategory' => 'Selecciona una categoría',
+            'selectExpiration' => 'Selecciona el tiempo de expiración',
+            'logoMicrosite' => 'Logo del micrositio',
+            'teenMicrositeExp' => '10 minutos',
+            'fifteenMicrositeExp' => '15 minutos',
+            'twentyMicrositeExp' => '20 minutos',
+            'thirtyMicrositeExp' => '30 minutos',
         ],
     ],
     'actions' => [
@@ -68,7 +75,12 @@ return [
         'id' => 'ID',
         'name' => 'Nombre',
         'type' => 'Tipo',
+        'email' => 'Correo electrónico',
+        'password' => 'Contraseña',
+        'roles' => 'Roles',
         'category' => 'Categoría',
+        'expiration' => 'Expiración',
+        'currency' => 'Moneda',
         'users' => [
             'email' => 'Correo electrónico',
         ],

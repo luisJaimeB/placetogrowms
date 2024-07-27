@@ -9,6 +9,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MicrositesEditForm from '@/Components/microsites/FormEdit.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import {ref} from 'vue';
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps({
     microsite: {
@@ -46,22 +49,13 @@ const submitForm = () => {
 
     const formData = new FormData();
 
-    // Recorremos todos los campos del formulario (incluyendo 'logo')
     for (const clave in form) {
         formData.append(clave, form[clave]);
     }
 
-    // Adjuntar el nuevo archivo de logotipo si existe
     if (newLogoFile.value) {
         formData.append('logo', newLogoFile.value);
     }
-
-    // Depuración de FormData (opcional)
-    /*
-    for (let [clave, valor] of formData.entries()) {
-      console.log(clave, valor);
-    }
-    */
 
     form.post(route('microsites.update', props.microsite.id), {
         forceFormData: true,
@@ -77,7 +71,7 @@ const submitForm = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.actions.microsites.edit}}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{t('actions.microsites.edit')}}</h2>
         </template>
 
         <div class="py-12">

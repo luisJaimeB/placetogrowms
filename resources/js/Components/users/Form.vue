@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import {useI18n} from "vue-i18n"
 
 defineProps({
     form: {
@@ -34,6 +35,7 @@ defineProps({
         required: false
     },
 })
+const { t } = useI18n();
 
 defineEmits(['submit'])
 </script>
@@ -41,36 +43,36 @@ defineEmits(['submit'])
 <template>
     <FormSection @submitted="$emit('submit')">
         <template #title>
-            {{  updating ? $page.props.trans.common.strings.updateUser : $page.props.trans.common.strings.createUser }}
+            {{  updating ? t('strings.updateUser') : t('strings.createUser') }}
         </template>
 
         <template #description>
-            {{ updating ? $page.props.trans.common.strings.updateUserDesc : $page.props.trans.common.strings.createUserDesc }}
+            {{ updating ? t('strings.updateUserDesc') : t('strings.createUserDesc') }}
         </template>
 
         <template #form>
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" :value="t('fields.name')" />
                 <TextInput id="name" v-model="form.name" type="text" autocomplete="name" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.name" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" :value="t('fields.email')" />
                 <TextInput id="email" v-model="form.email" type="email" autocomplete="email" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.email" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="password" value="password" />
+            <div v-if="!updating" class="col-span-6 sm:col-span-6">
+                <InputLabel for="password" :value="t('fields.password')" />
                 <TextInput id="password" v-model="form.password" type="password" autocomplete="password" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.password" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="roles" value="Roles" />
+                <InputLabel for="roles" :value="t('fields.roles')" />
                 <div v-for="role in roles" :key="role.id" class="flex items-center">
-                    <input type="radio" :value="role.id" v-model="form.rol" :id="'role_' + role.id" class="mr-2 leading-tight">
+                    <input type="radio" :value="role.id" v-model="form.roles" :id="'role_' + role.id" class="mr-2 leading-tight">
                     <label :for="'role_' + role.id" class="text-gray-700">{{ role.name }}</label>
                 </div>
                 <InputError :message="$page.props.errors.roles" class="mt-2" />
@@ -79,7 +81,7 @@ defineEmits(['submit'])
 
         <template #actions>
             <PrimaryButton>
-                {{ updating ? $page.props.trans.common.buttons.updateB : $page.props.trans.common.buttons.createB }}
+                {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
             </PrimaryButton>
         </template>
     </FormSection>

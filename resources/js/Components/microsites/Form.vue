@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import {useI18n} from "vue-i18n";
 
 defineProps({
     form: {
@@ -35,9 +36,7 @@ defineProps({
     },
 })
 
-const handleLogoChange = (event) => {
-    props.form.logo = event.target.files[0];
-};
+const { t } = useI18n();
 
 defineEmits(['submit'])
 </script>
@@ -45,17 +44,17 @@ defineEmits(['submit'])
 <template>
     <FormSection @submitted="$emit('submit')">
         <template #title>
-            {{  updating ? $page.props.trans.common.strings.updateMicrosite : $page.props.trans.common.strings.createMicrosite }}
+            {{  updating ? t('strings.updateMicrosite') : t('strings.createMicrosite') }}
         </template>
 
         <template #description>
-            {{ updating ? $page.props.trans.common.strings.updateMicrositeDesc : $page.props.trans.common.strings.createMicrositeDesc }}
+            {{ updating ? t('strings.updateMicrositeDesc') : t('strings.createMicrositeDesc') }}
         </template>
 
         <template #form>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="siteType" value="Tipo de Sitio" />
+                <InputLabel for="siteType" :value="t('fields.type')" />
                 <select id="siteType" v-model="form.siteType" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="" disabled>Selecciona un tipo de sitio</option>
                     <option v-for="type in types" :key="type.id" :value="type.id">{{ type.name }}</option>
@@ -64,7 +63,7 @@ defineEmits(['submit'])
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="category" value="Categoría" />
+                <InputLabel for="category" :value="t('fields.category')" />
                 <select id="category" v-model="form.category" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="" disabled>Selecciona una categoría</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
@@ -73,13 +72,13 @@ defineEmits(['submit'])
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" :value="t('fields.name')" />
                 <TextInput id="name" v-model="form.name" type="text" autocomplete="name" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.name" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="currency" value="Moneda" />
+                <InputLabel for="currency" :value="t('fields.currency')" />
                 <select id="currency" v-model="form.currency" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="" disabled>Selecciona una Moneda</option>
                     <option v-for="currency in currencies" :key="currency.id" :value="currency.id">{{ currency.code }}</option>
@@ -88,22 +87,23 @@ defineEmits(['submit'])
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="expiration" value="Expiración" />
+                <InputLabel for="expiration" :value="t('fields.expiration')" />
                 <select
                 id="expiration"
                 v-model="form.expiration"
                 class="mt-1 block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                <option value="" disabled>Selecciona una expiración</option>
-                <option value="10">10 minutos</option>
-                <option value="20">20 minutos</option>
-                <option value="30">30 minutos</option>
+                <option value="" disabled>{{ t('labels.micrositesLabel.selectExpiration') }}</option>
+                <option value="10">{{ t('labels.micrositesLabel.teenMicrositeExp') }}</option>
+                <option value="15">{{ t('labels.micrositesLabel.fifteenMicrositeExp') }}</option>
+                <option value="20">{{ t('labels.micrositesLabel.twentyMicrositeExp') }}</option>
+                <option value="30">{{ t('labels.micrositesLabel.thirtyMicrositeExp') }}</option>
                 </select>
                 <InputError :message="$page.props.errors.expiration" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="logo" value="Logo del micrositio" />
+                <InputLabel for="logo" :value="t('labels.micrositesLabel.logoMicrosite')" />
                 <input id="logo" type="file" @input="form.logo = $event.target.files[0]" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                 <InputError :message="$page.props.errors.logo" class="mt-2" />
             </div>
@@ -112,7 +112,7 @@ defineEmits(['submit'])
 
         <template #actions>
             <PrimaryButton>
-                {{ updating ? $page.props.trans.common.buttons.updateB : $page.props.trans.common.buttons.createB }}
+                {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
             </PrimaryButton>
         </template>
     </FormSection>

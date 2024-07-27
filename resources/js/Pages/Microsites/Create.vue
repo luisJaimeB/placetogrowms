@@ -8,6 +8,9 @@ export default {
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MicrositesForm from '@/Components/microsites/Form.vue'
 import { Head, useForm } from '@inertiajs/vue3';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
     sites_type: {
@@ -45,7 +48,7 @@ const submitForm = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight"> {{ $page.props.trans.common.titles.microsites }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight"> {{ t('titles.microsites') }}</h2>
         </template>
 
         <div class="py-12">

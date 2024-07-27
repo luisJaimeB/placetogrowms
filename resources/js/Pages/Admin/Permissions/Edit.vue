@@ -7,8 +7,10 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UserForm from '@/Components/permissions/Form.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { useSSRContext } from 'vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n()
 
 const props = defineProps({
     permission: {
@@ -27,7 +29,7 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{$page.props.trans.common.actions.permissions.edit}}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('actions.permissions.edit')}}</h2>
         </template>
 
         <div class="py-12">
