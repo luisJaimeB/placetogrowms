@@ -39,6 +39,7 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::MICROSITES_CREATE,
                     Permissions::MICROSITES_UPDATE,
                     Permissions::MICROSITES_DELETE,
+                    Permissions::MICROSITES_SHOW,
                 ],
             ],
             [

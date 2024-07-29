@@ -25,7 +25,8 @@ final class Permissions
     public const string MICROSITES_CREATE = 'microsites.create';
     public const string MICROSITES_UPDATE = 'microsites.update';
     public const string MICROSITES_DELETE = 'microsites.delete';
-    
+    public const string MICROSITES_SHOW = 'microsites.show';
+
     public static function toArray (): array
     {
         return (new ReflectionClass(self::class))->getConstants();

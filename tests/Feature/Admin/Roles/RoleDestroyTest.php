@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin\Roles;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Models\CustomRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -27,12 +28,12 @@ class RoleDestroyTest extends TestCase
     {
         parent::setUp();
 
-        $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+        $this->role = Role::create(['name' => 'roleTest']);
+        $this->route = route(self::RESOURCE_NAME, $this->role);
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::ROLES_DELETE]);
-        
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -47,7 +48,7 @@ class RoleDestroyTest extends TestCase
     #[Test]
     public function unauthorized_user_can_not_delete_an_role(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -60,7 +61,7 @@ class RoleDestroyTest extends TestCase
     public function authorized_user_can_delete_an_role(): void
     {
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
@@ -71,7 +72,7 @@ class RoleDestroyTest extends TestCase
             ->assertRedirect(route('roles.index'));
 
         $this->assertDatabaseMissing('roles', [
-            'id' => $this->customer->id,
+            'id' => $this->role->id,
         ]);
-    }    
+    }
 }

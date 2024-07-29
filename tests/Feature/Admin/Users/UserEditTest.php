@@ -27,11 +27,11 @@ class UserEditTest extends TestCase
         parent::setUp();
 
         $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+        $this->route = route(self::RESOURCE_NAME, $this->customer->id);
+
         $this->admin = Role::create(['name' => 'Admin']);
         $updatePermission = Permission::create(['name' => Permissions::USERS_UPDATE]);
-        
+
         $this->admin->givePermissionTo($updatePermission);
     }
 
@@ -46,7 +46,7 @@ class UserEditTest extends TestCase
     #[Test]
     public function unauthorized_user_can_not_edit_an_user(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -58,7 +58,7 @@ class UserEditTest extends TestCase
     #[Test]
     public function authorized_user_can_edit_an_user(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
@@ -66,20 +66,22 @@ class UserEditTest extends TestCase
             ->get($this->route);
 
         $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('Admin/Users/Edit')
-            ->where('user.id', $this->customer->id)
-            ->where('user.name', $this->customer->name)
-            ->where('user.email', $this->customer->email)
-            ->where('user.email_verified_at', $this->customer->email_verified_at->toISOString())
-            ->has('userPermissions')
-            ->has('user.roles')
-        );
-        $response->assertInertia(fn (Assert $page) => $page
-            ->whereAll([
-                'user.permissions' => $this->customer->permissions->toArray(),
-                'user.roles' => $this->customer->roles->toArray()
-            ])
-        );
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/Users/Edit')
+                ->has('userToEdit', fn (Assert $page) => $page
+                    ->where('id', $this->customer->id)
+                    ->where('name', $this->customer->name)
+                    ->where('email', $this->customer->email)
+                    ->where('email_verified_at', $this->customer->email_verified_at ? $this->customer->email_verified_at->toISOString() : null)
+                    ->where('created_at', $this->customer->created_at->toISOString())
+                    ->where('updated_at', $this->customer->updated_at->toISOString())
+                    ->where('permissions', $this->customer->permissions->toArray())
+                    ->where('roles', $this->customer->roles->toArray())
+                )
+                ->has('userPermissions')
+                ->has('user.roles')
+            );
+
+
     }
 }

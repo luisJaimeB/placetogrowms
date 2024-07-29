@@ -31,15 +31,15 @@ class RoleUpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+        $this->role = Role::create(['name' => 'roleTest']);
+        $this->route = route(self::RESOURCE_NAME, $this->role);
+
         $this->admin = Role::create(['name' => 'Admin']);
         $this->roleP = Role::create(['name' => 'rolePrueba']);
         $this->permission1 = Permission::create(['name' => Permissions::ROLES_CREATE]);
         $this->permission2 = Permission::create(['name' => Permissions::ROLES_INDEX]);
         $this->permission3 = Permission::create(['name' => Permissions::ROLES_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission1);
         $this->admin->givePermissionTo($this->permission2);
         $this->admin->givePermissionTo($this->permission3);
@@ -56,7 +56,7 @@ class RoleUpdateTest extends TestCase
     #[Test]
     public function unauthorized_user_cant_update_an_role(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -68,7 +68,7 @@ class RoleUpdateTest extends TestCase
     #[Test]
     public function authorized_user_can_update_an_role(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 

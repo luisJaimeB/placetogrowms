@@ -27,12 +27,12 @@ class PermissionDestroyTest extends TestCase
     {
         parent::setUp();
 
-        $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_DELETE]);
-        
+
+        $this->customer = User::factory()->create();
+        $this->route = route(self::RESOURCE_NAME, $this->permission);
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -47,7 +47,7 @@ class PermissionDestroyTest extends TestCase
     #[Test]
     public function unauthorized_user_can_not_delete_an_permission(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -60,7 +60,7 @@ class PermissionDestroyTest extends TestCase
     public function authorized_user_can_delete_an_permission(): void
     {
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 

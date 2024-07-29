@@ -32,8 +32,7 @@ class RoleController extends Controller
 
     public function store(RoleRequest $request): RedirectResponse
     {
-        $createAction = new CreateRoleAction($request->validated());
-        $createAction->execute();
+        CreateRoleAction::execute($request->validated());
 
         return redirect()->route('roles.index');
     }
@@ -54,8 +53,7 @@ class RoleController extends Controller
 
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
-        $updateRoleAction = new UpdateRoleAction($request->validated(), $role);
-        $role = $updateRoleAction->execute();
+        UpdateRoleAction::execute($request->validated(), $role);
         return redirect()->route('roles.index');
     }
 

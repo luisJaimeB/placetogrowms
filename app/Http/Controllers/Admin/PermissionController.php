@@ -26,8 +26,7 @@ class PermissionController extends Controller
 
     public function store(PermissionRequest $request): RedirectResponse
     {
-        $createAction = new CreatePermissionAction($request->validated());
-        $createAction->execute();
+        CreatePermissionAction::execute($request->validated());
 
         return redirect()->route('permissions.index');
     }
@@ -46,7 +45,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $permission->delete();
-        
+
         return redirect()->route('permissions.index');
     }
 

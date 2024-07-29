@@ -18,11 +18,11 @@ class UpdateMicrositeAction implements Executable
      */
     public static function execute(array $data, Model|null $microsite = null): Model
     {
-        //dd($data);
         $microsite->name = $data['name'];
-        $microsite->category_id = $data['category'];
+        $microsite->type_site_id = $data['type_site_id'];
+        $microsite->category_id = $data['category_id'];
         $microsite->expiration = $data['expiration'];
-        $microsite->type_site_id = $data['siteType'];
+
 
         if (isset($data['logo']) && $data['logo'] instanceof \Illuminate\Http\UploadedFile) {
             if ($microsite->logo) {
