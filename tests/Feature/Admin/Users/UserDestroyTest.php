@@ -17,6 +17,7 @@ class UserDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.destroy';
+
     private string $route;
 
     private User $customer;
@@ -27,10 +28,10 @@ class UserDestroyTest extends TestCase
 
         $this->customer = User::factory()->create();
         $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+
         $adminRole = Role::create(['name' => 'Admin']);
         $deletePermission = Permission::create(['name' => Permissions::USERS_DELETE]);
-        
+
         $adminRole->givePermissionTo($deletePermission);
 
     }
@@ -73,5 +74,4 @@ class UserDestroyTest extends TestCase
             'id' => $this->customer->id,
         ]);
     }
-
 }

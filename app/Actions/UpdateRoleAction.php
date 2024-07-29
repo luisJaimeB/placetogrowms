@@ -4,12 +4,13 @@ namespace App\Actions;
 
 use App\Contracts\Executable;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UpdateRoleAction implements Executable
 {
     protected array $data;
+
     protected Role $role;
 
     public function __construct(array $data, Role $role)
@@ -18,7 +19,7 @@ class UpdateRoleAction implements Executable
         $this->role = $role;
     }
 
-    public static function execute(array $data, Model|null $role = null): \Illuminate\Database\Eloquent\Model|false
+    public static function execute(array $data, ?Model $role = null): \Illuminate\Database\Eloquent\Model|false
     {
         self::updateRoleName($role, $data['name']);
         self::updateRolePermissions($role, $data['permissions']);

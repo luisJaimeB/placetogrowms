@@ -33,7 +33,7 @@ class MicrositeController extends Controller
         return Inertia('Microsites/Create', [
             'sites_type' => $sites_type,
             'categories' => $categories,
-            'currencies' => $currencies
+            'currencies' => $currencies,
         ]);
     }
 
@@ -43,14 +43,14 @@ class MicrositeController extends Controller
             $data = $request->validated();
             $microsite = CreateMicrositeAction::execute($data);
 
-            if (!$microsite) {
+            if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();
             }
 
             return redirect()->route('microsites.show', $microsite->id);
         } catch (Throwable $e) {
             return back()->withErrors([
-                'error' => 'Microsite could not be created: ' . $e->getMessage(),
+                'error' => 'Microsite could not be created: '.$e->getMessage(),
                 'stack' => $e->getTraceAsString(),
             ])->withInput();
         }
@@ -59,6 +59,7 @@ class MicrositeController extends Controller
     public function show($id): Response
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+
         return inertia('Microsites/Show', ['microsite' => $microsite]);
     }
 
@@ -73,13 +74,14 @@ class MicrositeController extends Controller
             'microsite' => $microsite,
             'categories' => $categories,
             'types' => $types,
-            'currencies' => $currencies
+            'currencies' => $currencies,
         ]);
     }
 
     public function update(MicrositeUpdateRequest $request, Microsite $microsite): redirectResponse
     {
         UpdateMicrositeAction::execute($request->validated(), $microsite);
+
         return redirect()->route('microsites.index');
     }
 

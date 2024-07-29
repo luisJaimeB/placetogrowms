@@ -18,6 +18,7 @@ class MicrositeDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.destroy';
+
     private string $route;
 
     private Microsite $microsite;
@@ -35,6 +36,7 @@ class MicrositeDestroyTest extends TestCase
         $adminRole->givePermissionTo($deletePermission);
 
     }
+
     #[Test]
     public function guest_user_cant_delete_an_microsite(): void
     {
@@ -73,5 +75,4 @@ class MicrositeDestroyTest extends TestCase
             'id' => $this->microsite->id,
         ]);
     }
-
 }

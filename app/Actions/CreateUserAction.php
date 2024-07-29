@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreateUserAction implements Executable
 {
-    public static function execute(array $data, Model|null $model = null): Model|false
+    public static function execute(array $data, ?Model $model = null): Model|false
     {
         $user = new User();
         $user->name = $data['name'];
@@ -17,11 +17,12 @@ class CreateUserAction implements Executable
         $user->email_verified_at = now();
         $user->save();
 
-        if (!empty($data['rol'])) {
+        if (! empty($data['rol'])) {
             $user->roles()->sync($data['rol']);
         } else {
             $user->assignRole('customer');
         }
+
         return $user;
     }
 }

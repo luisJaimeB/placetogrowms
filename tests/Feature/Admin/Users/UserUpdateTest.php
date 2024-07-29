@@ -19,9 +19,13 @@ class UserUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'users.update';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -69,7 +73,7 @@ class UserUpdateTest extends TestCase
             'email' => $this->faker->freeEmail(),
             'password' => 'password',
             'password_confirmation' => 'password',
-            'rol' => $this->admin->id
+            'rol' => $this->admin->id,
         ];
 
         $response = $this->actingAs($user)

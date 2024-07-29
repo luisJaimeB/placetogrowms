@@ -20,8 +20,11 @@ class MicrositeShowTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.show';
+
     private string $route;
+
     private Role $admin;
+
     private Microsite $microsite;
 
     protected function setUp(): void

@@ -18,6 +18,7 @@ class MicrositeCreateTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.create';
+
     private string $route;
 
     protected function setUp(): void
@@ -63,6 +64,6 @@ class MicrositeCreateTest extends TestCase
 
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-            ->component('Microsites/Create'));
+                ->component('Microsites/Create'));
     }
 }

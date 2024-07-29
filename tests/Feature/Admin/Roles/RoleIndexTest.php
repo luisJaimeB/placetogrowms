@@ -19,8 +19,11 @@ class RoleIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'roles.index';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -28,10 +31,10 @@ class RoleIndexTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::ROLES_INDEX]);
-        
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -72,12 +75,12 @@ class RoleIndexTest extends TestCase
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Admin/Roles/Index')
-                ->where('roles.current_page', 1) 
-                ->where('roles.total', 2) 
-                ->where('roles.per_page', 25) 
-                ->where('roles.first_page_url', 'http://localhost/admin/roles?page=1') 
-                ->where('roles.last_page_url', 'http://localhost/admin/roles?page=1') 
-                ->where('roles.prev_page_url', null) 
+                ->where('roles.current_page', 1)
+                ->where('roles.total', 2)
+                ->where('roles.per_page', 25)
+                ->where('roles.first_page_url', 'http://localhost/admin/roles?page=1')
+                ->where('roles.last_page_url', 'http://localhost/admin/roles?page=1')
+                ->where('roles.prev_page_url', null)
                 ->where('roles.next_page_url', null)
                 ->has('roles.links', 3)
             )

@@ -19,8 +19,11 @@ class PermissionIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.index';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -28,10 +31,10 @@ class PermissionIndexTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_INDEX]);
-        
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -71,12 +74,12 @@ class PermissionIndexTest extends TestCase
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Admin/Permissions/Index')
-                ->where('permissions.current_page', 1) 
-                ->where('permissions.total', 2) 
-                ->where('permissions.per_page', 25) 
-                ->where('permissions.first_page_url', 'http://localhost/admin/permissions?page=1') 
-                ->where('permissions.last_page_url', 'http://localhost/admin/permissions?page=1') 
-                ->where('permissions.prev_page_url', null) 
+                ->where('permissions.current_page', 1)
+                ->where('permissions.total', 2)
+                ->where('permissions.per_page', 25)
+                ->where('permissions.first_page_url', 'http://localhost/admin/permissions?page=1')
+                ->where('permissions.last_page_url', 'http://localhost/admin/permissions?page=1')
+                ->where('permissions.prev_page_url', null)
                 ->where('permissions.next_page_url', null)
                 ->has('permissions.links', 3)
             )

@@ -18,7 +18,7 @@ class CreateRoleAction implements Executable
         $this->user = auth()->user();
     }
 
-    public static function execute(array $data, Model|null $model = null): Model|false
+    public static function execute(array $data, ?Model $model = null): Model|false
     {
         $rol = new Role();
         $rol->name = $data['name'];

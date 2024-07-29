@@ -7,13 +7,12 @@ use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-
     public function run(): void
     {
         $categories = [
             'education',
             'marketer',
-            'services'
+            'services',
         ];
 
         foreach ($categories as $category) {

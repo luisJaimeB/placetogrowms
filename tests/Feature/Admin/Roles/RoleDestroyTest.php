@@ -4,7 +4,6 @@ namespace Tests\Feature\Admin\Roles;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
-use App\Models\CustomRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,9 +18,13 @@ class RoleDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'roles.destroy';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
+
     private User $customer;
 
     protected function setUp(): void

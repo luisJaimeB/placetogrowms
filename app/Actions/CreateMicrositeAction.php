@@ -4,8 +4,6 @@ namespace App\Actions;
 
 use App\Contracts\Executable;
 use App\Models\Microsite;
-use App\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -15,7 +13,7 @@ class CreateMicrositeAction implements Executable
     /**
      * @throws Throwable
      */
-    public static function execute(array $data, Model|null $microsite = null): Model|false
+    public static function execute(array $data, ?Model $microsite = null): Model|false
     {
         try {
             $microsite = new Microsite();
@@ -26,10 +24,10 @@ class CreateMicrositeAction implements Executable
             $microsite->user_id = Auth::id();
 
             if (isset($data['logo']) && $data['logo']) {
-                $disk = "public_upload";
-                $filename = time() . "." . $data['logo']->extension();
+                $disk = 'public_upload';
+                $filename = time().'.'.$data['logo']->extension();
 
-                $data['logo']->storeAs("microsite/logo", $filename, $disk);
+                $data['logo']->storeAs('microsite/logo', $filename, $disk);
                 $microsite->logo = $filename;
             }
 

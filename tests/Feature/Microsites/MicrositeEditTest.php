@@ -21,10 +21,15 @@ class MicrositeEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.edit';
+
     private string $route;
+
     private Microsite $microsite;
+
     private Category $category;
+
     private TypeSite $typeSite;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -77,10 +82,10 @@ class MicrositeEditTest extends TestCase
             ->get($this->route);
 
         $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('Microsites/Edit')
-            ->where('microsite.id', $this->microsite->id)
-            ->where('microsite.name', $this->microsite->name)
-        );
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Microsites/Edit')
+                ->where('microsite.id', $this->microsite->id)
+                ->where('microsite.name', $this->microsite->name)
+            );
     }
 }

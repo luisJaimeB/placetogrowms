@@ -18,8 +18,11 @@ class UserEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.edit';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -81,7 +84,6 @@ class UserEditTest extends TestCase
                 ->has('userPermissions')
                 ->has('user.roles')
             );
-
 
     }
 }

@@ -53,16 +53,17 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $user->update($request->validated());
-        if (!empty($request->input('roles'))) {
+        if (! empty($request->input('roles'))) {
             $user->roles()->sync($request->input('roles'));
         }
+
         return redirect()->route('users.index');
     }
-
 
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
+
         return redirect()->route('users.index');
     }
 }

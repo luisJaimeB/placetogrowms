@@ -20,8 +20,11 @@ class MicrositeIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.index';
+
     private string $route;
+
     private Role $admin;
+
     private Microsite $microsite;
 
     protected function setUp(): void

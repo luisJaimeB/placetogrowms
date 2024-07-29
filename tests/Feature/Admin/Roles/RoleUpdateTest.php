@@ -19,12 +19,19 @@ class RoleUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'roles.update';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Role $roleP;
+
     private Permission $permission1;
+
     private Permission $permission2;
+
     private Permission $permission3;
 
     protected function setUp(): void
@@ -78,7 +85,7 @@ class RoleUpdateTest extends TestCase
                 $this->permission1->id,
                 $this->permission2->id,
                 $this->permission3->id,
-                ]
+            ],
         ];
 
         $response = $this->actingAs($user)
@@ -90,5 +97,5 @@ class RoleUpdateTest extends TestCase
         $this->assertDatabaseHas('roles', [
             'name' => $data['name'],
         ]);
-}
+    }
 }

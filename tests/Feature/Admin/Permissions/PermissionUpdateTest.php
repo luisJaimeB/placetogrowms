@@ -19,8 +19,11 @@ class PermissionUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'permissions.update';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -29,7 +32,7 @@ class PermissionUpdateTest extends TestCase
 
         $this->admin = Role::create(['name' => 'Admin']);
         $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission);
         $this->route = route(self::RESOURCE_NAME, $this->permission);
     }
@@ -62,7 +65,7 @@ class PermissionUpdateTest extends TestCase
         $user->assignRole($this->admin);
 
         $data = [
-            'name' => $this->faker->name
+            'name' => $this->faker->name,
         ];
 
         $response = $this->actingAs($user)
@@ -72,7 +75,7 @@ class PermissionUpdateTest extends TestCase
             ->assertRedirect(route('permissions.index'));
 
         $this->assertDatabaseHas('permissions', [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 }

@@ -21,7 +21,9 @@ class PermissionStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'permissions.store';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -29,10 +31,10 @@ class PermissionStoreTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $updatePermission = Permission::create(['name' => Permissions::PERMISSIONS_CREATE]);
-        
+
         $this->admin->givePermissionTo($updatePermission);
     }
 

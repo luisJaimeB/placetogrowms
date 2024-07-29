@@ -6,7 +6,6 @@ use App\Actions\CreatePermissionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -14,9 +13,9 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::latest()->orderBy('id', 'desc')
-        ->paginate(25);
+            ->paginate(25);
 
-    return inertia('Admin/Permissions/Index', ['permissions' => $permissions]);
+        return inertia('Admin/Permissions/Index', ['permissions' => $permissions]);
     }
 
     public function create()
@@ -39,6 +38,7 @@ class PermissionController extends Controller
     public function update(PermissionRequest $request, Permission $permission): RedirectResponse
     {
         $permission->update($request->validated());
+
         return redirect()->route('permissions.index');
     }
 
@@ -48,5 +48,4 @@ class PermissionController extends Controller
 
         return redirect()->route('permissions.index');
     }
-
 }

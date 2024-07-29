@@ -12,7 +12,7 @@ class Currency extends Model
 
     protected $fillable = [
         'code',
-        'name'
+        'name',
     ];
 
     public function microsites(): BelongsToMany

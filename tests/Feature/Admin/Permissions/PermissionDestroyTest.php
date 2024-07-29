@@ -18,9 +18,13 @@ class PermissionDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.destroy';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
+
     private User $customer;
 
     protected function setUp(): void
@@ -74,5 +78,4 @@ class PermissionDestroyTest extends TestCase
             'id' => $this->permission->id,
         ]);
     }
-
 }

@@ -23,7 +23,7 @@ class RoleController extends Controller
 
     public function create(): Response
     {
-        $permissions = Permission::all()->groupBy(function($permission) {
+        $permissions = Permission::all()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
 
@@ -39,7 +39,7 @@ class RoleController extends Controller
 
     public function edit(Role $role, Permission $permission)
     {
-        $permissions = Permission::all()->groupBy(function($permission) {
+        $permissions = Permission::all()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
         $rolePermissions = $role->permissions->pluck('id')->toArray();
@@ -54,12 +54,14 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         UpdateRoleAction::execute($request->validated(), $role);
+
         return redirect()->route('roles.index');
     }
 
     public function destroy(Role $role): RedirectResponse
     {
         $role->delete();
+
         return redirect()->route('roles.index');
     }
 }

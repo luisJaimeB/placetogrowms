@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface Executable
 {
-    public static function execute(array $data, Model|null $model = null): Model|false;
+    public static function execute(array $data, ?Model $model = null): Model|false;
 }

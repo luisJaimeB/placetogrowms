@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CurrencyFactory extends Factory
 {
     protected $model = Currency::class;
+
     public function definition(): array
     {
         $currency = $this->faker->unique()->randomElement([Currencies::USD, Currencies::COP]);
+
         return [
             'code' => $currency,
             'name' => $currency,

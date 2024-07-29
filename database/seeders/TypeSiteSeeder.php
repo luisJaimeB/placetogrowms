@@ -13,12 +13,12 @@ class TypeSiteSeeder extends Seeder
         $types = [
             TypesSites::SITE_TYPE_DONATION,
             TypesSites::SITE_TYPE_INVOICE,
-            TypesSites::SITE_TYPE_SUBSCRIPTION
+            TypesSites::SITE_TYPE_SUBSCRIPTION,
         ];
 
         foreach ($types as $type) {
             TypeSite::query()->create([
-                'name' => $type
+                'name' => $type,
             ]);
         }
     }

@@ -24,7 +24,9 @@ class MicrositeStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'microsites.store';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -105,5 +107,4 @@ class MicrositeStoreTest extends TestCase
             'currency_id' => $currency->id,
         ]);
     }
-
 }

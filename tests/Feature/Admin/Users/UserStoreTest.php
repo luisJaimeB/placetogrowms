@@ -21,7 +21,9 @@ class UserStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'users.store';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -74,7 +76,7 @@ class UserStoreTest extends TestCase
             'email' => $this->faker->freeEmail(),
             'password' => 'password',
             'password_confirmation' => 'password',
-            'rol' => $this->admin->id
+            'rol' => $this->admin->id,
         ];
 
         $response = $this->actingAs($user)

@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetLocaleController;
-use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);

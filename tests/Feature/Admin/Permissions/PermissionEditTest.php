@@ -18,19 +18,22 @@ class PermissionEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.edit';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        
         $this->admin = Role::create(['name' => 'Admin']);
         $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission);
         $this->route = route(self::RESOURCE_NAME, $this->permission);
     }
@@ -66,12 +69,12 @@ class PermissionEditTest extends TestCase
             ->get($this->route);
 
         $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('Admin/Permissions/Edit')
-            ->where('permission.id', $this->permission->id)
-            ->where('permission.name', $this->permission->name)
-            ->has('user.permissions')
-            ->has('user.roles')
-        );
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/Permissions/Edit')
+                ->where('permission.id', $this->permission->id)
+                ->where('permission.name', $this->permission->name)
+                ->has('user.permissions')
+                ->has('user.roles')
+            );
     }
 }

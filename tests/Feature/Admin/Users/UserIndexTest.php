@@ -19,7 +19,9 @@ class UserIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.index';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -27,10 +29,10 @@ class UserIndexTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $readPermission = Permission::create(['name' => Permissions::USERS_INDEX]);
-        
+
         $this->admin->givePermissionTo($readPermission);
     }
 
@@ -71,18 +73,18 @@ class UserIndexTest extends TestCase
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Admin/Users/Index')
-                ->where('users.current_page', 1) 
-                ->where('users.total', 2) 
-                ->where('users.per_page', 3) 
-                ->where('users.first_page_url', 'http://localhost/admin/users?page=1') 
-                ->where('users.last_page_url', 'http://localhost/admin/users?page=1') 
-                ->where('users.prev_page_url', null) 
+                ->where('users.current_page', 1)
+                ->where('users.total', 2)
+                ->where('users.per_page', 3)
+                ->where('users.first_page_url', 'http://localhost/admin/users?page=1')
+                ->where('users.last_page_url', 'http://localhost/admin/users?page=1')
+                ->where('users.prev_page_url', null)
                 ->where('users.next_page_url', null)
                 ->has('users.links', 3)
             )
             ->assertSee($customer->name);
-            /* ->assertSee(route('users.create'))
-            ->assertSee(route('users.edit', $customer->id))
-            ->assertSee(route('users.destroy', $customer->id)); */
+        /* ->assertSee(route('users.create'))
+        ->assertSee(route('users.edit', $customer->id))
+        ->assertSee(route('users.destroy', $customer->id)); */
     }
 }

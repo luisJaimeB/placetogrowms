@@ -19,8 +19,11 @@ class RoleCreateTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'roles.create';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -28,10 +31,10 @@ class RoleCreateTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::ROLES_CREATE]);
-        
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -66,6 +69,6 @@ class RoleCreateTest extends TestCase
 
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-            ->component('Admin/Roles/Create'));
+                ->component('Admin/Roles/Create'));
     }
 }
