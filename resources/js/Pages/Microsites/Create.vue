@@ -29,8 +29,8 @@ const props = defineProps({
 
 const form = useForm({
     name: '',
-    category: '',
-    siteType: '',
+    category_id: '',
+    type_site_id: '',
     logo: '',
     expiration: '',
     currency: '',

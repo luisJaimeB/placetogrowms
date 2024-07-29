@@ -18,11 +18,6 @@ defineProps({
 
 const { t } = useI18n();
 
-const goToMicrositeShow = (micrositeId) => {
-    // Redirige al usuario al detalle (show) del micrositio
-    router.push(route('microsites.show', micrositeId));
-}
-
 const deleteMicrosite = id =>{
     if (confirm('¿Estás seguro?')) {
         router.delete(route('microsites.destroy', id))

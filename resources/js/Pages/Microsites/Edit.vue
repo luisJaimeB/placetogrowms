@@ -35,9 +35,9 @@ const props = defineProps({
 const form = useForm({
     _method: 'patch',
     name: props.microsite.name,
-    category: props.microsite.category_id,
+    category_id: props.microsite.category_id,
     logo: props.microsite.logo,
-    siteType: props.microsite.type_site_id,
+    type_site_id: props.microsite.type_site_id,
     expiration: props.microsite.expiration,
     currency: props.microsite.currencies[0].id
 })

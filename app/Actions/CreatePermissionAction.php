@@ -2,22 +2,18 @@
 
 namespace App\Actions;
 
-use App\Contracts\Executable;
+use App\Contracts\Create;
 use Spatie\Permission\Models\Permission;
 
-class CreatePermissionAction implements Executable
+class CreatePermissionAction implements Create
 {
-    public function __construct(private array $data)
-    {
-        
-    }
 
-    public function execute(): Permission
+    public static function execute(array $data): Permission
     {
         $permission = new Permission();
-        $permission->name = $this->data['name'];
+        $permission->name = $data['name'];
         $permission->save();
 
-        return $permission;     
+        return $permission;
     }
 }

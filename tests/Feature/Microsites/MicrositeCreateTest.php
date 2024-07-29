@@ -25,10 +25,10 @@ class MicrositeCreateTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $adminRole = Role::create(['name' => 'Admin']);
         $createPermission = Permission::create(['name' => Permissions::MICROSITES_CREATE]);
-        
+
         $adminRole->givePermissionTo($createPermission);
     }
 
@@ -42,7 +42,7 @@ class MicrositeCreateTest extends TestCase
     #[Test]
     public function test_unauthorized_user_can_not_access_to_microsite_creation_form(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -54,7 +54,7 @@ class MicrositeCreateTest extends TestCase
     #[Test]
     public function authorized_user_can_access_to_microsite_creation_form(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole('Admin');
 

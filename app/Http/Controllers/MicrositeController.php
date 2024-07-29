@@ -10,17 +10,21 @@ use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
 use App\Models\TypeSite;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
+use Throwable;
 
 class MicrositeController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $microsites = Microsite::with(['typeSite', 'category'])->get();
+        $microsites = Microsite::with(['typeSite', 'category'])
+            ->get();
 
         return inertia('Microsites/Index', ['microsites' => $microsites]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $sites_type = TypeSite::all();
         $categories = Category::all();
@@ -33,30 +37,32 @@ class MicrositeController extends Controller
         ]);
     }
 
-    public function store(MicrositeRequest $request)
+    public function store(MicrositeRequest $request): redirectResponse
     {
-        $result = CreateMicrositeAction::execute($request->validated());
+        try {
+            $data = $request->validated();
+            $microsite = CreateMicrositeAction::execute($data);
 
-        if (!$result) {
-            return back()->with('error', 'Ha ocurrido un error');
+            if (!$microsite) {
+                return back()->with('error', 'Microsite could not be created.')->withInput();
+            }
+
+            return redirect()->route('microsites.show', $microsite->id);
+        } catch (Throwable $e) {
+            return back()->withErrors([
+                'error' => 'Microsite could not be created: ' . $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+            ])->withInput();
         }
-
-        return redirect()->route('microsites.show', $result);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function show($id): Response
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
         return inertia('Microsites/Show', ['microsite' => $microsite]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit($id): Response
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
         $categories = Category::all();
@@ -71,20 +77,13 @@ class MicrositeController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(MicrositeUpdateRequest $request, Microsite $microsite)
+    public function update(MicrositeUpdateRequest $request, Microsite $microsite): redirectResponse
     {
-
         UpdateMicrositeAction::execute($request->validated(), $microsite);
         return redirect()->route('microsites.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Microsite $microsite)
+    public function destroy(Microsite $microsite): redirectResponse
     {
         $microsite->delete();
 

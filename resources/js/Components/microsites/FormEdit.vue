@@ -69,7 +69,7 @@ const getLogoUrl = (path) => {
 
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="type" :value="t('fields.type')" />
-                <select id="siteType" v-model="form.siteType" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <select id="siteType" v-model="form.type_site_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="" disabled>Selecciona un tipo de sitio</option>
                     <option v-for="type in types" :key="type.id" :value="type.id">{{ type.name }}</option>
                 </select>
@@ -78,7 +78,7 @@ const getLogoUrl = (path) => {
 
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="category" :value="t('fields.category')" />
-                <select id="category" v-model="form.category" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <select id="category" v-model="form.category_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="" disabled>Selecciona una categoría</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
                 </select>

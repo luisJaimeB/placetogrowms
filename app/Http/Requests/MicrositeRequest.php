@@ -23,8 +23,8 @@ class MicrositeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
-            'siteType' => 'required|exists:type_sites,id',
+            'category_id' => 'required|exists:categories,id',
+            'type_site_id' => 'required|exists:type_sites,id',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'expiration' => 'required|integer',
             'currency' => 'required|exists:currencies,id',

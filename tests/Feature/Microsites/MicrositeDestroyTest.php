@@ -6,6 +6,7 @@ use App\Constants\Permissions;
 use App\Models\Microsite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasPermissions;
@@ -27,26 +28,25 @@ class MicrositeDestroyTest extends TestCase
 
         $this->microsite = Microsite::factory()->create();
         $this->route = route(self::RESOURCE_NAME, $this->microsite);
-        
+
         $adminRole = Role::create(['name' => 'Admin']);
         $deletePermission = Permission::create(['name' => Permissions::MICROSITES_DELETE]);
-        
+
         $adminRole->givePermissionTo($deletePermission);
 
     }
-
-
-    public function guest_user_cant_delete_an_user(): void
+    #[Test]
+    public function guest_user_cant_delete_an_microsite(): void
     {
         $response = $this->delete($this->route);
 
         $response->assertRedirect('login');
     }
 
- 
-    public function unauthorized_user_can_not_delete_an_user(): void
+    #[Test]
+    public function unauthorized_user_can_not_delete_an_microsite(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -55,11 +55,11 @@ class MicrositeDestroyTest extends TestCase
         $response->assertForbidden();
     }
 
-
-    public function authorized_user_can_delete_an_user(): void
+    #[Test]
+    public function authorized_user_can_delete_an_microsite(): void
     {
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole('Admin');
 

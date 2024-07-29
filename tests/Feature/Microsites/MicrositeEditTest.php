@@ -3,7 +3,9 @@
 namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
+use App\Models\Category;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -21,23 +23,31 @@ class MicrositeEditTest extends TestCase
     private const RESOURCE_NAME = 'microsites.edit';
     private string $route;
     private Microsite $microsite;
+    private Category $category;
+    private TypeSite $typeSite;
     private Role $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->microsite = Microsite::factory()->create();
+        $this->typeSite = TypeSite::factory()->create();
+        $this->category = Category::factory()->create();
+        $this->microsite = Microsite::factory()->create([
+            'type_site_id' => $this->typeSite->id,
+            'category_id' => $this->category->id,
+            'user_id' => User::factory()->create()->id,
+        ]);
         $this->route = route(self::RESOURCE_NAME, $this->microsite);
-        
+
         $this->admin = Role::create(['name' => 'Admin']);
         $updatePermission = Permission::create(['name' => Permissions::MICROSITES_UPDATE]);
-        
+
         $this->admin->givePermissionTo($updatePermission);
     }
 
     #[Test]
-    public function guest_user_cant_edit_an_user(): void
+    public function guest_user_cant_edit_an_microsite(): void
     {
         $response = $this->get($this->route);
 
@@ -45,7 +55,7 @@ class MicrositeEditTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_can_not_edit_an_user(): void
+    public function unauthorized_user_can_not_edit_an_microsite(): void
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
@@ -57,7 +67,7 @@ class MicrositeEditTest extends TestCase
     }
 
     #[Test]
-    public function authorized_user_can_edit_an_user(): void
+    public function authorized_user_can_edit_an_microsite(): void
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
@@ -71,7 +81,6 @@ class MicrositeEditTest extends TestCase
             ->component('Microsites/Edit')
             ->where('microsite.id', $this->microsite->id)
             ->where('microsite.name', $this->microsite->name)
-            
         );
     }
 }

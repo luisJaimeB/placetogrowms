@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/microsites/{microsite}/edit', [MicrositeController::class, 'edit'])->middleware('can:microsites.update')->name('microsites.edit');
     Route::post('/microsites', [MicrositeController::class, 'store'])->middleware('can:microsites.create')->name('microsites.store');
     Route::patch('/microsites/{microsite}', [MicrositeController::class, 'update'])->middleware('can:microsites.update')->name('microsites.update');
-    Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->name('microsites.show');
+    Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->middleware('can:microsites.show')->name('microsites.show');
     Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
 
     Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
