@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('microsites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
 
             $table->foreignId('type_site_id');
             $table->foreign('type_site_id')
