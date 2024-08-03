@@ -8,6 +8,7 @@ return [
         'permissions' => 'Permissions',
         'microsites' => 'Microsites',
         'userediting' => 'User editing',
+        'paymentHistory' => 'Payment History',
     ],
     'strings' => [
         'updateUser' => 'Update the user',
@@ -31,17 +32,29 @@ return [
     'buttons' => [
         'createB' => 'Create',
         'updateB' => 'Update',
+        'payB' => 'Pay',
+        'backToCommerce' => 'Back to Commerce',
     ],
     'labels' => [
         'micrositesLabel' => [
             'selectType' => 'Select a site type',
             'selectCategory' => 'Select a category',
             'selectExpiration' => 'Select a expiration time',
+            'selectCurrency' => 'Select a currency',
             'logoMicrosite' => 'Microsite logo',
             'teenMicrositeExp' => '10 minutes',
             'fifteenMicrositeExp' => '15 minutes',
             'twentyMicrositeExp' => '20 minutes',
             'thirtyMicrositeExp' => '30 minutes',
+        ],
+        'paymentsLabel' => [
+            'status' => 'Status',
+            'reference' => 'Reference',
+            'cus' => 'CUS',
+            'amount' => 'Amount',
+            'currency' => 'Currency',
+            'date' => 'Date of payment',
+            'paymentMethod' => 'Payment Method',
         ],
     ],
     'actions' => [
@@ -80,7 +93,13 @@ return [
         'roles' => 'Roles',
         'category' => 'Category',
         'expiration' => 'Expiration',
+        'description' => 'Description',
         'currency' => 'Currency',
+        'buyerName' => 'First Name',
+        'buyerLastName' => 'Last Name',
+        'phone' => 'Phone',
+        'amount' => 'Amount',
+        'paymentMethod' => 'Payment Method',
         'users' => [
             'email' => 'Email',
         ],
