@@ -9,6 +9,7 @@ use App\Http\Requests\MicrositeUpdateRequest;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\Payment;
 use App\Models\TypeSite;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
@@ -59,8 +60,12 @@ class MicrositeController extends Controller
     public function show($id): Response
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+        $payments = Payment::where('microsite_id', $id)->with(['currency'])->get();
 
-        return inertia('Microsites/Show', ['microsite' => $microsite]);
+        return inertia('Microsites/Show', [
+            'microsite' => $microsite,
+            'payments' => $payments,
+            ]);
     }
 
     public function edit($id): Response
