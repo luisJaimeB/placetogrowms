@@ -36,21 +36,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'user.roles' => $request->user() ? $request->user()->roles->pluck('name') : [],
             'user.permissions' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name') : [],
-            'trans' => $this->getTranslations(),
             'locale' => session('locale', config('app.locale')),
         ];
-    }
-
-    private function getTranslations(): array
-    {
-        $locale = app()->getLocale();
-        $files = ['common'];
-
-        $translations = [];
-        foreach ($files as $file) {
-            $translations[$file] = trans($file, [], $locale);
-        }
-
-        return $translations;
     }
 }
