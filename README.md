@@ -65,11 +65,13 @@ The main goals of the project include:
    npm run dev
 
 ## Usage
-
 When running the seeders, the application will create two users: one with administrative privileges and another for customer access. To get started, log in using the following credentials:
-```bash
-   php artisan serve
+
+**Test cards:** 
+https://docs.placetopay.dev/gateway/testing-card
+
+**Standart Users:** 
 
 ```bash
-Usuario:Admin      correo: luisyi1998@gmail.com   password: 123456
-Usuario:Customer   correo: delectuslab@gmail.com  password: 123456
+Usuario:Admin      correo: luisyi1998@gmail.com  password: 123456
+Usuario:Customer   correo: delectuslab@gmail.com  password: 123456 

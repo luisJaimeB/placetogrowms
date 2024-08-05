@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MicrositeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetLocaleController;
 use Illuminate\Support\Facades\Route;
@@ -50,5 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
 
 });
+
+Route::resource('payments', PaymentController::class);
+Route::get('payments/create/{microsite}', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payments.process');
+Route::get('/payments/return/{payment}', [PaymentController::class, 'handleReturn'])->name('payments.return');
+Route::get('/payments/show/{payment}', [PaymentController::class, 'show'])->name('payment.show');
 
 require __DIR__.'/auth.php';

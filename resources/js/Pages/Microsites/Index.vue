@@ -8,6 +8,8 @@ export default {
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 defineProps({
     microsites: {
@@ -65,12 +67,17 @@ const deleteMicrosite = id =>{
                             <td class="py-2 px-4 border-b text-center">{{ microsite.type_site.name }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ microsite.category.name }}</td>
                             <td class="py-2 px-4 border-b text-center">
-                            <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('microsites.update')">
-                                <Link :href="route('microsites.edit', microsite.id)">{{t('actions.microsites.edit')}}</Link>
-                            </button>
-                            <button @click="deleteMicrosite(microsite.id)" class="bg-red-500 text-white px-4 py-1 rounded">
-                                {{t('actions.microsites.delete')}}
-                            </button>
+                                <button class="bg-green-500 text-white px-4 py-1 rounded mr-2" v-if="$page.props.user.permissions.includes('microsites.update')">
+                                    <Link :href="route('microsites.edit', microsite.id)">{{t('actions.microsites.edit')}}</Link>
+                                </button>
+                                <button @click="deleteMicrosite(microsite.id)" class="bg-red-500 text-white px-4 py-1 rounded">
+                                    {{t('actions.microsites.delete')}}
+                                </button>
+                                <PrimaryButton >
+                                    <Link :href="route('payments.create', microsite.id)">
+                                        Pagar
+                                    </Link>
+                                </PrimaryButton>
                             </td>
                         </tr>
                         </tbody>
