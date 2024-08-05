@@ -70,6 +70,7 @@ class ProcessPaymentTest extends TestCase
     {
         $currency = Currency::factory()->create();
         $microsite = Microsite::factory()->create();
+
         return [
             'paymentMethod' => 'placetopay',
             'currency' => $currency->id,
@@ -83,7 +84,7 @@ class ProcessPaymentTest extends TestCase
             'email' => 'john.doe@example.com',
             'phone' => '+123456789',
             'type' => 1,
-            'micrositeId' => $microsite->id
+            'micrositeId' => $microsite->id,
         ];
     }
 
@@ -96,6 +97,7 @@ class ProcessPaymentTest extends TestCase
         $request->shouldReceive('header')->with('User-Agent')->andReturn('Mozilla/5.0');
         $request->shouldReceive('validated')->andReturn($requestData);
         $request->shouldReceive('all')->andReturn($requestData);
+
         return $request;
     }
 
@@ -103,6 +105,7 @@ class ProcessPaymentTest extends TestCase
     {
         $gateway = Mockery::mock(PlaceToPayGateway::class);
         $gateway->shouldReceive('pay')->with(Mockery::any())->andReturn($response);
+
         return $gateway;
     }
 
@@ -111,6 +114,7 @@ class ProcessPaymentTest extends TestCase
         Container::getInstance()->bind(PaymentFactory::class, function () use ($gateway) {
             $mockFactory = Mockery::mock(PaymentFactory::class);
             $mockFactory->shouldReceive('create')->with('placetopay', Mockery::any())->andReturn($gateway);
+
             return $mockFactory;
         });
     }
@@ -118,7 +122,7 @@ class ProcessPaymentTest extends TestCase
     private function mockHttp(array $response): void
     {
         Http::fake([
-            'http://mock.endpoint/api/session' => Http::response($response, 200)
+            'http://mock.endpoint/api/session' => Http::response($response, 200),
         ]);
     }
 }

@@ -29,7 +29,7 @@ class GetInformationTest extends TestCase
             ->andReturn([
                 'status' => ['status' => 'OK'],
                 'request' => ['payment' => ['reference' => 'pay-12345']],
-                'payment' => [['authorization' => 'auth-12345']]
+                'payment' => [['authorization' => 'auth-12345']],
             ]);
 
         $this->app->bind(PaymentFactory::class, function () use ($mockGateway) {
@@ -47,7 +47,7 @@ class GetInformationTest extends TestCase
     public function testGetInformationSuccess()
     {
         $data = [
-            'request_id' => '12345'
+            'request_id' => '12345',
         ];
 
         $gateway = app(PaymentFactory::class)->create('placetopay', $data);
@@ -74,7 +74,7 @@ class GetInformationTest extends TestCase
         });
 
         $data = [
-            'request_id' => '12345'
+            'request_id' => '12345',
         ];
 
         $gateway = app(PaymentFactory::class)->create('placetopay', $data);

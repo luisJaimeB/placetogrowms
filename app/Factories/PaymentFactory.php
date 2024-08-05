@@ -16,7 +16,7 @@ class PaymentFactory
         return match ($type) {
             'paypal' => new PayPalGateway(),
             'placetopay' => new PlaceToPayGateway($data),
-            default => throw new Exception("Payment method not supported."),
+            default => throw new Exception('Payment method not supported.'),
         };
     }
 }

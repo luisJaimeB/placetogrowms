@@ -5,11 +5,10 @@ namespace Tests\Feature\Payments;
 use App\Factories\PaymentFactory;
 use App\Models\Payment;
 use App\Payments\PlaceToPayGateway;
-use App\Services\PaymentGatewayService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
-use Tests\TestCase;
 use Mockery;
+use Tests\TestCase;
 
 class HandleReturnPaymentTest extends TestCase
 {
@@ -26,10 +25,10 @@ class HandleReturnPaymentTest extends TestCase
             ],
             'request' => [
                 'payment' => [
-                    'reference' => 'test_reference'
+                    'reference' => 'test_reference',
                 ],
                 'ipAddress' => '127.0.0.1',
-                'userAgent' => 'Mozilla/5.0'
+                'userAgent' => 'Mozilla/5.0',
             ],
             'payment' => [
                 [
@@ -45,7 +44,7 @@ class HandleReturnPaymentTest extends TestCase
         ];
 
         Http::fake([
-            '*' => Http::response($responseData, 200)
+            '*' => Http::response($responseData, 200),
         ]);
 
         $gatewayMock = Mockery::mock(PlaceToPayGateway::class);

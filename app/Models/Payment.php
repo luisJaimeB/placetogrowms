@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use const http\Client\Curl\Versions\CURL;
 
 class Payment extends Model
 {
@@ -26,7 +25,7 @@ class Payment extends Model
         'proccess_url',
         'ip_address',
         'user_agent',
-        'microsite_id'
+        'microsite_id',
     ];
 
     protected $casts = [

@@ -9,7 +9,6 @@ use Throwable;
 
 class CreatePaymentAction implements Executable
 {
-
     /**
      * @throws Throwable
      */

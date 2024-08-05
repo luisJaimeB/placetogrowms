@@ -4,7 +4,6 @@ namespace Tests\Feature\Payments;
 
 use App\Models\Payment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ShowPaymentTest extends TestCase
@@ -22,5 +21,4 @@ class ShowPaymentTest extends TestCase
             ->has('payment')
         );
     }
-
 }

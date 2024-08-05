@@ -5,7 +5,6 @@ namespace Tests\Feature\Payments\p2pGateway;
 use App\Models\Currency;
 use App\Models\Microsite;
 use App\Payments\PlaceToPayGateway;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -48,6 +47,7 @@ class PayTest extends TestCase
         Config::set('payments.placetopay_login', 'test_login');
         Config::set('payments.placetopay_secret', 'test_secret');
     }
+
     /**
      * @throws Throwable
      */
@@ -56,7 +56,7 @@ class PayTest extends TestCase
         $gateway = new PlaceToPayGateway($this->data);
 
         Http::fake([
-            'http://test.endpoint/api/session' => Http::response(['status' => ['status' => 'OK'], 'processUrl' => 'http://process.url', 'requestId' => 123456], 200)
+            'http://test.endpoint/api/session' => Http::response(['status' => ['status' => 'OK'], 'processUrl' => 'http://process.url', 'requestId' => 123456], 200),
         ]);
 
         $response = $gateway->pay($this->data);
@@ -74,12 +74,11 @@ class PayTest extends TestCase
         $gateway = new PlaceToPayGateway($this->data);
         Http::fake([
             'http://test.endpoint/api/session' => Http::response([
-                'status' => ['status' => 'FAILED', 'message' => 'Payment failed']
-            ], 200)
+                'status' => ['status' => 'FAILED', 'message' => 'Payment failed'],
+            ], 200),
         ]);
 
         $response = $gateway->pay($this->data);
-
 
         $this->assertArrayHasKey('status', $response);
         $this->assertEquals('FAILED', $response['status']['status']);

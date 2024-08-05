@@ -4,7 +4,6 @@ namespace Tests\Feature\Payments;
 
 use App\Models\Microsite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreatePaymentTest extends TestCase
@@ -23,5 +22,4 @@ class CreatePaymentTest extends TestCase
             ->has('currencies')
         );
     }
-
 }

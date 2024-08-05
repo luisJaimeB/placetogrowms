@@ -12,7 +12,9 @@ use Throwable;
 class PlaceToPayGateway implements PaymentMethod
 {
     protected $endpoint;
+
     protected array $data;
+
     const URI = '/api/session';
 
     public function __construct(array $data)
@@ -22,33 +24,30 @@ class PlaceToPayGateway implements PaymentMethod
     }
 
     /**
-     * @param $data
-     * @return array
      * @throws Exception|Throwable
      */
     public function pay($data): array
     {
         $URI = self::URI;
-        $createSessionEndPoint = $this->endpoint . $URI;
+        $createSessionEndPoint = $this->endpoint.$URI;
 
         $dataPayment = $this->prepareData($data);
         Log::info('Payment Data:', $dataPayment);
 
         $response = Http::post($createSessionEndPoint, $dataPayment);
-        Log::info('Payment response:', (array)$response);
+        Log::info('Payment response:', (array) $response);
 
         return $this->handleResponse($response, $data, $dataPayment);
     }
 
     /**
-     * @param $payment
      * @throws Exception
      */
     public function getInfomation($payment)
     {
         $URI = self::URI;
         $parm = $payment['request_id'];
-        $createSessionEndPoint = $this->endpoint . $URI . '/' . $parm;
+        $createSessionEndPoint = $this->endpoint.$URI.'/'.$parm;
         $auth = [
             'auth' => $this->prepareAuth(),
         ];
@@ -87,6 +86,7 @@ class PlaceToPayGateway implements PaymentMethod
             $payment->return_id = $lastSegment;
 
             $payment->save();
+
             return ['processUrl' => $responseArray['processUrl']];
 
         } elseif (isset($responseArray['status']) &&
@@ -97,7 +97,6 @@ class PlaceToPayGateway implements PaymentMethod
 
         return ['error' => 'Estructura de respuesta no reconocida'];
     }
-
 
     private function prepareAuth(): array
     {
@@ -113,7 +112,7 @@ class PlaceToPayGateway implements PaymentMethod
             'login' => $login,
             'tranKey' => $tranKey,
             'nonce' => $nonce,
-            'seed' => $seed
+            'seed' => $seed,
         ];
     }
 
@@ -121,14 +120,14 @@ class PlaceToPayGateway implements PaymentMethod
     {
         $prefix = 'pay-';
         $randomString = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
-        $reference = $prefix . $randomString;
+        $reference = $prefix.$randomString;
 
         return [
             'reference' => $reference,
             'description' => $data['description'],
             'amount' => [
                 'currency' => $data['currencyCode'],
-                'total' => $data['amount']
+                'total' => $data['amount'],
             ],
         ];
     }
@@ -139,17 +138,17 @@ class PlaceToPayGateway implements PaymentMethod
             'name' => $data['name'],
             'surname' => $data['lastName'],
             'email' => $data['email'],
-            'mobile' => $data['phone']
+            'mobile' => $data['phone'],
         ];
     }
 
     private function prepareData($data): array
     {
-        $randomReturn= strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
+        $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
         $data['randomReturn'] = $randomReturn;
         $expirationRange = $data['expiration'];
         $date = new DateTime();
-        $date->modify('+' . $expirationRange . ' minutes');
+        $date->modify('+'.$expirationRange.' minutes');
         $expiration = $date->format('c');
         $userIp = $data['userIp'];
         $userAgent = $data['userAgent'];
@@ -162,8 +161,7 @@ class PlaceToPayGateway implements PaymentMethod
             'expiration' => $expiration,
             'returnUrl' => $returnUrl,
             'ipAddress' => $userIp,
-            'userAgent' => $userAgent
+            'userAgent' => $userAgent,
         ];
     }
-
 }

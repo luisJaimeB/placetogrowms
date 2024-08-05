@@ -3,8 +3,6 @@
 namespace Tests\Feature\Payments\p2pGateway;
 
 use App\Payments\PlaceToPayGateway;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PrepareDataPaymentTest extends TestCase
@@ -31,7 +29,7 @@ class PrepareDataPaymentTest extends TestCase
         $data = [
             'description' => 'Test Payment',
             'currencyCode' => 'USD',
-            'amount' => 100
+            'amount' => 100,
         ];
         $gateway = new PlaceToPayGateway($data);
 
@@ -47,5 +45,4 @@ class PrepareDataPaymentTest extends TestCase
         $this->assertEquals('USD', $paymentBody['amount']['currency']);
         $this->assertEquals(100, $paymentBody['amount']['total']);
     }
-
 }

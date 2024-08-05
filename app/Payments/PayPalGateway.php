@@ -2,7 +2,7 @@
 
 namespace App\Payments;
 
-class PayPalGateway implements  PaymentMethod
+class PayPalGateway implements PaymentMethod
 {
     public function pay($data)
     {

@@ -6,7 +6,6 @@ use App\Constants\PaymentStatus;
 use App\Models\Currency;
 use App\Models\Microsite;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Nette\Utils\Random;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
@@ -25,9 +24,9 @@ class PaymentFactory extends Factory
         return [
             'status' => $this->faker->randomElement([PaymentStatus::APPROVED, PaymentStatus::PENDING, PaymentStatus::REJECTED]),
             'request_id' => $this->faker->numberBetween(10000, 99999),
-            'type' => $this->faker->numberBetween(1,3),
-            'amount' => $this->faker->numberBetween(1000,800000),
-            'currency_id' =>  function () {
+            'type' => $this->faker->numberBetween(1, 3),
+            'amount' => $this->faker->numberBetween(1000, 800000),
+            'currency_id' => function () {
                 return Currency::firstOrCreate(
                     ['code' => 'USD'],
                     ['name' => 'US Dollar']
@@ -40,7 +39,7 @@ class PaymentFactory extends Factory
                 'name' => $this->faker->name,
                 'lastName' => $this->faker->lastName,
                 'email' => $this->faker->email,
-                'phone' => $this->faker->phoneNumber
+                'phone' => $this->faker->phoneNumber,
             ]),
             'return_id' => $return_id,
             'return_url' => route('payments.return', $return_id),

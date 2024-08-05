@@ -7,6 +7,7 @@ use App\Payments\PaymentMethod;
 class PaymentGatewayService
 {
     protected PaymentMethod $gateway;
+
     protected array $data;
 
     public function __construct(PaymentMethod $gateway, $data)

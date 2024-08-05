@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\Roles;
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Models\Currency;
@@ -19,6 +18,7 @@ class PaymentController extends Controller
     {
         $currencies = Currency::all();
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+
         return inertia('Payments/CreatePayment', [
             'microsite' => $microsite,
             'currencies' => $currencies,

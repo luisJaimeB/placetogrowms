@@ -73,7 +73,7 @@ class MicrositeController extends Controller
         return inertia('Microsites/Show', [
             'microsite' => $microsite,
             'payments' => $payments,
-            ]);
+        ]);
     }
 
     public function edit($id): Response
