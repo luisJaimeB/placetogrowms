@@ -86,6 +86,7 @@ return [
     ],
     'fields' => [
         'id' => 'ID',
+        'microsite' => 'Microsite',
         'name' => 'Name',
         'type' => 'Type',
         'email' => 'Email',
