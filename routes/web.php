@@ -50,12 +50,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
 
-    Route::resource('payments', PaymentController::class);
-    Route::get('payments/create/{microsite}', [PaymentController::class, 'create'])->name('payments.create');
-    Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payments.process');
-    Route::get('/payments/return/{payment}', [PaymentController::class, 'handleReturn'])->name('payments.return');
-    Route::get('/payments/show/{payment}', [PaymentController::class, 'show'])->name('payment.show');
-
 });
+
+Route::resource('payments', PaymentController::class);
+Route::get('payments/create/{microsite}', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payments.process');
+Route::get('/payments/return/{payment}', [PaymentController::class, 'handleReturn'])->name('payments.return');
+Route::get('/payments/show/{payment}', [PaymentController::class, 'show'])->name('payment.show');
 
 require __DIR__.'/auth.php';
