@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -34,12 +33,21 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::PERMISSIONS_CREATE,
                     Permissions::PERMISSIONS_UPDATE,
                     Permissions::PERMISSIONS_DELETE,
+
+                    Permissions::MICROSITES_INDEX,
+                    Permissions::MICROSITES_CREATE,
+                    Permissions::MICROSITES_UPDATE,
+                    Permissions::MICROSITES_DELETE,
+                    Permissions::MICROSITES_SHOW,
                 ],
             ],
             [
                 'name' => Roles::CUSTOMER,
                 'permissions' => [
-
+                    Permissions::MICROSITES_INDEX,
+                    Permissions::MICROSITES_CREATE,
+                    Permissions::MICROSITES_UPDATE,
+                    Permissions::MICROSITES_DELETE,
                 ],
             ],
         ];
@@ -49,9 +57,8 @@ class RoleAndPermissionSeeder extends Seeder
                 'name' => $role['name'],
             ]);
 
-
             foreach ($role['permissions'] as $permission) {
-                Permission::query()->create([
+                Permission::query()->updateOrCreate([
                     'name' => $permission,
                 ]);
             }

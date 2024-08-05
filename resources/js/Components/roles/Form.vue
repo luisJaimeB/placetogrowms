@@ -10,6 +10,9 @@ import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import {useI18n} from "vue-i18n"
+
+const { t } = useI18n()
 
 defineProps({
     form: {
@@ -21,12 +24,12 @@ defineProps({
         required: false,
         default: false
     },
-    permissions: 
+    permissions:
     {
         type: Array,
         required: true
     }
-}) 
+})
 
 defineEmits(['submit'])
 </script>
@@ -34,16 +37,16 @@ defineEmits(['submit'])
 <template>
     <FormSection @submitted="$emit('submit')">
         <template #title>
-            {{  updating ? 'Actualiza el rol' : 'Crea un nuevo rol' }}
+            {{  updating ? t('strings.updateRol') : t('strings.createRol') }}
         </template>
 
         <template #description>
-            {{ updating ? 'Actualiza el rol seleccionado' : 'Crea un nuevo rol y asigna los permisos requeridos' }}
+            {{ updating ? t('strings.updateRolDesc') : t('strings.createRolDesc') }}
         </template>
 
         <template #form>
             <div class="col-span-6 sm:col-span-6">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" :value="t('fields.name')" />
                 <TextInput id="name" v-model="form.name" type="text" autocomplete="name" class="mt-1 block w-full" />
                 <InputError :message="$page.props.errors.name" class="mt-2" />
             </div>
@@ -61,7 +64,7 @@ defineEmits(['submit'])
 
         <template #actions>
             <PrimaryButton>
-                {{ updating ? 'Actualizar' : 'Crear' }}
+                {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
             </PrimaryButton>
         </template>
     </FormSection>

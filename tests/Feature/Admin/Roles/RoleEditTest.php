@@ -6,7 +6,6 @@ use App\Constants\Permissions;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -19,9 +18,13 @@ class RoleEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'roles.edit';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Role $role;
 
     protected function setUp(): void
@@ -30,10 +33,10 @@ class RoleEditTest extends TestCase
 
         $this->role = Role::create(['name' => 'roleTest']);
         $this->route = route(self::RESOURCE_NAME, $this->role);
-        
+
         $this->admin = Role::create(['name' => 'Admin']);
         $updatePermission = Permission::create(['name' => Permissions::ROLES_UPDATE]);
-        
+
         $this->admin->givePermissionTo($updatePermission);
     }
 
@@ -71,13 +74,13 @@ class RoleEditTest extends TestCase
             ->get($this->route);
 
         $response->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('Admin/Roles/Edit')
-            ->where('role.id', $this->role->id)
-            ->where('role.name', $this->role->name)
-            ->has('rolePermissions')
-            ->has('user.permissions')
-            ->has('user.roles')
-        );
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/Roles/Edit')
+                ->where('role.id', $this->role->id)
+                ->where('role.name', $this->role->name)
+                ->has('rolePermissions')
+                ->has('user.permissions')
+                ->has('user.roles')
+            );
     }
 }

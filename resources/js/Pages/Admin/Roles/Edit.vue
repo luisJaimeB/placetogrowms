@@ -7,7 +7,10 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UserForm from '@/Components/roles/Form.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps(['role', 'permissions', 'rolePermissions']);
 
@@ -22,8 +25,7 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Rol</h2>
-            {{ $page.props }}
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('actions.roles.edit') }}</h2>
         </template>
 
         <div class="py-12">

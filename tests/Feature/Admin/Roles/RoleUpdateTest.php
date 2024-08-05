@@ -19,27 +19,34 @@ class RoleUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'roles.update';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Role $roleP;
+
     private Permission $permission1;
+
     private Permission $permission2;
+
     private Permission $permission3;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+        $this->role = Role::create(['name' => 'roleTest']);
+        $this->route = route(self::RESOURCE_NAME, $this->role);
+
         $this->admin = Role::create(['name' => 'Admin']);
         $this->roleP = Role::create(['name' => 'rolePrueba']);
         $this->permission1 = Permission::create(['name' => Permissions::ROLES_CREATE]);
         $this->permission2 = Permission::create(['name' => Permissions::ROLES_INDEX]);
         $this->permission3 = Permission::create(['name' => Permissions::ROLES_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission1);
         $this->admin->givePermissionTo($this->permission2);
         $this->admin->givePermissionTo($this->permission3);
@@ -56,7 +63,7 @@ class RoleUpdateTest extends TestCase
     #[Test]
     public function unauthorized_user_cant_update_an_role(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -68,7 +75,7 @@ class RoleUpdateTest extends TestCase
     #[Test]
     public function authorized_user_can_update_an_role(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
@@ -78,7 +85,7 @@ class RoleUpdateTest extends TestCase
                 $this->permission1->id,
                 $this->permission2->id,
                 $this->permission3->id,
-                ]
+            ],
         ];
 
         $response = $this->actingAs($user)
@@ -90,5 +97,5 @@ class RoleUpdateTest extends TestCase
         $this->assertDatabaseHas('roles', [
             'name' => $data['name'],
         ]);
-}
+    }
 }

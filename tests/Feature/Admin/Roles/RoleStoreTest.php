@@ -21,10 +21,15 @@ class RoleStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'roles.store';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission1;
+
     private Permission $permission2;
+
     private Permission $permission3;
 
     protected function setUp(): void
@@ -32,12 +37,12 @@ class RoleStoreTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission1 = Permission::create(['name' => Permissions::ROLES_CREATE]);
         $this->permission2 = Permission::create(['name' => Permissions::ROLES_INDEX]);
         $this->permission3 = Permission::create(['name' => Permissions::ROLES_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission1);
         $this->admin->givePermissionTo($this->permission2);
         $this->admin->givePermissionTo($this->permission3);
@@ -78,7 +83,7 @@ class RoleStoreTest extends TestCase
                 $this->permission1->id,
                 $this->permission2->id,
                 $this->permission3->id,
-                ]
+            ],
         ];
 
         $response = $this->actingAs($user)

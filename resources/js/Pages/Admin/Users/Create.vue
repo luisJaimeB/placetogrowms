@@ -7,8 +7,8 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UserForm from '@/Components/users/Form.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { useSSRContext } from 'vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import {useI18n} from "vue-i18n";
 
 const props = defineProps({
     roles: {
@@ -17,11 +17,13 @@ const props = defineProps({
     },
 })
 
+const { t } = useI18n();
+
 const form = useForm({
     name: '',
     email: '',
     password: '',
-    roles: []
+    rol: ''
 })
 </script>
 
@@ -30,7 +32,8 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Users</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('titles.users') }}
+            </h2>
         </template>
 
         <div class="py-12">

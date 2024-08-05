@@ -19,9 +19,13 @@ class UserUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'users.update';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void
@@ -30,10 +34,10 @@ class UserUpdateTest extends TestCase
 
         $this->customer = User::factory()->create();
         $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+
         $this->admin = Role::create(['name' => 'Admin']);
         $this->permission = Permission::create(['name' => Permissions::USERS_UPDATE]);
-        
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -48,7 +52,7 @@ class UserUpdateTest extends TestCase
     #[Test]
     public function unauthorized_user_cant_update_an_user(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -60,7 +64,7 @@ class UserUpdateTest extends TestCase
     #[Test]
     public function authorized_user_can_update_an_user(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
@@ -69,7 +73,7 @@ class UserUpdateTest extends TestCase
             'email' => $this->faker->freeEmail(),
             'password' => 'password',
             'password_confirmation' => 'password',
-            'roles' => $this->admin->id
+            'rol' => $this->admin->id,
         ];
 
         $response = $this->actingAs($user)

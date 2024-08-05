@@ -7,7 +7,7 @@ export default {
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
+import {useI18n} from "vue-i18n";
 
 defineProps({
     roles: {
@@ -15,6 +15,8 @@ defineProps({
         required: true
     }
 })
+
+const { t } = useI18n();
 
 const deleteRole = id =>{
     if (confirm('¿Estás seguro?')) {
@@ -28,7 +30,8 @@ const deleteRole = id =>{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ t('titles.roles') }}
+            </h2>
         </template>
 
         <div class="py-12">
@@ -36,7 +39,7 @@ const deleteRole = id =>{
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">
                         <Link :href="route('roles.create')">
-                            Create Role
+                            {{ t('actions.roles.create') }}
                         </Link>
                     </button>
                 </div>
@@ -44,22 +47,22 @@ const deleteRole = id =>{
                     <table class="min-w-full bg-white border rounded-lg">
                         <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">ID</th>
-                            <th class="py-2 px-4 border-b">Name</th>
-                            <th class="py-2 px-4 border-b">Actions</th>
+                            <th class="py-2 px-4 border-b">{{ t('fields.id') }}</th>
+                            <th class="py-2 px-4 border-b">{{ t('fields.name') }}</th>
+                            <th class="py-2 px-4 border-b">{{ t('actionsLabel') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        
+
                         <tr v-for="role in roles.data">
                             <td class="py-2 px-4 border-b text-center">{{ role.id }}</td>
                             <td class="py-2 px-4 border-b text-center">{{ role.name }}</td>
                             <td class="py-2 px-4 border-b text-center">
                             <button class="bg-green-500 text-white px-4 py-1 rounded mr-2">
-                                <Link :href="route('roles.edit', role.id)">Edit</Link>
+                                <Link :href="route('roles.edit', role.id)">{{ t('actions.roles.edit') }}</Link>
                             </button>
                             <button @click="deleteRole(role.id)" class="bg-red-500 text-white px-4 py-1 rounded" v-if="$page.props.user.permissions.includes('roles.delete')">
-                                Delete
+                                {{ t('actions.roles.delete') }}
                             </button>
                             </td>
                         </tr>

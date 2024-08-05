@@ -3,10 +3,8 @@
 namespace Tests\Feature\Admin;
 
 use App\Constants\Permissions;
-use App\Constants\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -19,6 +17,7 @@ class UserDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.destroy';
+
     private string $route;
 
     private User $customer;
@@ -29,10 +28,10 @@ class UserDestroyTest extends TestCase
 
         $this->customer = User::factory()->create();
         $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
+
         $adminRole = Role::create(['name' => 'Admin']);
         $deletePermission = Permission::create(['name' => Permissions::USERS_DELETE]);
-        
+
         $adminRole->givePermissionTo($deletePermission);
 
     }
@@ -75,5 +74,4 @@ class UserDestroyTest extends TestCase
             'id' => $this->customer->id,
         ]);
     }
-
 }

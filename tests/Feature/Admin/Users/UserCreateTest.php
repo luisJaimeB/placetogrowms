@@ -3,11 +3,9 @@
 namespace Tests\Feature\Admin\Users;
 
 use App\Constants\Permissions;
-use App\Constants\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -20,6 +18,7 @@ class UserCreateTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.create';
+
     private string $route;
 
     protected function setUp(): void
@@ -27,10 +26,10 @@ class UserCreateTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $adminRole = Role::create(['name' => 'Admin']);
         $createPermission = Permission::create(['name' => Permissions::USERS_CREATE]);
-        
+
         $adminRole->givePermissionTo($createPermission);
     }
 
@@ -65,6 +64,6 @@ class UserCreateTest extends TestCase
 
         $response->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-            ->component('Admin/Users/Create'));
+                ->component('Admin/Users/Create'));
     }
 }

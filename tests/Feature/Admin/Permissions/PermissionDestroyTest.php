@@ -6,7 +6,6 @@ use App\Constants\Permissions;
 use App\Constants\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -19,21 +18,25 @@ class PermissionDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.destroy';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
+
     private User $customer;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->customer = User::factory()->create();
-        $this->route = route(self::RESOURCE_NAME, $this->customer);
-        
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_DELETE]);
-        
+
+        $this->customer = User::factory()->create();
+        $this->route = route(self::RESOURCE_NAME, $this->permission);
+
         $this->admin->givePermissionTo($this->permission);
     }
 
@@ -48,7 +51,7 @@ class PermissionDestroyTest extends TestCase
     #[Test]
     public function unauthorized_user_can_not_delete_an_permission(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -61,7 +64,7 @@ class PermissionDestroyTest extends TestCase
     public function authorized_user_can_delete_an_permission(): void
     {
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
@@ -75,5 +78,4 @@ class PermissionDestroyTest extends TestCase
             'id' => $this->permission->id,
         ]);
     }
-
 }

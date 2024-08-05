@@ -21,7 +21,9 @@ class UserStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'users.store';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -29,12 +31,12 @@ class UserStoreTest extends TestCase
         parent::setUp();
 
         $this->route = route(self::RESOURCE_NAME);
-        
+
         $this->admin = Role::create(['name' => Roles::ADMIN]);
         $createPermission = Permission::create(['name' => Permissions::USERS_CREATE]);
         $readPermission = Permission::create(['name' => Permissions::USERS_INDEX]);
         $updatePermission = Permission::create(['name' => Permissions::USERS_UPDATE]);
-        
+
         $this->admin->givePermissionTo($createPermission);
         $this->admin->givePermissionTo($readPermission);
         $this->admin->givePermissionTo($updatePermission);
@@ -74,7 +76,7 @@ class UserStoreTest extends TestCase
             'email' => $this->faker->freeEmail(),
             'password' => 'password',
             'password_confirmation' => 'password',
-            'roles' => $this->admin->id
+            'rol' => $this->admin->id,
         ];
 
         $response = $this->actingAs($user)
