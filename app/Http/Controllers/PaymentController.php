@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Roles;
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Models\Currency;
@@ -14,13 +15,6 @@ use Inertia\Response;
 
 class PaymentController extends Controller
 {
-    public function index(): Response
-    {
-        $payments = "";
-
-        return inertia('Payments/Index', ['payments' => $payments]);
-    }
-
     public function create($id): Response
     {
         $currencies = Currency::all();

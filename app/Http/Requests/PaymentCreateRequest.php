@@ -25,7 +25,7 @@ class PaymentCreateRequest extends FormRequest
         return [
             'amount' => 'required|numeric|between:0,9999999999.99',
             'currency' => 'required|exists:currencies,id',
-            'description' => 'nullable|string|max:50',
+            'description' => 'nullable|string|min:4|max:50',
             'phone' => 'nullable|string|regex:/^\+?[1-9]\d{1,14}$/',
             'name' => 'required|string|max:71',
             'lastName' => 'nullable|string|max:71',

@@ -23,6 +23,10 @@ const props = defineProps({
         type: Object,
         required: true
     },
+    errors: {
+        type: Object,
+        required: true
+    }
 });
 
 const { t } = useI18n();
@@ -32,6 +36,7 @@ const getLogoUrl = (path) => {
 
 console.log('form:', props.form);
 console.log('Currencies:', props.currencies);
+console.log('errors: ', props.errors)
 
 const currencyOptions = props.currencies.filter(currency => currency.id === props.microsite.currencies[0].id);
 
@@ -54,7 +59,7 @@ defineEmits(['submit'])
                     <div>
                         <label for="description" class="block text-sm font-medium text-gray-700">{{ t('fields.description') }}</label>
                         <input type="text" id="description" v-model="form.description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
-                        <InputError :message="$page.props.errors.description" class="mt-2"/>
+                        <InputError :message="errors.description" class="mt-2"/>
                     </div>
                     <!-- Currency and Amount -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -66,33 +71,47 @@ defineEmits(['submit'])
                                     {{ currency.name }}
                                 </option>
                             </select>
-                            <InputError :message="$page.props.errors.currency" class="mt-2"/>
+                            <InputError :message="errors.currency" class="mt-2"/>
                         </div>
                         <div>
                             <label for="total" class="block text-sm font-medium text-gray-700">{{ t('fields.amount') }}</label>
                             <input type="number" v-model="form.amount" id="total" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
-                            <InputError :message="$page.props.errors.amount" class="mt-2"/>
+                            <InputError :message="errors.amount" class="mt-2"/>
                         </div>
                     </div>
                     <!-- Name, Last Name, Email, and Phone -->
+                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="buyerIdType" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerIdType') }}</label>
+                            <input type="text" v-model="form.buyerIdType" id="buyerIdType" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerId') }}</label>
+                            <input type="text" v-model="form.buyerId" id="buyerId" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        </div>
+                    </div> -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerName') }}</label>
                             <input type="text" v-model="form.name" id="firstName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <InputError :message="errors.name" class="mt-2"/>
                         </div>
                         <div>
                             <label for="lastName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerLastName') }}</label>
                             <input type="text" v-model="form.lastName" id="lastName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <InputError :message="errors.lastName" class="mt-2"/>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700">{{ t('fields.email') }}</label>
                             <input type="email" v-model="form.email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <InputError :message="errors.email" class="mt-2"/>
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700">{{ t('fields.phone') }}</label>
                             <input type="tel" v-model="form.phone" id="phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <InputError :message="errors.phone" class="mt-2"/>
                         </div>
                     </div>
                 </div>
@@ -104,11 +123,13 @@ defineEmits(['submit'])
                         <label class="flex items-center cursor-pointer">
                             <input type="radio" v-model="form.paymentMethod" value="placetopay" class="mr-2"/>
                             <img src="https://static.placetopay.com/placetopay-logo.svg" alt="PlaceToPay" class="w-24 h-16 rounded-md"/>
+                            <InputError :message="errors.paymentMethod" class="mt-2"/>
                         </label>
                         <!-- PayPal Radio Button -->
                         <label class="flex items-center cursor-pointer">
                             <input type="radio" v-model="form.paymentMethod" value="paypal" class="mr-2"/>
                             <img src="https://www.paypalobjects.com/digitalassets/c/website/logo/full-text/pp_fc_hl.svg" alt="PayPal" class="w-24 h-16 rounded-md"/>
+                            <InputError :message="errors.paymentMethod" class="mt-2"/>
                         </label>
                     </div>
                 </div>

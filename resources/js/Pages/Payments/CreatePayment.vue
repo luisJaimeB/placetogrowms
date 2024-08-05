@@ -22,6 +22,8 @@ const form = useForm({
     description: '',
     amount: '',
     currency: '',
+    buyer_id_type: '',
+    buyer_id: '',
     name: '',
     lastName: '',
     email: '',
@@ -30,6 +32,7 @@ const form = useForm({
     micrositeId: micrositeId,
     type: type,
     expiration: expiration,
+    errors: {}
 });
 
 const submitForm = () => {
@@ -41,23 +44,27 @@ const submitForm = () => {
             } else if (response.data.error) {
                 // Maneja errores del servidor
                 console.error(response.data.error);
-                form.setErrors({ general: response.data.error });
+                form.setError({ general: response.data.error });
             }
         })
         .catch(error => {
             console.error(error);
-            // Maneja errores de la solicitud
             if (error.response && error.response.data.errors) {
-                form.setErrors(error.response.data.errors);
+                // Asume que error.response.data.errors es un objeto con arrays de mensajes de error
+                const formattedErrors = {};
+                Object.keys(error.response.data.errors).forEach(key => {
+                    formattedErrors[key] = error.response.data.errors[key][0]; // Toma el primer mensaje de error
+                });
+                form.setError(formattedErrors);
             } else {
-                form.setErrors({ general: 'Ha ocurrido un error inesperado.' });
+                form.setError({ general: 'Ha ocurrido un error inesperado.' });
             }
         });
 };
 </script>
 
 <template>
-    <PaymentForm :form="form" :microsite="microsite" :currencies="currencies" @submit="submitForm"/>
+    <PaymentForm :form="form" :microsite="microsite" :currencies="currencies" @submit="submitForm" :errors="form.errors"/>
 </template>
 
 <style scoped>
