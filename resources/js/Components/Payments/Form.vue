@@ -26,6 +26,10 @@ const props = defineProps({
     errors: {
         type: Object,
         required: true
+    },
+    buyer_id_types: {
+        type: Object,
+        required: true
     }
 });
 
@@ -40,6 +44,10 @@ console.log('errors: ', props.errors)
 
 const currencyOptions = props.currencies.filter(currency => currency.id === props.microsite.currencies[0].id);
 
+const filterInput = (event) => {
+    event.target.value = event.target.value.replace(/\D/g, '');
+    form.buyer_id = event.target.value;
+};
 
 defineEmits(['submit'])
 </script>
@@ -80,16 +88,19 @@ defineEmits(['submit'])
                         </div>
                     </div>
                     <!-- Name, Last Name, Email, and Phone -->
-                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="buyerIdType" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerIdType') }}</label>
-                            <input type="text" v-model="form.buyerIdType" id="buyerIdType" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <select v-model="form.buyer_id_type" id="buyer_id_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled>Selecciona un tipo de Documento</option>
+                                <option v-for="buyer_id_type in buyer_id_types" :key="buyer_id_type.id" :value="buyer_id_type.id">{{ buyer_id_type.document_type }}</option>
+                            </select>
                         </div>
                         <div>
                             <label for="lastName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerId') }}</label>
-                            <input type="text" v-model="form.buyerId" id="buyerId" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <input id="buyer_id" v-model="form.buyer_id" type="text" inputmode="numeric" autocomplete="buyer_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" @input="filterInput"/>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerName') }}</label>

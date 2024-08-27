@@ -36,6 +36,8 @@ class CreatePaymentAction implements Executable
     private static function buyerCast(array $data): false|string
     {
         $dataBuyer = [
+            'buyer_id_type' => $data['buyer_id_type'],
+            'buyer_id' => $data['buyer_id'],
             'name' => $data['name'],
             'lastName' => $data['lastName'],
             'email' => $data['email'],

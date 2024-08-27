@@ -135,6 +135,8 @@ class PlaceToPayGateway implements PaymentMethod
     private function prepareBuyerData($data): array
     {
         return [
+            'buyer_id_type' => $data['buyer_id_type'],
+            'buyer_id' => $data['buyer_id'],
             'name' => $data['name'],
             'surname' => $data['lastName'],
             'email' => $data['email'],

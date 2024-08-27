@@ -1,6 +1,7 @@
 <script setup>
 import PaymentForm from "@/Components/Payments/Form.vue";
 import {useForm} from "@inertiajs/vue3";
+import MicrositesForm from "@/Components/microsites/Form.vue";
 
 const props = defineProps({
     microsite: {
@@ -11,6 +12,10 @@ const props = defineProps({
         type: Object,
         required: true
     },
+    buyer_id_types: {
+        type: Object,
+        required: true
+    }
 });
 
 const micrositeId = props.microsite.id
@@ -64,7 +69,7 @@ const submitForm = () => {
 </script>
 
 <template>
-    <PaymentForm :form="form" :microsite="microsite" :currencies="currencies" @submit="submitForm" :errors="form.errors"/>
+    <PaymentForm :form="form" :buyer_id_types="buyer_id_types"  :microsite="microsite" :currencies="currencies" @submit="submitForm" :errors="form.errors"/>
 </template>
 
 <style scoped>
