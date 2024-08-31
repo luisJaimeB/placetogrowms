@@ -9,6 +9,8 @@ return [
         'microsites' => 'Microsites',
         'userediting' => 'User editing',
         'paymentHistory' => 'Payment History',
+        'payments' => 'Payments',
+        'acls' => 'ACLS',
     ],
     'strings' => [
         'updateUser' => 'Update the user',
@@ -101,6 +103,8 @@ return [
         'phone' => 'Phone',
         'amount' => 'Amount',
         'paymentMethod' => 'Payment Method',
+        'buyerIdType' => 'Identification type',
+        'buyerId' => 'Identification number',
         'users' => [
             'email' => 'Email',
         ],

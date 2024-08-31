@@ -9,6 +9,8 @@ return [
         'microsites' => 'Micrositios',
         'userediting' => 'Edición de usuarios',
         'paymentHistory' => 'Histórico de pagos',
+        'payments' => 'Pagos',
+        'acls' => 'ACLS',
     ],
     'strings' => [
         'updateUser' => 'Actualiza el usuario',
@@ -101,6 +103,8 @@ return [
         'phone' => 'Teléfono',
         'amount' => 'Valor total',
         'paymentMethod' => 'Método de pago',
+        'buyerIdType' => 'Tipo de documento',
+        'buyerId' => 'Número de documento',
         'users' => [
             'email' => 'Correo electrónico',
         ],
