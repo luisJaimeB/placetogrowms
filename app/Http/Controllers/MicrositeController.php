@@ -7,17 +7,23 @@ use App\Actions\UpdateMicrositeAction;
 use App\Constants\Roles;
 use App\Http\Requests\MicrositeRequest;
 use App\Http\Requests\MicrositeUpdateRequest;
+use App\Models\BuyerIdType;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\OptionalField;
 use App\Models\Payment;
 use App\Models\TypeSite;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Throwable;
 
 class MicrositeController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): Response
     {
         $user = auth()->user();
@@ -38,11 +44,15 @@ class MicrositeController extends Controller
         $sites_type = TypeSite::all();
         $categories = Category::all();
         $currencies = Currency::all();
+        $buyer_id_types = BuyerIdType::all();
+        $optionals = OptionalField::all();
 
         return Inertia('Microsites/Create', [
             'sites_type' => $sites_type,
             'categories' => $categories,
             'currencies' => $currencies,
+            'buyer_id_types' => $buyer_id_types,
+            'optionals' => $optionals,
         ]);
     }
 
@@ -51,6 +61,7 @@ class MicrositeController extends Controller
         try {
             $data = $request->validated();
             $microsite = CreateMicrositeAction::execute($data);
+            //$this->authorize('createMicrosites', $microsite);
 
             if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();
@@ -65,14 +76,23 @@ class MicrositeController extends Controller
         }
     }
 
-    public function show($id): Response
+    public function show($id): Response | RedirectResponse
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+
+        /**try {
+            $this->authorize('viewPayments', $microsite);
+        } catch (AuthorizationException $e) {
+
+            return redirect()->back()->with('error', 'No tienes permiso para ver los pagos de este micrositio.');
+        }**/
+
         $payments = Payment::where('microsite_id', $id)->with(['currency'])->get();
 
         return inertia('Microsites/Show', [
             'microsite' => $microsite,
             'payments' => $payments,
+            'flash' => ['message' => 'No tienes permiso para ver los pagos de este micrositio.']
         ]);
     }
 

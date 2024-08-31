@@ -23,6 +23,8 @@ class PaymentCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'buyer_id_type' => 'required|exists:buyer_id_types,id',
+            'buyer_id' => 'required|string|min:6|max:15',
             'amount' => 'required|numeric|between:0,9999999999.99',
             'currency' => 'required|exists:currencies,id',
             'description' => 'nullable|string|min:4|max:50',
@@ -34,6 +36,7 @@ class PaymentCreateRequest extends FormRequest
             'type' => 'required',
             'micrositeId' => 'required',
             'expiration' => 'required',
+            'optional_fields' => 'nullable|array'
         ];
     }
 }

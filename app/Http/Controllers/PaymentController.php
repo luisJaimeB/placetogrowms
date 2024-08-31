@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
+use App\Models\BuyerIdType;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\OptionalField;
 use App\Models\Payment;
 use App\Services\PaymentGatewayService;
 use Illuminate\Http\JsonResponse;
@@ -18,10 +20,14 @@ class PaymentController extends Controller
     {
         $currencies = Currency::all();
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+        $buyer_id_types = BuyerIdType::all();
+        $optionals = OptionalField::all();
 
         return inertia('Payments/CreatePayment', [
             'microsite' => $microsite,
             'currencies' => $currencies,
+            'buyer_id_types' => $buyer_id_types,
+            'optionals' => $optionals,
         ]);
     }
 
@@ -73,7 +79,26 @@ class PaymentController extends Controller
             $payment->date = $sessionData['status']['date'];
             $payment->ip_address = $sessionData['request']['ipAddress'];
             $payment->user_agent = $sessionData['request']['userAgent'];
-            $payment->cus_code = $sessionData['payment'][0]['authorization'];
+
+            if ($sessionData['status']['status'] == 'APPROVED') {
+                $payment->cus_code = $sessionData['payment'][0]['authorization'];
+            }
+            if (isset($sessionData['request']['payer'])) {
+                $payerData = [
+                    'document' => $sessionData['request']['payer']['document'],
+                    'document_type' => $sessionData['request']['payer']['documentType'],
+                    'name' => $sessionData['request']['payer']['name'],
+                    'surname' => $sessionData['request']['payer']['surname'],
+                    'email' => $sessionData['request']['payer']['email'],
+                    'mobile' => $sessionData['request']['payer']['mobile']
+                ];
+
+                $payerJson = json_encode($payerData);
+
+                $payment->payer = $payerJson;
+            }
+
+
             $payment->save();
 
             return redirect()->route('payment.show', ['payment' => $payment])
@@ -88,5 +113,12 @@ class PaymentController extends Controller
         $payment = Payment::with(['microsite', 'currency'])->findOrFail($id);
 
         return inertia('Payments/ShowPayment', ['payment' => $payment]);
+    }
+
+    public function paymentDetail($id): Response
+    {
+        $payment = Payment::with(['microsite', 'currency'])->findOrFail($id);
+
+        return inertia('Payments/DetailsPayment', ['payment' => $payment]);
     }
 }

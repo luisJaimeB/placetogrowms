@@ -31,6 +31,9 @@ class CreateMicrositeAction implements Executable
                 $microsite->logo = $filename;
             }
 
+            if (isset($data['optional_fields'])) {
+                $microsite->optional_fields = $data['optional_fields'];
+            }
             $microsite->save();
 
             if (isset($data['currency'])) {

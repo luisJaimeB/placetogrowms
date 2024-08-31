@@ -31,6 +31,7 @@ class Payment extends Model
     protected $casts = [
         'buyer' => 'array',
         'payer' => 'array',
+        'optional_fields' => 'array'
     ];
 
     public function microsite(): BelongsTo

@@ -25,6 +25,10 @@ const props = defineProps({
         type: Object,
         required: true
     },
+    optionals: {
+        type: Object,
+        required: true
+    }
 })
 
 const form = useForm({
@@ -34,6 +38,7 @@ const form = useForm({
     logo: '',
     expiration: '',
     currency: '',
+    optional_fields: {},
 });
 
 const submitForm = () => {
@@ -56,7 +61,7 @@ const submitForm = () => {
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <MicrositesForm :form="form" :currencies="currencies" :categories="categories" :types="sites_type" @submit="submitForm" v-if="$page.props.user.permissions.includes('microsites.create')"/>
+                            <MicrositesForm :form="form" :optionals="optionals" :currencies="currencies" :categories="categories" :types="sites_type" @submit="submitForm" v-if="$page.props.user.permissions.includes('microsites.create')"/>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Payments;
 
 use App\Actions\CreatePaymentAction;
+use App\Models\BuyerIdType;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Http;
@@ -134,14 +135,34 @@ class PlaceToPayGateway implements PaymentMethod
 
     private function prepareBuyerData($data): array
     {
+        $buyer_id_type = BuyerIdType::where('id', $data['buyer_id_type'])->pluck('code')->first();
         return [
-            'buyer_id_type' => $data['buyer_id_type'],
-            'buyer_id' => $data['buyer_id'],
+            'documentType' => $buyer_id_type,
+            'document' => $data['buyer_id'],
             'name' => $data['name'],
             'surname' => $data['lastName'],
             'email' => $data['email'],
             'mobile' => $data['phone'],
         ];
+    }
+
+    private function prepareOptionalFields($data): array
+    {
+        $preparedFields = [];
+
+        if (isset($data['optional_fields']) && is_array($data['optional_fields'])) {
+            foreach ($data['optional_fields'] as $field) {
+                if (isset($field['field']) && isset($field['value'])) {
+                    $preparedFields[] = [
+                        'keyword' => $field['field'],
+                        'value' => $field['value'],
+                        'displayOn' => 'none'
+                    ];
+                }
+            }
+        }
+
+        return $preparedFields;
     }
 
     private function prepareData($data): array
@@ -160,6 +181,7 @@ class PlaceToPayGateway implements PaymentMethod
             'auth' => $this->prepareAuth(),
             'payment' => $this->preparePaymentBody($data),
             'buyer' => $this->prepareBuyerData($data),
+            'fields' => $this->prepareOptionalFields($data),
             'expiration' => $expiration,
             'returnUrl' => $returnUrl,
             'ipAddress' => $userIp,

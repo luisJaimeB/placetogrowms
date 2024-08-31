@@ -28,6 +28,7 @@ class MicrositeRequest extends FormRequest
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'expiration' => 'required|integer',
             'currency' => 'required|exists:currencies,id',
+            'optional_fields' => 'nullable|array',
         ];
     }
 }
