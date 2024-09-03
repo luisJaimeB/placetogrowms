@@ -8,6 +8,7 @@ return [
         'permissions' => 'Permisos',
         'microsites' => 'Micrositios',
         'userediting' => 'Edición de usuarios',
+        'paymentHistory' => 'Histórico de pagos',
     ],
     'strings' => [
         'updateUser' => 'Actualiza el usuario',
@@ -31,17 +32,29 @@ return [
     'buttons' => [
         'createB' => 'Crear',
         'updateB' => 'Actualizar',
+        'payB' => 'Pagar',
+        'backToCommerce' => 'Volver al comercio',
     ],
     'labels' => [
         'micrositesLabel' => [
             'selectType' => 'Selecciona un tipo de sitio',
             'selectCategory' => 'Selecciona una categoría',
             'selectExpiration' => 'Selecciona el tiempo de expiración',
+            'selectCurrency' => 'Selecciona una moneda',
             'logoMicrosite' => 'Logo del micrositio',
             'teenMicrositeExp' => '10 minutos',
             'fifteenMicrositeExp' => '15 minutos',
             'twentyMicrositeExp' => '20 minutos',
             'thirtyMicrositeExp' => '30 minutos',
+        ],
+        'paymentsLabel' => [
+            'status' => 'Estado',
+            'reference' => 'Referencia',
+            'cus' => 'CUS',
+            'amount' => 'Total',
+            'currency' => 'Moneda',
+            'date' => 'Fecha',
+            'paymentMethod' => 'Método de pago',
         ],
     ],
     'actions' => [
@@ -73,6 +86,7 @@ return [
     ],
     'fields' => [
         'id' => 'ID',
+        'microsite' => 'Micrositio',
         'name' => 'Nombre',
         'type' => 'Tipo',
         'email' => 'Correo electrónico',
@@ -80,7 +94,13 @@ return [
         'roles' => 'Roles',
         'category' => 'Categoría',
         'expiration' => 'Expiración',
+        'description' => 'Descripción',
         'currency' => 'Moneda',
+        'buyerName' => 'Nombres o razón social',
+        'buyerLastName' => 'Apellidos',
+        'phone' => 'Teléfono',
+        'amount' => 'Valor total',
+        'paymentMethod' => 'Método de pago',
         'users' => [
             'email' => 'Correo electrónico',
         ],

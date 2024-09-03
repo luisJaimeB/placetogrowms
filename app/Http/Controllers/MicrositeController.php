@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateMicrositeAction;
 use App\Actions\UpdateMicrositeAction;
+use App\Constants\Roles;
 use App\Http\Requests\MicrositeRequest;
 use App\Http\Requests\MicrositeUpdateRequest;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\Payment;
 use App\Models\TypeSite;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
@@ -18,8 +20,15 @@ class MicrositeController extends Controller
 {
     public function index(): Response
     {
-        $microsites = Microsite::with(['typeSite', 'category'])
-            ->get();
+        $user = auth()->user();
+
+        if ($user->hasRole(Roles::ADMIN)) {
+            $microsites = Microsite::with(['typeSite', 'category'])->get();
+        } else {
+            $microsites = Microsite::with(['typeSite', 'category'])
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         return inertia('Microsites/Index', ['microsites' => $microsites]);
     }
@@ -59,8 +68,12 @@ class MicrositeController extends Controller
     public function show($id): Response
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+        $payments = Payment::where('microsite_id', $id)->with(['currency'])->get();
 
-        return inertia('Microsites/Show', ['microsite' => $microsite]);
+        return inertia('Microsites/Show', [
+            'microsite' => $microsite,
+            'payments' => $payments,
+        ]);
     }
 
     public function edit($id): Response

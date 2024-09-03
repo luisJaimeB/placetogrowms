@@ -19,4 +19,9 @@ class Currency extends Model
     {
         return $this->belongsToMany(Microsite::class);
     }
+
+    public function payments(): BelongsToMany
+    {
+        return $this->belongsToMany(Payment::class);
+    }
 }
