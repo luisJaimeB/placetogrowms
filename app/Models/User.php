@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -50,5 +51,43 @@ class User extends Authenticatable
     public function microsites(): BelongsToMany
     {
         return $this->belongsToMany(Microsite::class);
+    }
+
+    public function suscriptionPlanes(): BelongsToMany
+    {
+        return $this->belongsToMany(SuscriptionPlan::class);
+    }
+
+    public function suscription(): BelongsToMany
+    {
+        return $this->belongsToMany(Suscription::class);
+    }
+
+    public function givePermissionToObject($permission, $object)
+    {
+        return Acl::create([
+            'user_id' => $this->id,
+            'permission_id' => $permission->id,
+            'object_type' => get_class($object),
+            'object_id' => $object->id,
+        ]);
+    }
+
+    public function hasPermissionForObject($permission, $object)
+    {
+        return Acl::where('user_id', $this->id)
+            ->where('permission_id', $permission->id)
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
+            ->exists();
+    }
+
+    public function revokePermissionForObject($permission, $object)
+    {
+        return Acl::where('user_id', $this->id)
+            ->where('permission_id', $permission->id)
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
+            ->delete();
     }
 }

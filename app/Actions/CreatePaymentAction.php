@@ -23,6 +23,9 @@ class CreatePaymentAction implements Executable
             $payment->buyer = self::buyerCast($data);
             $payment->payment_method = $data['paymentMethod'];
             $payment->microsite_id = $data['micrositeId'];
+            if ($data['type'] === 3) {
+                $payment->plan = $data['plan'];
+            }
 
             $payment->save();
 

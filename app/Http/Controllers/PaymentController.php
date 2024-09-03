@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateSuscriptionAction;
+use App\Actions\CreateUserAction;
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Models\BuyerIdType;
@@ -9,25 +11,53 @@ use App\Models\Currency;
 use App\Models\Microsite;
 use App\Models\OptionalField;
 use App\Models\Payment;
+use App\Models\SuscriptionPlan;
 use App\Services\PaymentGatewayService;
+use App\Strategies\Microsites\DonationMicrositeStrategy;
+use App\Strategies\Microsites\InvoiceMicrositeStrategy;
+use App\Strategies\Microsites\MicrositeContext;
+use App\Strategies\Microsites\SubscriptionMicrositeStrategy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 
 class PaymentController extends Controller
 {
+    /**
+     * @throws \Exception
+     */
     public function create($id): Response
     {
         $currencies = Currency::all();
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
         $buyer_id_types = BuyerIdType::all();
         $optionals = OptionalField::all();
+        $plans = SuscriptionPlan::where('microsite_id', $microsite->id)->get();
 
-        return inertia('Payments/CreatePayment', [
+        $context = new MicrositeContext();
+
+        switch ($microsite->typeSite->name) {
+            case 'Donation':
+                $context->setStrategy(new DonationMicrositeStrategy());
+                break;
+            case 'Invoice':
+                $context->setStrategy(new InvoiceMicrositeStrategy());
+                break;
+            case 'Subscription':
+                $context->setStrategy(new SubscriptionMicrositeStrategy());
+                break;
+            default:
+                throw new \Exception('Unknown microsite type');
+        }
+
+        $component = $context->renderComponent($microsite);
+
+        return inertia($component, [
             'microsite' => $microsite,
             'currencies' => $currencies,
             'buyer_id_types' => $buyer_id_types,
             'optionals' => $optionals,
+            'plans' => $plans,
         ]);
     }
 
@@ -75,13 +105,30 @@ class PaymentController extends Controller
             $sessionData = $paymentService->QueryPayment();
 
             $payment->status = $sessionData['status']['status'];
-            $payment->reference = $sessionData['request']['payment']['reference'];
+
+            if (isset($sessionData['request']['payment'])) {
+                $payment->reference = $sessionData['request']['payment']['reference'];
+            } elseif (isset($sessionData['request']['subscription'])) {
+                $payment->reference = $sessionData['request']['subscription']['reference'];
+            }
+
             $payment->date = $sessionData['status']['date'];
             $payment->ip_address = $sessionData['request']['ipAddress'];
             $payment->user_agent = $sessionData['request']['userAgent'];
 
             if ($sessionData['status']['status'] == 'APPROVED') {
-                $payment->cus_code = $sessionData['payment'][0]['authorization'];
+                if (!isset($sessionData['request']['subscription'])) {
+                    $payment->cus_code = $sessionData['payment'][0]['authorization'];
+                } elseif (isset($sessionData['request']['subscription'])) {
+                    $sessionData['request']['payer']['password'] = '123456';
+                    $sessionData['request']['payer']['rol'] = 3;
+                    $sessionData['plan'] = $payment->plan;
+                    $userSuscriptor = CreateUserAction::execute($sessionData['request']['payer']);
+                    $sessionData['user'] = $userSuscriptor;
+                    Log::info('SuscriptionData:', $sessionData);
+                    CreateSuscriptionAction::execute($sessionData);
+                }
+
             }
             if (isset($sessionData['request']['payer'])) {
                 $payerData = [

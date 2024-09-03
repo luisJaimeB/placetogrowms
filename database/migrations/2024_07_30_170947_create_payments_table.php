@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->string('return_id')->nullable();
             $table->string('cus_code')->nullable();
+            $table->json('plan')->nullable();
             $table->timestamps();
         });
     }

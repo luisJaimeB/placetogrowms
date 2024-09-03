@@ -33,10 +33,18 @@ class PaymentCreateRequest extends FormRequest
             'lastName' => 'nullable|string|max:71',
             'email' => 'required|email|max:255',
             'paymentMethod' => 'required',
-            'type' => 'required',
+            'type' => 'required|integer',
             'micrositeId' => 'required',
             'expiration' => 'required',
-            'optional_fields' => 'nullable|array'
+            'optional_fields' => 'nullable|array',
+            'plan' => [
+                'sometimes',
+                function ($attribute, $value, $fail) {
+                    if ($this->input('type') == 3 && empty($value)) {
+                        $fail('El plan es requerido cuando el tipo es suscripción.');
+                    }
+                }
+            ],
         ];
     }
 }

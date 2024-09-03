@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AclController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -8,9 +9,10 @@ use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetLocaleController;
+use App\Http\Controllers\SuscriptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [DashboardController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -48,9 +50,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->middleware('can:microsites.show')->name('microsites.show');
     Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
 
-    Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
+    Route::get('/planes', [SuscriptionController::class, 'index'])->middleware('can:planes.index')->name('planes.index');
+    Route::get('/planes/create', [SuscriptionController::class, 'create'])->middleware('can:planes.create')->name('planes.create');
+    Route::get('/planes/{plan}/edit', [SuscriptionController::class, 'edit'])->middleware('can:planes.update')->name('planes.edit');
+    Route::post('/planes', [SuscriptionController::class, 'store'])->middleware('can:planes.create')->name('planes.store');
+    Route::patch('/planes/{plan}', [SuscriptionController::class, 'update'])->middleware('can:planes.update')->name('planes.update');
+    Route::delete('/planes/{plan}', [SuscriptionController::class, 'destroy'])->middleware('can:planes.delete')->name('planes.destroy');
+
+
+    Route::get('/admin/acls', [AclController::class, 'index'])->middleware('can:acls.index')->name('acls.index');
+    Route::get('/admin/acls/create', [AclController::class, 'create'])->middleware('can:acls.create')->name('acls.create');
+    Route::get('/admin/acls/{acl}/edit', [AclController::class, 'edit'])->middleware('can:acls.update')->name('acls.edit');
+    Route::post('/admin/acls', [AclController::class, 'store'])->middleware('can:acls.create')->name('acls.store');
+    Route::patch('/admin/acls/{acl}', [AclController::class, 'update'])->middleware('can:acls.update')->name('acls.update');
+    Route::delete('/admin/acls/{acl}', [AclController::class, 'destroy'])->middleware('can:acls.delete')->name('acls.destroy');
+
+    Route::get('/payment/detail/{payment}', [PaymentController::class, 'paymentDetail'])->name('payment.details');
 
 });
+
+Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');
 
 Route::resource('payments', PaymentController::class);
 Route::get('payments/create/{microsite}', [PaymentController::class, 'create'])->name('payments.create');

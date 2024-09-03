@@ -1,59 +1,48 @@
 <script>
 export default {
-    name: 'MicrositesCreate'
+    name: 'PlanesCreate'
 }
 </script>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import MicrositesForm from '@/Components/microsites/Form.vue'
+import PlansForm from '@/Components/plans/Form.vue'
 import { Head, useForm } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
 const props = defineProps({
-    sites_type: {
-        type: Object,
+    periodicities: {
+        type: Array,
         required: true
     },
-    categories: {
-        type: Object,
-        required: true
-    },
-    currencies: {
-        type: Object,
-        required: true
-    },
-    optionals: {
-        type: Object,
-        required: true
-    },
-    plans: {
-        type:Object,
+    microsites: {
+        type: Array,
         required: false
     }
 })
 
 const form = useForm({
     name: '',
-    category_id: '',
-    type_site_id: '',
-    logo: '',
-    expiration: '',
-    currency: '',
-    optional_fields: {},
+    items: [],
+    periodicity: '',
+    amount: '',
+    interval: '',
+    next_payment: '',
+    due_date: '',
+    microsite_id: '',
 });
 
 const submitForm = () => {
-    form.post(route('microsites.store'), {
+    form.post(route('planes.store'), {
         forceFormData: true,
     });
 };
 </script>
 
 <template>
-    <Head title="Microsites" />
+    <Head title="Plans" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -65,7 +54,7 @@ const submitForm = () => {
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <MicrositesForm :form="form" :optionals="optionals" :currencies="currencies" :categories="categories" :types="sites_type" @submit="submitForm" v-if="$page.props.user.permissions.includes('microsites.create')"/>
+                            <PlansForm :form="form" :microsites="microsites" :periodicities="periodicities" @submit="submitForm" v-if="$page.props.user.permissions.includes('planes.create')"/>
                         </div>
                     </div>
                 </div>

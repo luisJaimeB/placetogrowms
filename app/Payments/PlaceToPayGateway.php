@@ -55,7 +55,7 @@ class PlaceToPayGateway implements PaymentMethod
 
         $response = Http::post($createSessionEndPoint, $auth);
         $responseData = $response->json();
-        Log::info('Payment Response:', $responseData);
+        Log::info('Payment Response query:', $responseData);
 
         if ($response->successful()) {
             return $responseData;
@@ -133,6 +133,18 @@ class PlaceToPayGateway implements PaymentMethod
         ];
     }
 
+    private function prepareSuscriptionBody($data): array
+    {
+        $prefix = 'subs-';
+        $randomString = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
+        $reference = $prefix.$randomString;
+
+        return [
+            'reference' => $reference,
+            'description' => $data['description'],
+        ];
+    }
+
     private function prepareBuyerData($data): array
     {
         $buyer_id_type = BuyerIdType::where('id', $data['buyer_id_type'])->pluck('code')->first();
@@ -177,15 +189,28 @@ class PlaceToPayGateway implements PaymentMethod
         $userAgent = $data['userAgent'];
         $returnUrl = route('payments.return', $randomReturn);
 
-        return [
-            'auth' => $this->prepareAuth(),
-            'payment' => $this->preparePaymentBody($data),
-            'buyer' => $this->prepareBuyerData($data),
-            'fields' => $this->prepareOptionalFields($data),
-            'expiration' => $expiration,
-            'returnUrl' => $returnUrl,
-            'ipAddress' => $userIp,
-            'userAgent' => $userAgent,
-        ];
+        if (isset($data['plan'])) {
+            return [
+                'auth' => $this->prepareAuth(),
+                'subscription' => $this->prepareSuscriptionBody($data),
+                'buyer' => $this->prepareBuyerData($data),
+                'fields' => $this->prepareOptionalFields($data),
+                'expiration' => $expiration,
+                'returnUrl' => $returnUrl,
+                'ipAddress' => $userIp,
+                'userAgent' => $userAgent,
+            ];
+        } else {
+            return [
+                'auth' => $this->prepareAuth(),
+                'payment' => $this->preparePaymentBody($data),
+                'buyer' => $this->prepareBuyerData($data),
+                'fields' => $this->prepareOptionalFields($data),
+                'expiration' => $expiration,
+                'returnUrl' => $returnUrl,
+                'ipAddress' => $userIp,
+                'userAgent' => $userAgent,
+            ];
+        }
     }
 }

@@ -20,6 +20,10 @@ class Microsite extends Model
         'logo',
     ];
 
+    protected $casts = [
+        'optional_fields' => 'array',
+    ];
+
     public function currencies(): BelongsToMany
     {
         return $this->belongsToMany(Currency::class);
@@ -38,5 +42,15 @@ class Microsite extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function optionalField(): BelongsTo
+    {
+        return $this->belongsTo(OptionalField::class);
+    }
+
+    public function suscriptionPlanes(): BelongsToMany
+    {
+       return $this->belongsToMany(SuscriptionPlan::class);
     }
 }

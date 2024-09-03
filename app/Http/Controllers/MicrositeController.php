@@ -13,10 +13,12 @@ use App\Models\Currency;
 use App\Models\Microsite;
 use App\Models\OptionalField;
 use App\Models\Payment;
+use App\Models\SuscriptionPlan;
 use App\Models\TypeSite;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Throwable;
 
@@ -46,6 +48,7 @@ class MicrositeController extends Controller
         $currencies = Currency::all();
         $buyer_id_types = BuyerIdType::all();
         $optionals = OptionalField::all();
+        $plans = SuscriptionPlan::where('user_id', Auth::user());
 
         return Inertia('Microsites/Create', [
             'sites_type' => $sites_type,
@@ -53,6 +56,7 @@ class MicrositeController extends Controller
             'currencies' => $currencies,
             'buyer_id_types' => $buyer_id_types,
             'optionals' => $optionals,
+            'plans' => $plans,
         ]);
     }
 
@@ -65,9 +69,11 @@ class MicrositeController extends Controller
 
             if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();
+            } elseif ($microsite->type_site_id === '3') {
+                return redirect()->route('planes.create');
+            } else {
+                return redirect()->route('microsites.show', $microsite->id);
             }
-
-            return redirect()->route('microsites.show', $microsite->id);
         } catch (Throwable $e) {
             return back()->withErrors([
                 'error' => 'Microsite could not be created: '.$e->getMessage(),
