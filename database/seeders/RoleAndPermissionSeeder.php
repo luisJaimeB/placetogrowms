@@ -39,6 +39,16 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::MICROSITES_UPDATE,
                     Permissions::MICROSITES_DELETE,
                     Permissions::MICROSITES_SHOW,
+
+                    Permissions::PLANES_INDEX,
+                    Permissions::PLANES_CREATE,
+                    Permissions::PLANES_UPDATE,
+                    Permissions::PLANES_DELETE,
+
+                    Permissions::ACLS_INDEX,
+                    Permissions::ACLS_CREATE,
+                    Permissions::ACLS_UPDATE,
+                    Permissions::ACLS_DELETE,
                 ],
             ],
             [
@@ -49,8 +59,20 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::MICROSITES_UPDATE,
                     Permissions::MICROSITES_DELETE,
                     Permissions::MICROSITES_SHOW,
+
+                    Permissions::PLANES_INDEX,
+                    Permissions::PLANES_CREATE,
+                    Permissions::PLANES_UPDATE,
+                    Permissions::PLANES_DELETE,
                 ],
             ],
+            [
+                'name' => Roles::SUBSCRIBER,
+                'permissions' => [
+                    Permissions::SUBSCRIPTIONS_INDEX,
+                    Permissions::SUBSCRIPTIONS_DELETE,
+                ],
+            ]
         ];
 
         foreach ($basicRolesPermission as $role) {

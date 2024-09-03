@@ -40,6 +40,26 @@ final class Permissions
 
     public const string MICROSITES_SHOW = 'microsites.show';
 
+    public const string PLANES_INDEX = 'planes.index';
+
+    public const string PLANES_CREATE = 'planes.create';
+
+    public const string PLANES_UPDATE = 'planes.update';
+
+    public const string PLANES_DELETE = 'planes.delete';
+
+    public const string SUBSCRIPTIONS_INDEX = 'subscriptions.index';
+
+    public const string SUBSCRIPTIONS_DELETE = 'subscriptions.delete';
+
+    public const string ACLS_INDEX = 'acls.index';
+
+    public const string ACLS_CREATE = 'acls.create';
+
+    public const string ACLS_UPDATE = 'acls.update';
+
+    public const string ACLS_DELETE = 'acls.delete';
+
     public static function toArray(): array
     {
         return (new ReflectionClass(self::class))->getConstants();
