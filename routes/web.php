@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetLocaleController;
 use App\Http\Controllers\SuscriptionController;
+use App\Http\Controllers\Suscriptor\SuscriptionController as SuscriptionSuscriptorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -57,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/planes/{plan}', [SuscriptionController::class, 'update'])->middleware('can:planes.update')->name('planes.update');
     Route::delete('/planes/{plan}', [SuscriptionController::class, 'destroy'])->middleware('can:planes.delete')->name('planes.destroy');
 
+    Route::get('/subscriptions', [SuscriptionSuscriptorController::class, 'index'])->middleware('can:subscriptions.index')->name('subscriptions.index');
+    Route::delete('/subscriptions/{subscription}', [SuscriptionSuscriptorController::class, 'destroy'])->middleware('can:subscriptions.delete')->name('subscriptions.destroy');
 
     Route::get('/admin/acls', [AclController::class, 'index'])->middleware('can:acls.index')->name('acls.index');
     Route::get('/admin/acls/create', [AclController::class, 'create'])->middleware('can:acls.create')->name('acls.create');

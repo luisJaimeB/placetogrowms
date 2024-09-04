@@ -45,6 +45,9 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::PLANES_UPDATE,
                     Permissions::PLANES_DELETE,
 
+                    Permissions::SUBSCRIPTIONS_INDEX,
+                    Permissions::SUBSCRIPTIONS_DELETE,
+
                     Permissions::ACLS_INDEX,
                     Permissions::ACLS_CREATE,
                     Permissions::ACLS_UPDATE,

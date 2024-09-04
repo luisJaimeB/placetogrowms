@@ -18,6 +18,7 @@ use App\Strategies\Microsites\InvoiceMicrositeStrategy;
 use App\Strategies\Microsites\MicrositeContext;
 use App\Strategies\Microsites\SubscriptionMicrositeStrategy;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 
@@ -93,7 +94,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function handleReturn($paymentId)
+    public function handleReturn($paymentId): RedirectResponse|JsonResponse
     {
         $payment = Payment::where('return_id', $paymentId)->firstOrFail();
         $paymentMethod = $payment->payment_method;
@@ -125,6 +126,7 @@ class PaymentController extends Controller
                     $sessionData['plan'] = $payment->plan;
                     $userSuscriptor = CreateUserAction::execute($sessionData['request']['payer']);
                     $sessionData['user'] = $userSuscriptor;
+                    $sessionData['payment_id'] = $payment->id;
                     Log::info('SuscriptionData:', $sessionData);
                     CreateSuscriptionAction::execute($sessionData);
                 }

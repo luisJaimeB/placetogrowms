@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class Microsite extends Model
@@ -49,8 +50,13 @@ class Microsite extends Model
         return $this->belongsTo(OptionalField::class);
     }
 
-    public function suscriptionPlanes(): BelongsToMany
+    public function suscriptionPlanes(): HasMany
     {
-       return $this->belongsToMany(SuscriptionPlan::class);
+       return $this->hasMany(SuscriptionPlan::class);
+    }
+
+    public function suscriptions(): HasMany
+    {
+        return $this->hasMany(Suscription::class);
     }
 }

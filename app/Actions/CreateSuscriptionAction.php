@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Constants\SuscriptionsStatus;
 use App\Contracts\Create;
 use App\Models\Suscription;
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +23,11 @@ class CreateSuscriptionAction implements Create
             }
         }
         $suscription->token = $token;
-        $suscription->plan = $data['plan'];
+        $suscription->plan_id = $data['plan'][0]['id'];
         $suscription->user_id = $data['user']['id'];
+        $suscription->microsite_id = $data['plan'][0]['microsite_id'];
+        $suscription->payment_id = $data['payment_id'];
+        $suscription->status = SuscriptionsStatus::active;
         $suscription->save();
 
         return $suscription;

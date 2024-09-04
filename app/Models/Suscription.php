@@ -15,16 +15,33 @@ class Suscription extends Model
         'user_id',
         'payer',
         'token',
-        'plan'
+        'plan_id',
+        'microsite_id',
+        'payment_id',
+        'status'
     ];
 
     protected $casts = [
         'payer' => 'array',
-        'plan' => 'array',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function suscriptionPlan(): BelongsTo
+    {
+        return $this->belongsTo(SuscriptionPlan::class, 'plan_id');
+    }
+
+    public function microsite(): BelongsTo
+    {
+        return $this->belongsTo(Microsite::class);
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class);
     }
 }

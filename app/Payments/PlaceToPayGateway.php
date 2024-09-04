@@ -17,6 +17,7 @@ class PlaceToPayGateway implements PaymentMethod
     protected array $data;
 
     const URI = '/api/session';
+    const URI_INVALIDATE = '/api/instrument/invalidate';
 
     public function __construct(array $data)
     {
@@ -61,6 +62,31 @@ class PlaceToPayGateway implements PaymentMethod
             return $responseData;
         } else {
             throw new Exception('Error al procesar el pago');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function invalidateToken(array $data)
+    {
+        $URI = self::URI_INVALIDATE;
+        $invalidateTokenEndPoint = $this->endpoint.$URI;
+        $request = [
+            'auth' => $this->prepareAuth(),
+            'instrument' => $this->prepareTokenData($data)
+        ];
+
+        Log::info('Request Invalidate Token:', $request);
+
+        $response = Http::post($invalidateTokenEndPoint, $request);
+        $responseData = $response->json();
+        Log::info('Invalidate Token Response:', $responseData);
+
+        if ($response->successful()) {
+            return $responseData;
+        } else {
+            throw new Exception('Error al inactivar la suscripción');
         }
     }
 
@@ -175,6 +201,15 @@ class PlaceToPayGateway implements PaymentMethod
         }
 
         return $preparedFields;
+    }
+
+    private function prepareTokenData($data): array
+    {
+        return [
+            'token' => [
+                'token' => $data['token'],
+            ]
+        ];
     }
 
     private function prepareData($data): array
