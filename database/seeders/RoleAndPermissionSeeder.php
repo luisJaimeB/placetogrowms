@@ -73,6 +73,12 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::PLANES_CREATE,
                     Permissions::PLANES_UPDATE,
                     Permissions::PLANES_DELETE,
+
+                    Permissions::INVOICES_INDEX,
+                    Permissions::INVOICES_CREATE,
+                    Permissions::INVOICES_SHOW,
+                    Permissions::INVOICES_UPDATE,
+                    Permissions::INVOICES_DELETE,
                 ],
             ],
             [

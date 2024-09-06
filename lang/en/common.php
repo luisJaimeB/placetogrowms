@@ -11,6 +11,10 @@ return [
         'paymentHistory' => 'Payment History',
         'payments' => 'Payments',
         'acls' => 'ACLS',
+        'suscriptionPlanes' => 'Suscription Plans',
+        'suscriptions' => 'Suscripciones',
+        'invoices' => 'Facturas',
+        'uploads' => 'Importes',
     ],
     'strings' => [
         'updateUser' => 'Update the user',
@@ -85,6 +89,12 @@ return [
             'update' => 'Update Microsite',
             'show' => 'Show Microsite',
         ],
+        'suscriptions' => [
+            'create' => 'Create Suscription',
+            'delete' => 'Delete Suscription',
+            'edit' => 'Edit Suscription',
+            'update' => 'Update Suscription',
+        ],
     ],
     'fields' => [
         'id' => 'ID',
@@ -105,6 +115,12 @@ return [
         'paymentMethod' => 'Payment Method',
         'buyerIdType' => 'Identification type',
         'buyerId' => 'Identification number',
+        'periodicity' => 'Periodicity',
+        'interval' => 'Interval',
+        'nextPayment' => 'Next Payment',
+        'dueDate' => 'Due Date',
+        'amountSuscription' => 'Value to debit',
+        'items' => 'Items',
         'users' => [
             'email' => 'Email',
         ],

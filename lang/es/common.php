@@ -11,6 +11,10 @@ return [
         'paymentHistory' => 'Histórico de pagos',
         'payments' => 'Pagos',
         'acls' => 'ACLS',
+        'suscriptionPlanes' => 'Planes de Suscripción',
+        'suscriptions' => 'Suscripciones',
+        'invoices' => 'Facturas',
+        'uploads' => 'Importes',
     ],
     'strings' => [
         'updateUser' => 'Actualiza el usuario',
@@ -30,6 +34,10 @@ return [
         'updateMicrositeDesc' => 'Actualiza el micrositio seleccionado',
         'createMicrosite' => 'Crea un nuevo micrositio',
         'createMicrositeDesc' => 'Crea un nuevo Micrositio',
+        'updateSuscriptionPlan' => 'Actualiza el plan',
+        'updateSuscriptionPlanDesc' => 'Actualiza el plan seleccionado',
+        'createSuscriptionPlan' => 'Crea un nuevo plan',
+        'createSuscriptionPlanDesc' => 'Crea un nuevo plan',
     ],
     'buttons' => [
         'createB' => 'Crear',
@@ -85,6 +93,12 @@ return [
             'update' => 'Actualizar Micrositio',
             'show' => 'Visualizar Micrositio',
         ],
+        'suscriptions' => [
+            'create' => 'Crear Suscripción',
+            'delete' => 'Eliminar Suscripción',
+            'edit' => 'Editar Suscripción',
+            'update' => 'Actualizar Suscripción',
+        ],
     ],
     'fields' => [
         'id' => 'ID',
@@ -105,6 +119,12 @@ return [
         'paymentMethod' => 'Método de pago',
         'buyerIdType' => 'Tipo de documento',
         'buyerId' => 'Número de documento',
+        'periodicity' => 'Periodicidad',
+        'interval' => 'Intervalo',
+        'nextPayment' => 'Siguiente pago',
+        'dueDate' => 'Fecha de vencimiento',
+        'amountSuscription' => 'Valor a debitar',
+        'items' => 'Ítems',
         'users' => [
             'email' => 'Correo electrónico',
         ],

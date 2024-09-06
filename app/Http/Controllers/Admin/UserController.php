@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
@@ -31,6 +32,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request): RedirectResponse
     {
+        Log::info('Data user:', $request->validated());
         CreateUserAction::execute($request->validated());
 
         return redirect()->route('users.index');

@@ -26,6 +26,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $table = 'users';
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -69,31 +71,8 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class);
     }
 
-    public function givePermissionToObject($permission, $object)
+    public function acls(): HasMany
     {
-        return Acl::create([
-            'user_id' => $this->id,
-            'permission_id' => $permission->id,
-            'object_type' => get_class($object),
-            'object_id' => $object->id,
-        ]);
-    }
-
-    public function hasPermissionForObject($permission, $object)
-    {
-        return Acl::where('user_id', $this->id)
-            ->where('permission_id', $permission->id)
-            ->where('object_type', get_class($object))
-            ->where('object_id', $object->id)
-            ->exists();
-    }
-
-    public function revokePermissionForObject($permission, $object)
-    {
-        return Acl::where('user_id', $this->id)
-            ->where('permission_id', $permission->id)
-            ->where('object_type', get_class($object))
-            ->where('object_id', $object->id)
-            ->delete();
+        return $this->hasMany(Acl::class);
     }
 }

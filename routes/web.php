@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/payment/detail/{payment}', [PaymentController::class, 'paymentDetail'])->name('payment.details');
 
+    Route::post('/permissions/update', [AclController::class, 'updatePermission']);
 });
 
 Route::get('/lang/{locale}', [SetLocaleController::class, 'setLang'])->name('setLang');

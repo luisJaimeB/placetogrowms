@@ -34,7 +34,10 @@ class MicrositeController extends Controller
             $microsites = Microsite::with(['typeSite', 'category'])->get();
         } else {
             $microsites = Microsite::with(['typeSite', 'category'])
-                ->where('user_id', $user->id)
+                ->whereHas('acls', function ($query) use ($user) {
+                    $query->where('user_id', $user->id)
+                        ->where('status', 'allowed');
+                })
                 ->get();
         }
 
@@ -65,7 +68,6 @@ class MicrositeController extends Controller
         try {
             $data = $request->validated();
             $microsite = CreateMicrositeAction::execute($data);
-            //$this->authorize('createMicrosites', $microsite);
 
             if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();

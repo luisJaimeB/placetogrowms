@@ -2,8 +2,10 @@
 
 namespace App\Actions;
 
+use App\Constants\AclActions;
 use App\Constants\InvoicesStatus;
 use App\Contracts\Create;
+use App\Models\Acl;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +29,12 @@ class CreateInvoiceAction implements Create
         $invoice->microsite_id = $data['microsite_id'];
         $invoice->user_id = Auth::id();
         $invoice->save();
+
+        $acl = new Acl();
+        $acl->user_id = $invoice->user_id;
+        $acl->status = AclActions::allowed;
+        $acl->model()->associate($invoice);
+        $acl->save();
 
         return $invoice;
     }
