@@ -52,6 +52,16 @@ final class Permissions
 
     public const string SUBSCRIPTIONS_DELETE = 'subscriptions.delete';
 
+    public const string INVOICES_INDEX = 'invoices.index';
+
+    public const string INVOICES_CREATE = 'invoices.create';
+
+    public const string INVOICES_SHOW = 'invoices.show';
+
+    public const string INVOICES_UPDATE = 'invoices.update';
+
+    public const string INVOICES_DELETE = 'invoices.delete';
+
     public const string ACLS_INDEX = 'acls.index';
 
     public const string ACLS_CREATE = 'acls.create';

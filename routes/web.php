@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -60,6 +61,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/subscriptions', [SuscriptionSuscriptorController::class, 'index'])->middleware('can:subscriptions.index')->name('subscriptions.index');
     Route::delete('/subscriptions/{subscription}', [SuscriptionSuscriptorController::class, 'destroy'])->middleware('can:subscriptions.delete')->name('subscriptions.destroy');
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])->middleware('can:invoices.index')->name('invoices.index');
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->middleware('can:invoices.create')->name('invoices.create');
+    Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->middleware('can:invoices.update')->name('invoices.edit');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->middleware('can:invoices.create')->name('invoices.store');
+    Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update'])->middleware('can:invoices.update')->name('invoices.update');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->middleware('can:invoices.show')->name('invoices.show');
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->middleware('can:invoices.delete')->name('invoices.destroy');
 
     Route::get('/admin/acls', [AclController::class, 'index'])->middleware('can:acls.index')->name('acls.index');
     Route::get('/admin/acls/create', [AclController::class, 'create'])->middleware('can:acls.create')->name('acls.create');

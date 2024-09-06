@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasPermissions;
@@ -48,19 +49,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function microsites(): BelongsToMany
+    public function microsites(): HasMany
     {
-        return $this->belongsToMany(Microsite::class);
+        return $this->hasMany(Microsite::class);
     }
 
-    public function suscriptionPlanes(): BelongsToMany
+    public function suscriptionPlanes(): HasMany
     {
-        return $this->belongsToMany(SuscriptionPlan::class);
+        return $this->hasMany(SuscriptionPlan::class);
     }
 
-    public function suscription(): BelongsToMany
+    public function suscription(): HasMany
     {
-        return $this->belongsToMany(Suscription::class);
+        return $this->hasMany(Suscription::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
     }
 
     public function givePermissionToObject($permission, $object)

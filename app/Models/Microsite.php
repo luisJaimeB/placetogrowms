@@ -59,4 +59,9 @@ class Microsite extends Model
     {
         return $this->hasMany(Suscription::class);
     }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
