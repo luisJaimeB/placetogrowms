@@ -53,7 +53,7 @@ class Microsite extends Model
 
     public function suscriptionPlanes(): HasMany
     {
-       return $this->hasMany(SuscriptionPlan::class);
+        return $this->hasMany(SuscriptionPlan::class);
     }
 
     public function suscriptions(): HasMany

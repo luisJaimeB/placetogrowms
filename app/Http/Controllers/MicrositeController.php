@@ -84,7 +84,7 @@ class MicrositeController extends Controller
         }
     }
 
-    public function show($id): Response | RedirectResponse
+    public function show($id): Response|RedirectResponse
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
 
@@ -100,7 +100,7 @@ class MicrositeController extends Controller
         return inertia('Microsites/Show', [
             'microsite' => $microsite,
             'payments' => $payments,
-            'flash' => ['message' => 'No tienes permiso para ver los pagos de este micrositio.']
+            'flash' => ['message' => 'No tienes permiso para ver los pagos de este micrositio.'],
         ]);
     }
 

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Suscription extends Model
 {
@@ -18,7 +17,7 @@ class Suscription extends Model
         'plan_id',
         'microsite_id',
         'payment_id',
-        'status'
+        'status',
     ];
 
     protected $casts = [

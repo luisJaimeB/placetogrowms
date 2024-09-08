@@ -20,7 +20,7 @@ class SuscriptionPlan extends Model
         'next_payment',
         'due_date',
         'microsite_id',
-        'user_id'
+        'user_id',
     ];
 
     protected $casts = [

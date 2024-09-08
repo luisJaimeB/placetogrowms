@@ -34,7 +34,7 @@ class Payment extends Model
         'buyer' => 'array',
         'payer' => 'array',
         'optional_fields' => 'array',
-        'plan' => 'array'
+        'plan' => 'array',
     ];
 
     public function microsite(): BelongsTo

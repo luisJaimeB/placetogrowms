@@ -20,7 +20,7 @@ class CreateRoleAction implements Executable
 
     public static function execute(array $data, ?Model $model = null): Model|false
     {
-        $rol = new Role();
+        $rol = new Role;
         $rol->name = $data['name'];
         $rol->guard_name = config('auth.defaults.guard');
         $rol->save();

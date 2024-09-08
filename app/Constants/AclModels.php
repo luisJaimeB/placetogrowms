@@ -22,13 +22,13 @@ enum AclModels: string implements Arrayable
             [
                 'value' => self::Invoices->value,
                 'text' => 'Invoices',
-            ]
+            ],
         ];
     }
 
     public function columns(): array
     {
-        return match ($this){
+        return match ($this) {
             self::Microsites => ['id', 'name'],
             self::Invoices => ['id', 'order_number'],
         };
@@ -36,7 +36,7 @@ enum AclModels: string implements Arrayable
 
     public function columAliases(): array
     {
-        return match ($this){
+        return match ($this) {
             self::Microsites => ['name' => 'text'],
             self::Invoices => ['order_number' => 'text'],
         };

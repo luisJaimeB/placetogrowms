@@ -18,7 +18,7 @@ class CreateMicrositeAction implements Executable
     public static function execute(array $data, ?Model $microsite = null): Model|false
     {
         try {
-            $microsite = new Microsite();
+            $microsite = new Microsite;
             $microsite->name = $data['name'];
             $microsite->category_id = $data['category_id'];
             $microsite->expiration = $data['expiration'];
@@ -42,7 +42,7 @@ class CreateMicrositeAction implements Executable
                 $microsite->currencies()->sync($data['currency']);
             }
 
-            $acl = new Acl();
+            $acl = new Acl;
             $acl->user_id = $microsite->user_id;
             $acl->status = AclActions::allowed;
             $acl->model()->associate($microsite);

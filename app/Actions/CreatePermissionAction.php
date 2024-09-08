@@ -9,7 +9,7 @@ class CreatePermissionAction implements Create
 {
     public static function execute(array $data): Permission
     {
-        $permission = new Permission();
+        $permission = new Permission;
         $permission->name = $data['name'];
         $permission->save();
 

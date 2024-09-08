@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreateSuscriptionAction implements Create
 {
-
     public static function execute(array $data): Model|false
     {
-        $suscription = new Suscription();
+        $suscription = new Suscription;
         $suscription->payer = $data['request']['payer'];
         $token = null;
 

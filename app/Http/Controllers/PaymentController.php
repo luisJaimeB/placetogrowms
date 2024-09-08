@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateSuscriptionAction;
 use App\Actions\CreateUserAction;
+use App\Constants\InvoicesStatus;
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
+use App\Http\Requests\PaymentInvoiceSearchRequest;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
+use App\Models\Invoice;
 use App\Models\Microsite;
 use App\Models\OptionalField;
 use App\Models\Payment;
@@ -35,17 +38,17 @@ class PaymentController extends Controller
         $optionals = OptionalField::all();
         $plans = SuscriptionPlan::where('microsite_id', $microsite->id)->get();
 
-        $context = new MicrositeContext();
+        $context = new MicrositeContext;
 
         switch ($microsite->typeSite->name) {
             case 'Donation':
-                $context->setStrategy(new DonationMicrositeStrategy());
+                $context->setStrategy(new DonationMicrositeStrategy);
                 break;
             case 'Invoice':
-                $context->setStrategy(new InvoiceMicrositeStrategy());
+                $context->setStrategy(new InvoiceMicrositeStrategy);
                 break;
             case 'Subscription':
-                $context->setStrategy(new SubscriptionMicrositeStrategy());
+                $context->setStrategy(new SubscriptionMicrositeStrategy);
                 break;
             default:
                 throw new \Exception('Unknown microsite type');
@@ -105,6 +108,17 @@ class PaymentController extends Controller
             $paymentService = new PaymentGatewayService($gateway, $paymentArray);
             $sessionData = $paymentService->QueryPayment();
 
+            $isInvoicePayment = false;
+            if (isset($sessionData['request']['fields'])) {
+                foreach ($sessionData['request']['fields'] as $field) {
+                    if (isset($field['keyword']) && $field['keyword'] === 'order_number') {
+                        $isInvoicePayment = true;
+                        $orderNumber = $field['value'];
+                        break;
+                    }
+                }
+            }
+
             $payment->status = $sessionData['status']['status'];
 
             if (isset($sessionData['request']['payment'])) {
@@ -118,8 +132,15 @@ class PaymentController extends Controller
             $payment->user_agent = $sessionData['request']['userAgent'];
 
             if ($sessionData['status']['status'] == 'APPROVED') {
-                if (!isset($sessionData['request']['subscription'])) {
+                if (! isset($sessionData['request']['subscription'])) {
                     $payment->cus_code = $sessionData['payment'][0]['authorization'];
+                    if ($isInvoicePayment) {
+                        $invoice = Invoice::where('order_number', $orderNumber)->first();
+                        Log::info('Invoice Query:', $invoice->toArray());
+                        $invoice->status = InvoicesStatus::paid;
+                        $invoice->payment_id = $payment->id;
+                        $invoice->save();
+                    }
                 } elseif (isset($sessionData['request']['subscription'])) {
                     $sessionData['request']['payer']['password'] = '123456';
                     $sessionData['request']['payer']['rol'] = 3;
@@ -139,14 +160,13 @@ class PaymentController extends Controller
                     'name' => $sessionData['request']['payer']['name'],
                     'surname' => $sessionData['request']['payer']['surname'],
                     'email' => $sessionData['request']['payer']['email'],
-                    'mobile' => $sessionData['request']['payer']['mobile']
+                    'mobile' => $sessionData['request']['payer']['mobile'],
                 ];
 
                 $payerJson = json_encode($payerData);
 
                 $payment->payer = $payerJson;
             }
-
 
             $payment->save();
 
@@ -169,5 +189,41 @@ class PaymentController extends Controller
         $payment = Payment::with(['microsite', 'currency'])->findOrFail($id);
 
         return inertia('Payments/DetailsPayment', ['payment' => $payment]);
+    }
+
+    public function invoiceSearch(PaymentInvoiceSearchRequest $request): Response|JsonResponse
+    {
+        $order = $request->validated();
+        Log::info('Order data:', $order);
+        $invoice = Invoice::where('order_number', $order)
+            ->with(['microsite', 'buyeridtype', 'currency', 'user'])
+            ->first();
+        Log::info('Order invoice:', $invoice ? $invoice->toArray() : []);
+
+        if (! $invoice) {
+            return response()->json([
+                'error' => 'No tiene facturas pendientes por pagar.',
+            ], 400);
+        }
+
+        if ($invoice->status !== InvoicesStatus::paid) {
+            return response()->json([
+                'redirect' => route('payment.invoice.index', ['invoice' => $invoice]),
+                'invoice' => $invoice->toArray(),
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'La factura ya ha sido pagada.',
+        ], 400);
+    }
+
+    public function invoiceIndex(Invoice $invoice)
+    {
+        $invoice->load(['microsite', 'buyeridtype', 'currency', 'user']);
+
+        return inertia('Payments/SelectedInvoicePayment', [
+            'invoice' => $invoice,
+        ]);
     }
 }

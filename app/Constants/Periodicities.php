@@ -2,8 +2,8 @@
 
 namespace App\Constants;
 
-use App\Contracts\Arrayable;
 use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
 
 enum Periodicities: string implements Arrayable
 {

@@ -32,7 +32,7 @@ class InvoiceController extends Controller
 
         return Inertia('Invoices/Create', [
             'microsites' => $microsites,
-            'identification_types' => $identification_types
+            'identification_types' => $identification_types,
         ]);
     }
 
@@ -47,15 +47,16 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice): Response
     {
         $identification_types = BuyerIdType::all();
+
         return inertia('Invoices/Edit', [
             'invoice' => $invoice,
-            'identification_types' => $identification_types
+            'identification_types' => $identification_types,
         ]);
     }
 
     public function update(InvoiceUpdateRequest $request, Invoice $invoice): RedirectResponse
     {
-        if (!$invoice->status == InvoicesStatus::paid){
+        if ($invoice->status != InvoicesStatus::paid) {
             $invoice->update($request->validated());
         }
 

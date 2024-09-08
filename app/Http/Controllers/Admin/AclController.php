@@ -17,7 +17,7 @@ class AclController extends Controller
         $this->modelMap = config('modelmap');
     }
 
-    public function index (): Response
+    public function index(): Response
     {
         $user = auth()->user();
 
@@ -40,7 +40,7 @@ class AclController extends Controller
 
     public function store(AclCreateRequest $request)
     {
-        $acl = new Acl();
+        $acl = new Acl;
 
         $acl->user_id = $request->input('user_id');
         $acl->status = $request->input('status');

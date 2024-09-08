@@ -16,7 +16,7 @@ class CreateUserAction implements Executable
             return $user;
         }
 
-        $user = new User();
+        $user = new User;
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);

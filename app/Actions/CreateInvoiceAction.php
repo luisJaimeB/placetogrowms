@@ -12,10 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateInvoiceAction implements Create
 {
-
     public static function execute(array $data): Model|false
     {
-        $invoice = new Invoice();
+        $invoice = new Invoice;
         $invoice->status = InvoicesStatus::active;
         $invoice->order_number = $data['order_number'];
         $invoice->identification_type_id = $data['identification_type_id'];
@@ -30,7 +29,7 @@ class CreateInvoiceAction implements Create
         $invoice->user_id = Auth::id();
         $invoice->save();
 
-        $acl = new Acl();
+        $acl = new Acl;
         $acl->user_id = $invoice->user_id;
         $acl->status = AclActions::allowed;
         $acl->model()->associate($invoice);
