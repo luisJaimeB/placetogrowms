@@ -52,7 +52,7 @@ const deleteInvoice = id =>{
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.id')}}</th>
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.reference')}}</th>
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.microsite')}}</th>
-                            <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.date')}}</th>
+                            <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.dueDate')}}</th>
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.status')}}</th>
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('fields.value')}}</th>
                             <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">{{t('actionsLabel')}}</th>

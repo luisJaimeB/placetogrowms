@@ -24,8 +24,13 @@ class Invoice extends Model
         'amount',
         'expiration_date',
         'user_id',
-        'payment_id'
-        ];
+        'payment_id',
+    ];
+
+    protected $casts = [
+        'order_number' => 'string',
+        'identification_number' => 'string',
+    ];
 
     public function microsite(): BelongsTo
     {
@@ -51,9 +56,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(BuyerIdType::class);
     }
+
     public function acls(): MorphMany
     {
         return $this->morphMany(Acl::class, 'model');
     }
-
 }

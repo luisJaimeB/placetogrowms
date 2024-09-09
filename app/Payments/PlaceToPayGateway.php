@@ -17,6 +17,7 @@ class PlaceToPayGateway implements PaymentMethod
     protected array $data;
 
     const URI = '/api/session';
+
     const URI_INVALIDATE = '/api/instrument/invalidate';
 
     public function __construct(array $data)
@@ -74,7 +75,7 @@ class PlaceToPayGateway implements PaymentMethod
         $invalidateTokenEndPoint = $this->endpoint.$URI;
         $request = [
             'auth' => $this->prepareAuth(),
-            'instrument' => $this->prepareTokenData($data)
+            'instrument' => $this->prepareTokenData($data),
         ];
 
         Log::info('Request Invalidate Token:', $request);
@@ -174,6 +175,7 @@ class PlaceToPayGateway implements PaymentMethod
     private function prepareBuyerData($data): array
     {
         $buyer_id_type = BuyerIdType::where('id', $data['buyer_id_type'])->pluck('code')->first();
+
         return [
             'documentType' => $buyer_id_type,
             'document' => $data['buyer_id'],
@@ -194,7 +196,7 @@ class PlaceToPayGateway implements PaymentMethod
                     $preparedFields[] = [
                         'keyword' => $field['field'],
                         'value' => $field['value'],
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ];
                 }
             }
@@ -208,7 +210,7 @@ class PlaceToPayGateway implements PaymentMethod
         return [
             'token' => [
                 'token' => $data['token'],
-            ]
+            ],
         ];
     }
 
@@ -217,7 +219,7 @@ class PlaceToPayGateway implements PaymentMethod
         $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
         $data['randomReturn'] = $randomReturn;
         $expirationRange = $data['expiration'];
-        $date = new DateTime();
+        $date = new DateTime;
         $date->modify('+'.$expirationRange.' minutes');
         $expiration = $date->format('c');
         $userIp = $data['userIp'];
