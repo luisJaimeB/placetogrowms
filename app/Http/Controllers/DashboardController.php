@@ -54,6 +54,4 @@ class DashboardController extends Controller
 
         return inertia('Dashboard', ['payments' => $payments]);
     }
-
-
 }
