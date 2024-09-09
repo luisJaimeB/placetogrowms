@@ -17,5 +17,8 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+        <script>
+            window.errors = @json(session('errors', []));
+        </script>
     </body>
 </html>

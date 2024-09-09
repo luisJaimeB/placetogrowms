@@ -8,8 +8,17 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import i18n from './i18n';
 import axios from 'axios';
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+const options = {
+    position: 'top-right',
+    timeout: 5000,
+    closeOnClick: true,
+    pauseOnHover: true,
+};
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -18,7 +27,8 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(i18n)
-            .use(ZiggyVue);
+            .use(ZiggyVue)
+            .use(Toast, options);
 
         axios.get(`/lang/${i18n.global.locale.value}`)
             .then(response => {
