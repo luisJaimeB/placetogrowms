@@ -21,4 +21,3 @@ class OptionalField extends Model
         return $this->belongsTo(Microsite::class);
     }
 }
-

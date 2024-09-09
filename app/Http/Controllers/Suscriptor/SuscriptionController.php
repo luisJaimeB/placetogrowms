@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Suscriptor;
 use App\Constants\SuscriptionsStatus;
 use App\Factories\PaymentFactory;
 use App\Http\Controllers\Controller;
-use App\Models\Payment;
 use App\Models\Suscription;
 use App\Services\PaymentGatewayService;
 use Illuminate\Http\JsonResponse;
@@ -44,7 +43,7 @@ class SuscriptionController extends Controller
             $suscription->save();
 
             return redirect()->route('subscriptions.index', ['tokenCancelation' => $tokenCancelation]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }

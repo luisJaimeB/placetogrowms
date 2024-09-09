@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceImportController;
 use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -79,6 +80,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/payment/detail/{payment}', [PaymentController::class, 'paymentDetail'])->name('payment.details');
 
+    Route::post('/import-invoices', [InvoiceImportController::class, 'import'])->name('import.invoices');
+    Route::get('/imports', [InvoiceImportController::class, 'index'])->middleware('can:imports.index')->name('imports.index');
+    Route::get('/imports/create', [InvoiceImportController::class, 'create'])->middleware('can:imports.create')->name('imports.create');
+
     Route::post('/permissions/update', [AclController::class, 'updatePermission']);
 });
 
@@ -89,5 +94,7 @@ Route::get('payments/create/{microsite}', [PaymentController::class, 'create'])-
 Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('payments.process');
 Route::get('/payments/return/{payment}', [PaymentController::class, 'handleReturn'])->name('payments.return');
 Route::get('/payments/show/{payment}', [PaymentController::class, 'show'])->name('payment.show');
+Route::post('/payments/invoice/search', [PaymentController::class, 'invoiceSearch'])->name('payment.invoice.search');
+Route::get('/payments/selected-invoice-payment/{invoice}', [PaymentController::class, 'invoiceIndex'])->name('payment.invoice.index');
 
 require __DIR__.'/auth.php';

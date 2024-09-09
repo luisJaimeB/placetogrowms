@@ -54,6 +54,10 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::INVOICES_UPDATE,
                     Permissions::INVOICES_DELETE,
 
+                    Permissions::IMPORTS_INDEX,
+                    Permissions::IMPORTS_CREATE,
+                    Permissions::IMPORTS_IMPORT,
+
                     Permissions::ACLS_INDEX,
                     Permissions::ACLS_CREATE,
                     Permissions::ACLS_UPDATE,
@@ -87,7 +91,7 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::SUBSCRIPTIONS_INDEX,
                     Permissions::SUBSCRIPTIONS_DELETE,
                 ],
-            ]
+            ],
         ];
 
         foreach ($basicRolesPermission as $role) {

@@ -41,6 +41,8 @@ class PayTest extends TestCase
             'type' => 1,
             'micrositeId' => $microsite->id,
             'requestId' => 123456,
+            'buyer_id_type' => 1,
+            'buyer_id' => '107156541',
         ];
 
         Config::set('payments.placetopay_endpoint', 'http://test.endpoint');

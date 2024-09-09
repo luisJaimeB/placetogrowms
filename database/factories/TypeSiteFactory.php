@@ -17,7 +17,7 @@ class TypeSiteFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => $this->faker->unique()->word(),
         ];
     }
 }

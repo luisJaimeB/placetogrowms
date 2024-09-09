@@ -27,7 +27,7 @@ class CreateSuscriptionRequest extends FormRequest
             'name' => ['required', 'string', 'min:4', 'max:120'],
             'periodicity' => ['required', Rule::in(Periodicities::toArray())],
             'interval' => ['required', 'string'],
-            'amount' => ['required', 'numeric', 'between:0,9999999999.99', ],
+            'amount' => ['required', 'numeric', 'between:0,9999999999.99'],
             'next_payment' => ['required', 'date', 'before:due_date'],
             'due_date' => ['required', 'date', 'after:next_payment'],
             'microsite_id' => ['required', 'exists:microsites,id'],

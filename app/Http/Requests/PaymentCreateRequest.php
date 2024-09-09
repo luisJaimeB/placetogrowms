@@ -43,7 +43,7 @@ class PaymentCreateRequest extends FormRequest
                     if ($this->input('type') == 3 && empty($value)) {
                         $fail('El plan es requerido cuando el tipo es suscripción.');
                     }
-                }
+                },
             ],
         ];
     }

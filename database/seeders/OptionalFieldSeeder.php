@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Constants\Optionalfields;
 use App\Models\OptionalField;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OptionalFieldSeeder extends Seeder
@@ -17,7 +16,7 @@ class OptionalFieldSeeder extends Seeder
         $optionalFields = [
             Optionalfields::CITY,
             Optionalfields::ADDRESS,
-            Optionalfields::COUNTRY
+            Optionalfields::COUNTRY,
         ];
 
         foreach ($optionalFields as $optionalField) {

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Constants\BuyerIdTypes;
 use App\Models\BuyerIdType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BuyerIdTypeSeeder extends Seeder
@@ -19,7 +18,7 @@ class BuyerIdTypeSeeder extends Seeder
             BuyerIdTypes::CE,
             BuyerIdTypes::TI,
             BuyerIdTypes::NIT,
-            BuyerIdTypes::RUT
+            BuyerIdTypes::RUT,
         ];
 
         foreach ($buyerIdTypes as $buyerIdType) {

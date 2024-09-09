@@ -62,6 +62,12 @@ final class Permissions
 
     public const string INVOICES_DELETE = 'invoices.delete';
 
+    public const string IMPORTS_INDEX = 'imports.index';
+
+    public const string IMPORTS_CREATE = 'imports.create';
+
+    public const string IMPORTS_IMPORT = 'imports.import';
+
     public const string ACLS_INDEX = 'acls.index';
 
     public const string ACLS_CREATE = 'acls.create';

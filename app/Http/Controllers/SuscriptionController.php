@@ -8,7 +8,6 @@ use App\Http\Requests\CreateSuscriptionRequest;
 use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class SuscriptionController extends Controller
@@ -57,7 +56,7 @@ class SuscriptionController extends Controller
             'plan' => $plan,
             'periodicities' => $periodicities,
             'microsites' => $microsites,
-            ]);
+        ]);
     }
 
     public function update(CreateSuscriptionRequest $request, SuscriptionPlan $plan): RedirectResponse
