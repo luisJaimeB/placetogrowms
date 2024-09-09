@@ -16,7 +16,7 @@ class CreateMicrositeAction implements Executable
     public static function execute(array $data, ?Model $microsite = null): Model|false
     {
         try {
-            $microsite = new Microsite();
+            $microsite = new Microsite;
             $microsite->name = $data['name'];
             $microsite->category_id = $data['category_id'];
             $microsite->expiration = $data['expiration'];

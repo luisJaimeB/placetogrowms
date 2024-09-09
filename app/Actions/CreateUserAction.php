@@ -10,7 +10,7 @@ class CreateUserAction implements Executable
 {
     public static function execute(array $data, ?Model $model = null): Model|false
     {
-        $user = new User();
+        $user = new User;
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);

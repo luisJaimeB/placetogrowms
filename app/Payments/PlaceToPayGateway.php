@@ -147,7 +147,7 @@ class PlaceToPayGateway implements PaymentMethod
         $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
         $data['randomReturn'] = $randomReturn;
         $expirationRange = $data['expiration'];
-        $date = new DateTime();
+        $date = new DateTime;
         $date->modify('+'.$expirationRange.' minutes');
         $expiration = $date->format('c');
         $userIp = $data['userIp'];

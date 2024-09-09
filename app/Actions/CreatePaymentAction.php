@@ -15,7 +15,7 @@ class CreatePaymentAction implements Executable
     public static function execute(array $data, ?Model $model = null): Model|false
     {
         try {
-            $payment = new Payment();
+            $payment = new Payment;
             $payment->description = $data['description'];
             $payment->amount = $data['amount'];
             $payment->currency_id = $data['currency'];
