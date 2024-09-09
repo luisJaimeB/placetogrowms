@@ -69,8 +69,8 @@ class UserUpdateTest extends TestCase
         $user->assignRole($this->admin);
 
         $data = [
-            'name' => $this->faker->name,
-            'email' => $this->faker->freeEmail(),
+            'name' => $this->faker->name.' '.$this->faker->lastName,
+            'email' => 'pruebas@gmail.com',
             'password' => 'password',
             'password_confirmation' => 'password',
             'rol' => $this->admin->id,
