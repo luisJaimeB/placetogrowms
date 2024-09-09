@@ -49,10 +49,10 @@ const deleteRole = id =>{
                         <thead>
                         <tr class="bg-gray-100">
                             <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">{{ t('fields.id') }}</th>
-                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">Usuario</th>
-                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">Módulo</th>
-                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">Status</th>
-                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">Acción</th>
+                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">{{ t('fields.user') }}</th>
+                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">{{ t('fields.module') }}</th>
+                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">{{ t('fields.status') }}</th>
+                            <th class="w-1/3 py-4 px-6 text-center text-gray-600 font-bold uppercase">{{ t('actionsLabel') }}</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white">

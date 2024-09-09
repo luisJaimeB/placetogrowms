@@ -27,7 +27,7 @@ class AclCreateRequest extends FormRequest
             'user_id' => ['required', 'exists:users,id'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required'],
-            'status' => ['required', Rule::enum(AclActions::class) ],
+            'status' => ['required', Rule::enum(AclActions::class)],
         ];
     }
 }
