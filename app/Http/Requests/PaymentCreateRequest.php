@@ -23,6 +23,8 @@ class PaymentCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'buyer_id_type' => 'required|exists:buyer_id_types,id',
+            'buyer_id' => 'required|string|min:6|max:15',
             'amount' => 'required|numeric|between:0,9999999999.99',
             'currency' => 'required|exists:currencies,id',
             'description' => 'nullable|string|min:4|max:50',
@@ -31,9 +33,18 @@ class PaymentCreateRequest extends FormRequest
             'lastName' => 'nullable|string|max:71',
             'email' => 'required|email|max:255',
             'paymentMethod' => 'required',
-            'type' => 'required',
+            'type' => 'required|integer',
             'micrositeId' => 'required',
             'expiration' => 'required',
+            'optional_fields' => 'nullable|array',
+            'plan' => [
+                'sometimes',
+                function ($attribute, $value, $fail) {
+                    if ($this->input('type') == 3 && empty($value)) {
+                        $fail('El plan es requerido cuando el tipo es suscripción.');
+                    }
+                },
+            ],
         ];
     }
 }

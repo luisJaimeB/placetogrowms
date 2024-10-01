@@ -26,6 +26,14 @@ const props = defineProps({
     errors: {
         type: Object,
         required: true
+    },
+    buyer_id_types: {
+        type: Object,
+        required: true
+    },
+    optionals: {
+        type: Object,
+        required: true
     }
 });
 
@@ -40,6 +48,20 @@ console.log('errors: ', props.errors)
 
 const currencyOptions = props.currencies.filter(currency => currency.id === props.microsite.currencies[0].id);
 
+const filterInput = (event) => {
+    event.target.value = event.target.value.replace(/\D/g, '');
+    props.form.buyer_id = event.target.value;
+};
+
+const handleInputChange = (field, value) => {
+    const existingField = props.form.optional_fields.find(item => item.field === field);
+
+    if (existingField) {
+        existingField.value = value;
+    } else {
+        props.form.optional_fields.push({ field, value });
+    }
+};
 
 defineEmits(['submit'])
 </script>
@@ -80,16 +102,21 @@ defineEmits(['submit'])
                         </div>
                     </div>
                     <!-- Name, Last Name, Email, and Phone -->
-                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="buyerIdType" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerIdType') }}</label>
-                            <input type="text" v-model="form.buyerIdType" id="buyerIdType" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <select v-model="form.buyer_id_type" id="buyer_id_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled>Selecciona un tipo de Documento</option>
+                                <option v-for="buyer_id_type in buyer_id_types" :key="buyer_id_type.id" :value="buyer_id_type.id">{{ buyer_id_type.document_type }}</option>
+                            </select>
+                            <InputError :message="errors.buyer_id_type" class="mt-2"/>
                         </div>
                         <div>
                             <label for="lastName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerId') }}</label>
-                            <input type="text" v-model="form.buyerId" id="buyerId" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            <input id="buyer_id" v-model="form.buyer_id" type="text" inputmode="numeric" autocomplete="buyer_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" @input="filterInput"/>
+                            <InputError :message="errors.buyer_id" class="mt-2"/>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">{{ t('fields.buyerName') }}</label>
@@ -114,6 +141,27 @@ defineEmits(['submit'])
                             <InputError :message="errors.phone" class="mt-2"/>
                         </div>
                     </div>
+
+                    <!-- Campos opcionales -->
+                    <div v-if="optionals.length > 0">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div v-for="(optional) in optionals" :key="optional.id" class="flex flex-col">
+                                <!-- Verifica si el campo opcional está habilitado en 'microsite.optional_fields' -->
+                                <div v-if="microsite.optional_fields && microsite.optional_fields[optional.field] === '1'">
+                                    <label :for="optional.field" class="block text-sm font-medium text-gray-700">{{ optional.label }}</label>
+                                    <input
+                                        :id="optional.field"
+                                        :name="optional.field"
+                                        type="text"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        @input="handleInputChange(optional.field, $event.target.value)"
+                                    />
+                                    <span v-if="errors[optional.field]" class="text-red-500 text-sm">{{ errors[optional.field] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- Payment Method -->
                 <div>

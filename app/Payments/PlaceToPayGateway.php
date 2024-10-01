@@ -3,6 +3,7 @@
 namespace App\Payments;
 
 use App\Actions\CreatePaymentAction;
+use App\Models\BuyerIdType;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Http;
@@ -16,6 +17,8 @@ class PlaceToPayGateway implements PaymentMethod
     protected array $data;
 
     const URI = '/api/session';
+
+    const URI_INVALIDATE = '/api/instrument/invalidate';
 
     public function __construct(array $data)
     {
@@ -54,12 +57,37 @@ class PlaceToPayGateway implements PaymentMethod
 
         $response = Http::post($createSessionEndPoint, $auth);
         $responseData = $response->json();
-        Log::info('Payment Response:', $responseData);
+        Log::info('Payment Response query:', $responseData);
 
         if ($response->successful()) {
             return $responseData;
         } else {
             throw new Exception('Error al procesar el pago');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function invalidateToken(array $data)
+    {
+        $URI = self::URI_INVALIDATE;
+        $invalidateTokenEndPoint = $this->endpoint.$URI;
+        $request = [
+            'auth' => $this->prepareAuth(),
+            'instrument' => $this->prepareTokenData($data),
+        ];
+
+        Log::info('Request Invalidate Token:', $request);
+
+        $response = Http::post($invalidateTokenEndPoint, $request);
+        $responseData = $response->json();
+        Log::info('Invalidate Token Response:', $responseData);
+
+        if ($response->successful()) {
+            return $responseData;
+        } else {
+            throw new Exception('Error al inactivar la suscripción');
         }
     }
 
@@ -132,13 +160,57 @@ class PlaceToPayGateway implements PaymentMethod
         ];
     }
 
+    private function prepareSuscriptionBody($data): array
+    {
+        $prefix = 'subs-';
+        $randomString = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
+        $reference = $prefix.$randomString;
+
+        return [
+            'reference' => $reference,
+            'description' => $data['description'],
+        ];
+    }
+
     private function prepareBuyerData($data): array
     {
+        $buyer_id_type = BuyerIdType::where('id', $data['buyer_id_type'])->pluck('code')->first();
+
         return [
+            'documentType' => $buyer_id_type,
+            'document' => $data['buyer_id'],
             'name' => $data['name'],
             'surname' => $data['lastName'],
             'email' => $data['email'],
             'mobile' => $data['phone'],
+        ];
+    }
+
+    private function prepareOptionalFields($data): array
+    {
+        $preparedFields = [];
+
+        if (isset($data['optional_fields']) && is_array($data['optional_fields'])) {
+            foreach ($data['optional_fields'] as $field) {
+                if (isset($field['field']) && isset($field['value'])) {
+                    $preparedFields[] = [
+                        'keyword' => $field['field'],
+                        'value' => $field['value'],
+                        'displayOn' => 'none',
+                    ];
+                }
+            }
+        }
+
+        return $preparedFields;
+    }
+
+    private function prepareTokenData($data): array
+    {
+        return [
+            'token' => [
+                'token' => $data['token'],
+            ],
         ];
     }
 
@@ -147,21 +219,35 @@ class PlaceToPayGateway implements PaymentMethod
         $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
         $data['randomReturn'] = $randomReturn;
         $expirationRange = $data['expiration'];
-        $date = new DateTime();
+        $date = new DateTime;
         $date->modify('+'.$expirationRange.' minutes');
         $expiration = $date->format('c');
         $userIp = $data['userIp'];
         $userAgent = $data['userAgent'];
         $returnUrl = route('payments.return', $randomReturn);
 
-        return [
-            'auth' => $this->prepareAuth(),
-            'payment' => $this->preparePaymentBody($data),
-            'buyer' => $this->prepareBuyerData($data),
-            'expiration' => $expiration,
-            'returnUrl' => $returnUrl,
-            'ipAddress' => $userIp,
-            'userAgent' => $userAgent,
-        ];
+        if (isset($data['plan'])) {
+            return [
+                'auth' => $this->prepareAuth(),
+                'subscription' => $this->prepareSuscriptionBody($data),
+                'buyer' => $this->prepareBuyerData($data),
+                'fields' => $this->prepareOptionalFields($data),
+                'expiration' => $expiration,
+                'returnUrl' => $returnUrl,
+                'ipAddress' => $userIp,
+                'userAgent' => $userAgent,
+            ];
+        } else {
+            return [
+                'auth' => $this->prepareAuth(),
+                'payment' => $this->preparePaymentBody($data),
+                'buyer' => $this->prepareBuyerData($data),
+                'fields' => $this->prepareOptionalFields($data),
+                'expiration' => $expiration,
+                'returnUrl' => $returnUrl,
+                'ipAddress' => $userIp,
+                'userAgent' => $userAgent,
+            ];
+        }
     }
 }

@@ -14,7 +14,7 @@ class PaymentFactory
     public static function create($type, array $data): PayPalGateway|PlaceToPayGateway
     {
         return match ($type) {
-            'paypal' => new PayPalGateway(),
+            'paypal' => new PayPalGateway,
             'placetopay' => new PlaceToPayGateway($data),
             default => throw new Exception('Payment method not supported.'),
         };

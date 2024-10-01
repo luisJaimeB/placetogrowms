@@ -39,6 +39,29 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::MICROSITES_UPDATE,
                     Permissions::MICROSITES_DELETE,
                     Permissions::MICROSITES_SHOW,
+
+                    Permissions::PLANES_INDEX,
+                    Permissions::PLANES_CREATE,
+                    Permissions::PLANES_UPDATE,
+                    Permissions::PLANES_DELETE,
+
+                    Permissions::SUBSCRIPTIONS_INDEX,
+                    Permissions::SUBSCRIPTIONS_DELETE,
+
+                    Permissions::INVOICES_INDEX,
+                    Permissions::INVOICES_CREATE,
+                    Permissions::INVOICES_SHOW,
+                    Permissions::INVOICES_UPDATE,
+                    Permissions::INVOICES_DELETE,
+
+                    Permissions::IMPORTS_INDEX,
+                    Permissions::IMPORTS_CREATE,
+                    Permissions::IMPORTS_IMPORT,
+
+                    Permissions::ACLS_INDEX,
+                    Permissions::ACLS_CREATE,
+                    Permissions::ACLS_UPDATE,
+                    Permissions::ACLS_DELETE,
                 ],
             ],
             [
@@ -49,6 +72,24 @@ class RoleAndPermissionSeeder extends Seeder
                     Permissions::MICROSITES_UPDATE,
                     Permissions::MICROSITES_DELETE,
                     Permissions::MICROSITES_SHOW,
+
+                    Permissions::PLANES_INDEX,
+                    Permissions::PLANES_CREATE,
+                    Permissions::PLANES_UPDATE,
+                    Permissions::PLANES_DELETE,
+
+                    Permissions::INVOICES_INDEX,
+                    Permissions::INVOICES_CREATE,
+                    Permissions::INVOICES_SHOW,
+                    Permissions::INVOICES_UPDATE,
+                    Permissions::INVOICES_DELETE,
+                ],
+            ],
+            [
+                'name' => Roles::SUBSCRIBER,
+                'permissions' => [
+                    Permissions::SUBSCRIPTIONS_INDEX,
+                    Permissions::SUBSCRIPTIONS_DELETE,
                 ],
             ],
         ];

@@ -6,19 +6,21 @@ use App\Actions\CreatePermissionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionRequest;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $permissions = Permission::latest()->orderBy('id', 'desc')
-            ->paginate(25);
+        $permissions = Permission::all()->groupBy(function ($permission) {
+            return explode('.', $permission->name)[0];
+        });
 
         return inertia('Admin/Permissions/Index', ['permissions' => $permissions]);
     }
 
-    public function create()
+    public function create(): Response
     {
         return Inertia('Admin/Permissions/Create');
     }
@@ -30,7 +32,7 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
 
-    public function edit(Permission $permission)
+    public function edit(Permission $permission): Response
     {
         return inertia('Admin/Permissions/Edit', ['permission' => $permission]);
     }

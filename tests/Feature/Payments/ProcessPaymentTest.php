@@ -37,7 +37,7 @@ class ProcessPaymentTest extends TestCase
         $gateway = $this->mockGateway(['processUrl' => 'http://process.url']);
         $this->bindFactory($gateway);
 
-        $controller = new PaymentController();
+        $controller = new PaymentController;
         $response = $controller->processPayment($request);
 
         $this->assertEquals(Response::HTTP_OK, $response->status());
@@ -56,7 +56,7 @@ class ProcessPaymentTest extends TestCase
         $gateway = $this->mockGateway(['status' => ['status' => 'FAILED', 'message' => 'Payment failed']]);
         $this->bindFactory($gateway);
 
-        $controller = new PaymentController();
+        $controller = new PaymentController;
         $response = $controller->processPayment($request);
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->status());
@@ -85,6 +85,8 @@ class ProcessPaymentTest extends TestCase
             'phone' => '+123456789',
             'type' => 1,
             'micrositeId' => $microsite->id,
+            'buyer_id_type' => 1,
+            'buyer_id' => '107156541',
         ];
     }
 

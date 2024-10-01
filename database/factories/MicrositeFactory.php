@@ -27,4 +27,11 @@ class MicrositeFactory extends Factory
             'user_id' => User::factory()->create(),
         ];
     }
+
+    public function withTypeSiteId($typeSiteId)
+    {
+        return $this->state([
+            'type_site_id' => $typeSiteId,
+        ]);
+    }
 }

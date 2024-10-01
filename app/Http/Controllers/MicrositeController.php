@@ -7,17 +7,25 @@ use App\Actions\UpdateMicrositeAction;
 use App\Constants\Roles;
 use App\Http\Requests\MicrositeRequest;
 use App\Http\Requests\MicrositeUpdateRequest;
+use App\Models\BuyerIdType;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\OptionalField;
 use App\Models\Payment;
+use App\Models\SuscriptionPlan;
 use App\Models\TypeSite;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Throwable;
 
 class MicrositeController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): Response
     {
         $user = auth()->user();
@@ -26,7 +34,10 @@ class MicrositeController extends Controller
             $microsites = Microsite::with(['typeSite', 'category'])->get();
         } else {
             $microsites = Microsite::with(['typeSite', 'category'])
-                ->where('user_id', $user->id)
+                ->whereHas('acls', function ($query) use ($user) {
+                    $query->where('user_id', $user->id)
+                        ->where('status', 'allowed');
+                })
                 ->get();
         }
 
@@ -38,11 +49,17 @@ class MicrositeController extends Controller
         $sites_type = TypeSite::all();
         $categories = Category::all();
         $currencies = Currency::all();
+        $buyer_id_types = BuyerIdType::all();
+        $optionals = OptionalField::all();
+        $plans = SuscriptionPlan::where('user_id', Auth::user());
 
         return Inertia('Microsites/Create', [
             'sites_type' => $sites_type,
             'categories' => $categories,
             'currencies' => $currencies,
+            'buyer_id_types' => $buyer_id_types,
+            'optionals' => $optionals,
+            'plans' => $plans,
         ]);
     }
 
@@ -54,9 +71,11 @@ class MicrositeController extends Controller
 
             if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();
+            } elseif ($microsite->type_site_id === '3') {
+                return redirect()->route('planes.create');
+            } else {
+                return redirect()->route('microsites.show', $microsite->id);
             }
-
-            return redirect()->route('microsites.show', $microsite->id);
         } catch (Throwable $e) {
             return back()->withErrors([
                 'error' => 'Microsite could not be created: '.$e->getMessage(),
@@ -65,14 +84,23 @@ class MicrositeController extends Controller
         }
     }
 
-    public function show($id): Response
+    public function show($id): Response|RedirectResponse
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
+
+        /**try {
+            $this->authorize('viewPayments', $microsite);
+        } catch (AuthorizationException $e) {
+
+            return redirect()->back()->with('error', 'No tienes permiso para ver los pagos de este micrositio.');
+        }**/
+
         $payments = Payment::where('microsite_id', $id)->with(['currency'])->get();
 
         return inertia('Microsites/Show', [
             'microsite' => $microsite,
             'payments' => $payments,
+            'flash' => ['message' => 'No tienes permiso para ver los pagos de este micrositio.'],
         ]);
     }
 

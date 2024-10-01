@@ -13,4 +13,9 @@ class PayPalGateway implements PaymentMethod
     {
         // TODO: Implement getInfomation() method.
     }
+
+    public function invalidateToken(array $data)
+    {
+        // TODO: Implement invalidateToken() method.
+    }
 }
