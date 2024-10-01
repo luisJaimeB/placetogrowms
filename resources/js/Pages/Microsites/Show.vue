@@ -7,8 +7,9 @@ export default {
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import {computed} from "vue";
+import {computed, onMounted} from "vue";
 import {useI18n} from "vue-i18n";
+import { useToast } from "vue-toastification";
 
 defineProps({
     microsite: {
@@ -18,8 +19,15 @@ defineProps({
     payments: {
         type: Object,
         required: true
+    },
+    flash: {
+        type: Object,
+        required: false,
+        default: () => ({})
     }
 });
+
+const toast = useToast();
 
 const { t } = useI18n();
 
@@ -29,6 +37,13 @@ const assetsUrl = computed(() => {
 const getLogoUrl = (path) => {
     return path ? `/microsite/logo/${path}` : null;
 };
+
+/**onMounted(() => {
+    if (flash.message) {
+        toast.error(flash.message);
+    }
+});**/
+
 </script>
 
 <template>

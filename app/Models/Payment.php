@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Payment extends Model
 {
@@ -31,6 +33,8 @@ class Payment extends Model
     protected $casts = [
         'buyer' => 'array',
         'payer' => 'array',
+        'optional_fields' => 'array',
+        'plan' => 'array',
     ];
 
     public function microsite(): BelongsTo
@@ -41,5 +45,15 @@ class Payment extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function suscription(): HasOne
+    {
+        return $this->hasOne(Suscription::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

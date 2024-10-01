@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             TypeSiteSeeder::class,
             CurrencySeeder::class,
+            BuyerIdTypeSeeder::class,
+            OptionalFieldSeeder::class,
         ]);
     }
 }

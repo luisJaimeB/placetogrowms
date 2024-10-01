@@ -25,4 +25,9 @@ class PaymentGatewayService
     {
         return $this->gateway->getInfomation($this->data);
     }
+
+    public function cancelToken()
+    {
+        return $this->gateway->invalidateToken($this->data);
+    }
 }

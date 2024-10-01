@@ -4,14 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasPermissions, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,8 +50,28 @@ class User extends Authenticatable
         ];
     }
 
-    public function microsites(): BelongsToMany
+    public function microsites(): HasMany
     {
-        return $this->belongsToMany(Microsite::class);
+        return $this->hasMany(Microsite::class);
+    }
+
+    public function suscriptionPlanes(): HasMany
+    {
+        return $this->hasMany(SuscriptionPlan::class);
+    }
+
+    public function suscription(): HasMany
+    {
+        return $this->hasMany(Suscription::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function acls(): HasMany
+    {
+        return $this->hasMany(Acl::class);
     }
 }

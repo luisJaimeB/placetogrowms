@@ -23,6 +23,9 @@ class CreatePaymentAction implements Executable
             $payment->buyer = self::buyerCast($data);
             $payment->payment_method = $data['paymentMethod'];
             $payment->microsite_id = $data['micrositeId'];
+            if ($data['type'] === 3) {
+                $payment->plan = $data['plan'];
+            }
 
             $payment->save();
 
@@ -36,6 +39,8 @@ class CreatePaymentAction implements Executable
     private static function buyerCast(array $data): false|string
     {
         $dataBuyer = [
+            'buyer_id_type' => $data['buyer_id_type'],
+            'buyer_id' => $data['buyer_id'],
             'name' => $data['name'],
             'lastName' => $data['lastName'],
             'email' => $data['email'],

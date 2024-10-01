@@ -2,7 +2,9 @@
 
 namespace App\Actions;
 
+use App\Constants\AclActions;
 use App\Contracts\Executable;
+use App\Models\Acl;
 use App\Models\Microsite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -31,11 +33,20 @@ class CreateMicrositeAction implements Executable
                 $microsite->logo = $filename;
             }
 
+            if (isset($data['optional_fields'])) {
+                $microsite->optional_fields = $data['optional_fields'];
+            }
             $microsite->save();
 
             if (isset($data['currency'])) {
                 $microsite->currencies()->sync($data['currency']);
             }
+
+            $acl = new Acl;
+            $acl->user_id = $microsite->user_id;
+            $acl->status = AclActions::allowed;
+            $acl->model()->associate($microsite);
+            $acl->save();
 
             return $microsite;
         } catch (Throwable $e) {

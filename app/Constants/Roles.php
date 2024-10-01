@@ -10,6 +10,8 @@ final class Roles
 
     public const string CUSTOMER = 'customer';
 
+    public const string SUBSCRIBER = 'subscriber';
+
     public static function toArray(): array
     {
         return (new ReflectionClass(self::class))->getConstants();

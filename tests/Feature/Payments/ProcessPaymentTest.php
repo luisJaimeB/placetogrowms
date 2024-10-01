@@ -85,6 +85,8 @@ class ProcessPaymentTest extends TestCase
             'phone' => '+123456789',
             'type' => 1,
             'micrositeId' => $microsite->id,
+            'buyer_id_type' => 1,
+            'buyer_id' => '107156541',
         ];
     }
 
