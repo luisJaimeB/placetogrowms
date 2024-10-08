@@ -13,13 +13,7 @@ class BuyerIdTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $buyerIdTypes = [
-            BuyerIdTypes::CC,
-            BuyerIdTypes::CE,
-            BuyerIdTypes::TI,
-            BuyerIdTypes::NIT,
-            BuyerIdTypes::RUT,
-        ];
+        $buyerIdTypes = BuyerIdTypes::toTypes();
 
         foreach ($buyerIdTypes as $buyerIdType) {
             BuyerIdType::query()->create([

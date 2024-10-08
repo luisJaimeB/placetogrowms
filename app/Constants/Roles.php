@@ -2,18 +2,14 @@
 
 namespace App\Constants;
 
-use ReflectionClass;
+use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
 
-final class Roles
+enum Roles: string implements Arrayable
 {
-    public const string ADMIN = 'Admin';
+    use EnumArrayable;
 
-    public const string CUSTOMER = 'customer';
-
-    public const string SUBSCRIBER = 'subscriber';
-
-    public static function toArray(): array
-    {
-        return (new ReflectionClass(self::class))->getConstants();
-    }
+    case ADMIN = 'Admin';
+    case CUSTOMER = 'customer';
+    case SUBSCRIBER = 'subscriber';
 }
