@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\Roles;
 use App\Models\Category;
+use App\Models\Invoice;
 use App\Models\Microsite;
 use App\Models\Payment;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,7 @@ class DashboardController extends Controller
     public function dashboard(): Response
     {
         $user = auth()->user();
+        $invoices = Invoice::with('currency')->get();
 
         if ($user->role === Roles::ADMIN) {
             $payments = Payment::with('microsite')->get();
@@ -52,6 +54,9 @@ class DashboardController extends Controller
             })->get();
         }
 
-        return inertia('Dashboard', ['payments' => $payments]);
+        return inertia('Dashboard', [
+            'payments' => $payments,
+            'invoices' => $invoices,
+        ]);
     }
 }

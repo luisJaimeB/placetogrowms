@@ -78,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/admin/acls/{acl}', [AclController::class, 'update'])->middleware('can:acls.update')->name('acls.update');
     Route::delete('/admin/acls/{acl}', [AclController::class, 'destroy'])->middleware('can:acls.delete')->name('acls.destroy');
 
+    Route::get('/payments', [PaymentController::class, 'index'])->middleware('can:payment.index')->name('payments.index');
     Route::get('/payment/detail/{payment}', [PaymentController::class, 'paymentDetail'])->name('payment.details');
 
     Route::post('/import-invoices', [InvoiceImportController::class, 'import'])->name('import.invoices');
