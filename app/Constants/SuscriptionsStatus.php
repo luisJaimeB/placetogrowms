@@ -9,7 +9,9 @@ enum SuscriptionsStatus: string implements Arrayable
 {
     use EnumArrayable;
 
-    case active = 'Activo';
-    case inactivo = 'Inactivo';
-    case canceled = 'Cancelado';
+    case ACTIVE = 'Active';
+    case INACTIVE = 'Inactive';
+    case CANCELLED = 'Cancelled';
+    case FREEZE = 'freeze';
+    case SUSPENDED = 'suspended';
 }

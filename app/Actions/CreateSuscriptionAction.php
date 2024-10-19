@@ -31,7 +31,7 @@ class CreateSuscriptionAction implements Create
         $suscription->payment_id = $data['payment_id'];
         $suscription->next_billing_date = self::nextBilling($periodicity);
         $suscription->expiration_date = self::expirationDate($data['plan'][0]['subscriptionTerm']);
-        $suscription->status = SuscriptionsStatus::active;
+        $suscription->status = SuscriptionsStatus::ACTIVE;
         $suscription->save();
 
         return $suscription;

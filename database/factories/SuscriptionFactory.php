@@ -23,10 +23,11 @@ class SuscriptionFactory extends Factory
             'microsite_id' => null,
             'next_billing_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
             'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
-            'status' => SuscriptionsStatus::active->value,
+            'status' => SuscriptionsStatus::ACTIVE->value,
             'token' => Str::random(32),
             'plan_id' => SuscriptionPlan::factory(),
             'payer' => json_encode(['name' => $this->faker->name]),
+            'recovery_count' => 3,
             'created_at' => now(),
             'updated_at' => now(),
         ];

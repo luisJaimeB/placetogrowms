@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Actions\CreatePaymentAction;
 use App\Constants\Periodicities;
+use App\Constants\SuscriptionsStatus;
 use App\Factories\PaymentFactory;
 use App\Jobs\CollectSubscription;
 use App\Models\Suscription;
@@ -40,6 +41,7 @@ class ChargeSubscriptions extends Command
 
         $subscriptions = Suscription::where('next_billing_date', '<=', $today)
             ->where('expiration_date', '>=', $today)
+            ->where('status',  [SuscriptionsStatus::ACTIVE, SuscriptionsStatus::FREEZE])
             ->with(['initialPayment', 'microsite', 'suscriptionPlan'])
             ->get();
 
