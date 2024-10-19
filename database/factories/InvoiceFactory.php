@@ -23,7 +23,7 @@ class InvoiceFactory extends Factory
             'status' => InvoicesStatus::active,
             'order_number' => Str::random(32),
             'debtor_name' => $this->faker->words(2, true),
-            'microsite_id' => Microsite::factory(),
+            'microsite_id' => null,
             'identification_type_id' => BuyerIdType::factory(),
             'identification_number' => $this->faker->randomFloat(0, 0, 9999999999.99),
             'email' => $this->faker->safeEmail,
@@ -34,5 +34,12 @@ class InvoiceFactory extends Factory
             'user_id' => User::factory(),
             'payment_id' => null,
         ];
+    }
+
+    public function withMicrositeId($micrositeId): Factory|MicrositeFactory
+    {
+        return $this->state([
+            'microsite_id' => $micrositeId,
+        ]);
     }
 }
