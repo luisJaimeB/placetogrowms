@@ -2,8 +2,11 @@
 
 namespace Tests\Feature\Payments;
 
+use App\Constants\TypesSites;
 use App\Factories\PaymentFactory;
+use App\Models\Microsite;
 use App\Models\Payment;
+use App\Models\TypeSite;
 use App\Payments\PlaceToPayGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
@@ -57,7 +60,9 @@ class HandleReturnPaymentTest extends TestCase
                 ->andReturn($gatewayMock);
         });
 
-        $payment = Payment::factory()->create([
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $payment = Payment::factory()->withMicrositeId($microsite)->create([
             'payment_method' => 'placetopay',
             'return_id' => 'test_return_id',
         ]);
@@ -80,7 +85,9 @@ class HandleReturnPaymentTest extends TestCase
 
     public function testHandleReturnError()
     {
-        Payment::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        Payment::factory()->withMicrositeId($microsite)->create();
 
         $response = $this->get(route('payments.return', 'invalid_return_id'));
 

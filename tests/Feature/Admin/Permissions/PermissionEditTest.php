@@ -18,13 +18,9 @@ class PermissionEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.edit';
-
     private string $route;
-
     private User $customer;
-
     private Role $admin;
-
     private Permission $permission;
 
     protected function setUp(): void
@@ -32,7 +28,7 @@ class PermissionEditTest extends TestCase
         parent::setUp();
 
         $this->admin = Role::create(['name' => 'Admin']);
-        $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_UPDATE]);
+        $this->permission = Permission::create(['name' => Permissions::PERMISSIONS_UPDATE->value]);
 
         $this->admin->givePermissionTo($this->permission);
         $this->route = route(self::RESOURCE_NAME, $this->permission);
@@ -49,7 +45,7 @@ class PermissionEditTest extends TestCase
     #[Test]
     public function unauthorized_user_cant_edit_an_permission(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -61,7 +57,7 @@ class PermissionEditTest extends TestCase
     #[Test]
     public function authorized_user_can_edit_an_permission(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 

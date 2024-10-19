@@ -21,15 +21,10 @@ class MicrositeEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.edit';
-
     private string $route;
-
     private Microsite $microsite;
-
     private Category $category;
-
     private TypeSite $typeSite;
-
     private Role $admin;
 
     protected function setUp(): void

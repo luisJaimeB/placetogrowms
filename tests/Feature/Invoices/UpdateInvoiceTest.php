@@ -5,10 +5,12 @@ namespace Tests\Feature\Invoices;
 use App\Constants\InvoicesStatus;
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
 use App\Models\Invoice;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,36 +28,30 @@ class UpdateInvoiceTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'invoices.update';
-
     private string $route;
-
     private Role $adminrole;
-
     private Permission $permission;
-
     private User $user;
-
     private Microsite $microsite;
-
     private BuyerIdType $buyerIdType;
-
     private Currency $currency;
-
     private Invoice $invoice;
+
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->currency = Currency::factory()->create();
-        $this->invoice = Invoice::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $this->invoice = Invoice::factory()->withMicrositeId($this->microsite->id)->create();
         $this->route = route(self::RESOURCE_NAME, $this->invoice);
 
-        $this->microsite = Microsite::factory()->create();
         $this->buyerIdType = BuyerIdType::factory()->create();
         $this->user = User::factory()->create();
-        $this->adminrole = Role::create(['name' => Roles::ADMIN]);
-        $this->permission = Permission::create(['name' => Permissions::INVOICES_UPDATE]);
+        $this->adminrole = Role::create(['name' => Roles::ADMIN->value]);
+        $this->permission = Permission::create(['name' => Permissions::INVOICES_UPDATE->value]);
 
         $this->adminrole->givePermissionTo($this->permission);
         $this->user->assignRole($this->adminrole);
@@ -70,7 +66,7 @@ class UpdateInvoiceTest extends TestCase
 
     public function test_unauthorized_user_cant_access_to_invoices_update(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)

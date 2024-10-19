@@ -19,9 +19,7 @@ class UserIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.index';
-
     private string $route;
-
     private Role $admin;
 
     protected function setUp(): void
@@ -30,8 +28,8 @@ class UserIndexTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $this->admin = Role::create(['name' => Roles::ADMIN]);
-        $readPermission = Permission::create(['name' => Permissions::USERS_INDEX]);
+        $this->admin = Role::create(['name' => Roles::ADMIN->value]);
+        $readPermission = Permission::create(['name' => Permissions::USERS_INDEX->value]);
 
         $this->admin->givePermissionTo($readPermission);
     }
@@ -47,7 +45,7 @@ class UserIndexTest extends TestCase
     #[Test]
     public function unauthorized_user_can_not_access_to_user_list(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -60,11 +58,11 @@ class UserIndexTest extends TestCase
     public function authorized_user_can_access_to_user_list(): void
     {
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
 
-        /** @var \App\Models\User $customer */
+        /** @var User $customer */
         $customer = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -83,8 +81,5 @@ class UserIndexTest extends TestCase
                 ->has('users.links', 3)
             )
             ->assertSee($customer->name);
-        /* ->assertSee(route('users.create'))
-        ->assertSee(route('users.edit', $customer->id))
-        ->assertSee(route('users.destroy', $customer->id)); */
     }
 }

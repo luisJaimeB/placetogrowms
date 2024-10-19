@@ -4,7 +4,9 @@ namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -20,11 +22,9 @@ class MicrositeIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.index';
-
     private string $route;
-
     private Role $admin;
-
+    private Role $customer;
     private Microsite $microsite;
 
     protected function setUp(): void
@@ -38,7 +38,11 @@ class MicrositeIndexTest extends TestCase
 
         $this->admin->givePermissionTo($readPermission);
 
-        $this->microsite = Microsite::factory()->create();
+        $this->customer = Role::create(['name' => Roles::CUSTOMER->value]);
+        $this->customer->givePermissionTo($readPermission);
+
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
     }
 
     #[Test]
@@ -77,4 +81,37 @@ class MicrositeIndexTest extends TestCase
             )
             ->assertSee($user->name);
     }
+
+    #[Test]
+    public function non_admin_user_can_access_only_allowed_microsites(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user->assignRole($this->customer);
+
+        $micrositeAllowed = $this->microsite;
+        $micrositeAllowed->acls()->create([
+            'user_id' => $user->id,
+            'status' => 'allowed',
+        ]);
+
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_SUBSCRIPTION->value]);
+        $micrositeNotAllowed = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $micrositeNotAllowed->acls()->create([
+            'user_id' => $user->id,
+            'status' => 'denied',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get($this->route);
+
+        $response->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Microsites/Index')
+                ->has('microsites', 1)
+            )
+            ->assertSee($micrositeAllowed->name)
+            ->assertDontSee($micrositeNotAllowed->name);
+    }
+
 }

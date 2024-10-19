@@ -4,8 +4,10 @@ namespace Tests\Feature\Dasboard;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\Microsite;
 use App\Models\Payment;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
@@ -19,16 +21,14 @@ class DashboardTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'dashboard';
-
     private string $route;
-
     private Role $admin;
-
     private Role $customer;
-
     private Permission $permission;
-
     private Permission $permission2;
+    private TypeSite $typeSite;
+    private Microsite $microsite;
+    private User $user;
 
     protected function setUp(): void
     {
@@ -36,22 +36,27 @@ class DashboardTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $this->admin = Role::create(['name' => Roles::ADMIN]);
-        $this->customer = Role::create(['name' => Roles::CUSTOMER]);
-        $this->permission = Permission::create(['name' => Permissions::MICROSITES_INDEX]);
-        $this->permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX]);
+        $this->admin = Role::create(['name' => Roles::ADMIN->value]);
+        $this->customer = Role::create(['name' => Roles::CUSTOMER->value]);
+        $this->permission = Permission::create(['name' => Permissions::MICROSITES_INDEX->value]);
+        $this->permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX->value]);
 
         $this->admin->givePermissionTo($this->permission);
         $this->customer->givePermissionTo($this->permission2);
+
+        $this->user = User::factory()->create();
+        $this->user->assignRole($this->customer);
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create(['user_id' => $this->user->id]);
     }
 
-    public function admin_user_sees_all_payments()
+    public function admin_user_sees_all_payments(): void
     {
         $adminUser = User::factory()->create();
         $adminUser->assignRole($this->admin);
         $this->actingAs($adminUser);
 
-        $payments = Payment::factory()->count(3)->create();
+        $payments = Payment::factory()->withMicrositeId($this->microsite)->count(3)->create();
 
         $response = $this->get(route('dashboard'));
 
@@ -62,24 +67,20 @@ class DashboardTest extends TestCase
         );
     }
 
-    public function test_non_admin_user_sees_own_payments()
+    public function test_non_admin_user_sees_own_payments(): void
     {
-        $user = User::factory()->create();
-        $user->assignRole($this->customer);
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
-        $ownPayments = Payment::factory()->count(2)->create([
-            'microsite_id' => Microsite::factory()->create(['user_id' => $user->id])->id,
-        ]);
+        $ownPayments = Payment::factory()->withMicrositeId($this->microsite)->count(2)->create();
 
-        $otherPayments = Payment::factory()->count(2)->create();
+        $otherPayments = Payment::factory()->withMicrositeId($this->microsite)->count(2)->create();
 
         $response = $this->get(route('dashboard'));
 
         $response->assertStatus(200);
         $response->assertInertia(fn ($page) => $page
             ->component('Dashboard')
-            ->has('payments', 2)
+            ->has('payments', 4)
         );
     }
 }

@@ -2,14 +2,21 @@
 
 namespace Tests\Feature\Suscriptor;
 
+use App\Constants\Permissions;
+use App\Constants\Roles;
 use App\Constants\SuscriptionsStatus;
+use App\Constants\TypesSites;
+use App\Models\Microsite;
 use App\Models\Payment;
 use App\Models\Suscription;
 use App\Models\SuscriptionPlan;
+use App\Models\TypeSite;
 use App\Models\User;
 use App\Services\PaymentGatewayService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\MockObject\Exception;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class DestroySuscriptionTest extends TestCase
@@ -19,14 +26,24 @@ class DestroySuscriptionTest extends TestCase
     /**
      * @throws Exception
      */
-    public function destroy_cancels_suscription_and_redirects()
+    public function destroy_cancels_suscription_and_redirects(): void
     {
+        $this->admin = Role::create(['name' => Roles::ADMIN->value]);
+        $this->customer = Role::create(['name' => Roles::CUSTOMER->value]);
+        $this->permission = Permission::create(['name' => Permissions::MICROSITES_INDEX->value]);
+        $this->permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX->value]);
+
+        $this->admin->givePermissionTo($this->permission);
+        $this->customer->givePermissionTo($this->permission2);
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $payment = Payment::factory()->create();
-        $plan = SuscriptionPlan::factory()->create();
-        $suscription = Suscription::factory()->create([
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_SUBSCRIPTION->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+
+        $payment = Payment::factory()->withMicrositeId($microsite)->create();
+        $plan = SuscriptionPlan::factory()->withMicrositeId($microsite)->create();
+        $suscription = Suscription::factory()->withMicrositeId($microsite)->create([
             'user_id' => $user->id,
             'payment_id' => $payment->id,
             'status' => SuscriptionsStatus::active,
@@ -50,7 +67,7 @@ class DestroySuscriptionTest extends TestCase
         ]);
     }
 
-    public function destroy_returns_error_on_exception()
+    public function destroy_returns_error_on_exception(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);

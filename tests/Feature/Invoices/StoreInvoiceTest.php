@@ -5,9 +5,11 @@ namespace Tests\Feature\Invoices;
 use App\Constants\InvoicesStatus;
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,19 +27,13 @@ class StoreInvoiceTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'invoices.store';
-
     private string $route;
-
     private Role $adminrole;
-
     private Permission $permission;
-
     private User $user;
-
     private Microsite $microsite;
-
+    private TypeSite $typeSite;
     private BuyerIdType $buyerIdType;
-
     private Currency $currency;
 
     protected function setUp(): void
@@ -46,7 +42,8 @@ class StoreInvoiceTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $this->microsite = Microsite::factory()->create();
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
         $this->buyerIdType = BuyerIdType::factory()->create();
         $this->currency = Currency::factory()->create();
         $this->user = User::factory()->create();
@@ -66,7 +63,7 @@ class StoreInvoiceTest extends TestCase
 
     public function test_unauthorized_user_cant_access_to_invoices_store(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
