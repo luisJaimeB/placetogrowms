@@ -9,7 +9,6 @@ import FormSection from '@/Components/FormSection.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n"
 import {toRefs} from "vue";
 import {SButton} from "@placetopay/spartan-vue";
@@ -141,7 +140,7 @@ defineEmits(['submit'])
             <div class="col-span-6 sm:col-span-6">
                 <InputLabel for="items" :value="t('fields.items')" />
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
-                    <div v-for="(item, index) in form.items" :key="index" class="flex items-center">
+                    <div v-for="(index) in form.items" :key="index" class="flex items-center">
                         <TextInput v-model="form.items[index]" type="text" class="block w-full" />
                         <button type="button" @click="removeItem(index)" class="ml-2 text-red-600">
                             Remove

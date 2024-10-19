@@ -6,7 +6,6 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UserForm from '@/Components/permissions/Form.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import {useI18n} from "vue-i18n";
 import PlansForm from "@/Components/plans/Form.vue";

@@ -6,9 +6,9 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import {useI18n} from "vue-i18n";
-import {SButton, SCard, SDefinitionTerm, SLink, SSectionDescription, SSectionTitle} from "@placetopay/spartan-vue";
+import {SButton, SCard, SDefinitionTerm, SSectionDescription, SSectionTitle} from "@placetopay/spartan-vue";
 
 const { t } = useI18n();
 

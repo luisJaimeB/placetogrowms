@@ -9,7 +9,6 @@ import FormSection from '@/Components/FormSection.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n"
 import {ref, toRefs, watch} from "vue";
 import {SInputDateBlock, SButton, SSelect, SInput} from "@placetopay/spartan-vue";

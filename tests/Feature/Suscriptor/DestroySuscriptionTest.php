@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Suscriptor;
 
+use AllowDynamicProperties;
 use App\Constants\Permissions;
 use App\Constants\Roles;
 use App\Constants\SuscriptionsStatus;
@@ -19,7 +20,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class DestroySuscriptionTest extends TestCase
+#[AllowDynamicProperties] class DestroySuscriptionTest extends TestCase
 {
     use RefreshDatabase;
 
