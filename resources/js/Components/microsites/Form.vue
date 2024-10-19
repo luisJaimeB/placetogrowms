@@ -11,6 +11,7 @@ import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n";
+import {SButton} from "@placetopay/spartan-vue";
 
 defineProps({
     form: {
@@ -47,6 +48,10 @@ const filterInput = (event) => {
     form.buyer_id = event.target.value;
 };
 
+const goBack = () => {
+    window.history.back();
+}
+
 defineEmits(['submit'])
 </script>
 
@@ -79,7 +84,7 @@ defineEmits(['submit'])
                     <option value="" disabled>Selecciona una categoría</option>
                     <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
                 </select>
-                <InputError :message="$page.props.errors.category" class="mt-2" />
+                <InputError :message="$page.props.errors.category_id" class="mt-2" />
             </div>
 
             <!-- Name -->
@@ -141,9 +146,10 @@ defineEmits(['submit'])
         </template>
 
         <template #actions>
-            <PrimaryButton>
+            <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
+            <SButton variant="primary" type="submit">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
-            </PrimaryButton>
+            </SButton>
         </template>
     </FormSection>
 </template>

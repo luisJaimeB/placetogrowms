@@ -12,6 +12,7 @@ import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n"
 import {ref, toRefs, watch} from "vue";
+import {SInputDateBlock, SButton, SSelect, SInput} from "@placetopay/spartan-vue";
 
 const { t } = useI18n()
 
@@ -55,6 +56,11 @@ const filterInput = (event) => {
     event.target.value = event.target.value.replace(/\D/g, '');
     form.buyer_id = event.target.value;
 };
+
+const goBack = () => {
+    window.history.back();
+}
+
 defineEmits(['submit'])
 </script>
 
@@ -71,17 +77,15 @@ defineEmits(['submit'])
         <template #form>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="microsite_id" :value="t('titles.microsites')" />
-                <select id="microsite_id" v-model="form.microsite_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                <SSelect id="microsite_id" placeholder="Select an option" v-model="form.microsite_id" class="mt-1 block w-full pl-3 pr-10 py-2">
                     <option v-for="microsite in microsites" :key="microsite.id" :value="microsite.id">
                         {{ microsite.name }}
                     </option>
-                </select>
+                </SSelect>
                 <InputError :message="$page.props.errors.microsite_id" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="order" :value="t('fields.orderNumber')"  />
-                <TextInput id="order_number" v-model="form.order_number" type="text" autocomplete="name" class="mt-1 block w-full" />
-                <InputError :message="$page.props.errors.order_number" class="mt-2" />
+                <SInputDateBlock :label="t('fields.dueDate')" id="next_payment" v-model="form.expiration_date" :errorText="$page.props.errors.expiration_date"/>
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="identification_type" :value="t('fields.buyerIdType')"/>
@@ -93,8 +97,8 @@ defineEmits(['submit'])
                 <InputError :message="$page.props.errors.identification_type_id" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="name" :value="t('fields.buyerId')" />
-                <TextInput id="name" v-model="form.identification_number" type="text" autocomplete="name" class="mt-1 block w-full" />
+                <InputLabel for="buyerId" :value="t('fields.buyerId')" />
+                <SInput id="buyerId" v-model="form.identification_number" :placeholder="t('fields.buyerId')" />
                 <InputError :message="$page.props.errors.identification_number" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
@@ -113,9 +117,9 @@ defineEmits(['submit'])
                 <InputError :message="$page.props.errors.description" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="next_payment" :value="t('fields.dueDate')" />
-                <TextInput id="next_payment" v-model="form.expiration_date" type="date" class="border-2 border-gray-300 rounded px-3 py-2 w-full" />
-                <InputError :message="$page.props.errors.expiration_date" class="mt-2" />
+                <InputLabel for="order" :value="t('fields.orderNumber')"  />
+                <TextInput id="order_number" v-model="form.order_number" type="text" autocomplete="name" class="mt-1 block w-full" />
+                <InputError :message="$page.props.errors.order_number" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="currency" :value="t('fields.currency')" />
@@ -135,9 +139,10 @@ defineEmits(['submit'])
         </template>
 
         <template #actions>
-            <PrimaryButton>
+            <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
+            <SButton variant="primary">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
-            </PrimaryButton>
+            </SButton>
         </template>
     </FormSection>
 </template>

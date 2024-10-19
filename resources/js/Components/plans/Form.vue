@@ -12,6 +12,7 @@ import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n"
 import {toRefs} from "vue";
+import {SButton} from "@placetopay/spartan-vue";
 
 const { t } = useI18n()
 
@@ -26,6 +27,10 @@ const props = defineProps({
         default: false
     },
     periodicities: {
+        type: Array,
+        required: true
+    },
+    subscriptionTerm: {
         type: Array,
         required: true
     },
@@ -54,6 +59,10 @@ const filterInput = (event) => {
     event.target.value = event.target.value.replace(/\D/g, '');
     props.form.buyer_id = event.target.value;
 };
+
+const goBack = () => {
+    window.history.back();
+}
 
 defineEmits(['submit'])
 </script>
@@ -98,32 +107,34 @@ defineEmits(['submit'])
                 <InputError :message="$page.props.errors.periodicity" class="mt-2" />
             </div>
 
-            <!-- Interval -->
-            <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="interval" :value="t('fields.interval')" />
-                <TextInput id="interval" v-model="form.interval" type="text" class="mt-1 block w-full" />
-                <InputError :message="$page.props.errors.interval" class="mt-2" />
-            </div>
-
-            <!-- Next Payment -->
-            <div class="col-span-6 sm:col-span-3">
-                <InputLabel for="next_payment" :value="t('fields.nextPayment')" />
-                <TextInput id="next_payment" v-model="form.next_payment" type="date" class="border-2 border-gray-300 rounded px-3 py-2 w-full" />
-                <InputError :message="$page.props.errors.next_payment" class="mt-2" />
-            </div>
-
             <!-- Due Date -->
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="due_date" :value="t('fields.dueDate')" />
-                <TextInput id="due_date" v-model="form.due_date" type="date" class="border-2 border-gray-300 rounded px-3 py-2 w-full" />
-                <InputError :message="$page.props.errors.due_date" class="mt-2" />
+                <select id="subscriptionTerm" v-model="form.subscriptionTerm" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option v-for="option in subscriptionTerm" :key="option" :value="option">
+                        {{ option }}
+                    </option>
+                </select>
+                <InputError :message="$page.props.errors.subscriptionTerm" class="mt-2" />
             </div>
 
             <!-- amount -->
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="amount" :value="t('fields.amountSuscription')" />
-                <TextInput id="amount" v-model="form.amount" type="number" class="mt-1 block w-full" @input="filterInput"/>
+                <TextInput id="amount" v-model="form.amount" type="text" class="mt-1 block w-full" @input="filterInput"/>
                 <InputError :message="$page.props.errors.amount" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="lapse" value="Tiempo reintento (En caso de fallar el cobro)" />
+                <TextInput id="lapse" v-model="form.lapse" placeholder="Tiempo de cada reintento en horas" type="text" class="mt-1 block w-full" @input="filterInput"/>
+                <InputError :message="$page.props.errors.lapse" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="attempts" value="Número de intentos" />
+                <TextInput id="attempts" v-model="form.attempts" placeholder="Número de intentos" type="text" class="mt-1 block w-full" @input="filterInput"/>
+                <InputError :message="$page.props.errors.attempts" class="mt-2" />
             </div>
 
             <!-- Items -->
@@ -145,9 +156,10 @@ defineEmits(['submit'])
         </template>
 
         <template #actions>
-            <PrimaryButton>
+            <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
+            <SButton variant="primary" type="submit">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
-            </PrimaryButton>
+            </SButton>
         </template>
     </FormSection>
 </template>

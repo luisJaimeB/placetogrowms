@@ -12,6 +12,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue'
 import {useI18n} from "vue-i18n"
 import axios from 'axios'
 import {ref} from "vue";
+import {SButton} from "@placetopay/spartan-vue";
 
 const { t } = useI18n()
 
@@ -51,6 +52,10 @@ const fetchModelData = async () => {
     } catch (error) {
         console.error("Hubo un error:", error);
     }
+}
+
+const goBack = () => {
+    window.history.back();
 }
 
 defineEmits(['submit'])
@@ -108,9 +113,10 @@ defineEmits(['submit'])
         </template>
 
         <template #actions>
-            <PrimaryButton>
+            <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
+            <SButton variant="primary">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
-            </PrimaryButton>
+            </SButton>
         </template>
     </FormSection>
 
