@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Suscriptor;
 
+use App\Constants\Roles;
 use App\Constants\SuscriptionsStatus;
 use App\Factories\PaymentFactory;
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Models\Suscription;
 use App\Services\PaymentGatewayService;
 use Illuminate\Http\JsonResponse;
@@ -17,17 +19,52 @@ class SuscriptionController extends Controller
 {
     public function index(): Response
     {
-        $suscriptions = Suscription::where('user_id', Auth::id())
-            ->with(['suscriptionPlan', 'microsite', 'payment'])
-            ->get();
+        $user = Auth::user();
+        $isEditing = false;
 
-        return inertia('Suscriptions/Index', ['suscriptions' => $suscriptions]);
+        if ($user->hasRole(Roles::ADMIN->value)) {
+            $suscriptions = Suscription::with(['suscriptionPlan', 'microsite', 'initialPayment'])->get();
+            $isEditing = true;
+        } else {
+            $suscriptions = Suscription::where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhereHas('microsite', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    });
+            })->with(['suscriptionPlan', 'microsite', 'initialPayment'])->get();
+
+            $isOwner = $suscriptions->contains(function ($suscription) use ($user) {
+                return $suscription->microsite->owner_id === $user->id;
+            });
+
+            if ($isOwner) {
+                $isEditing = true;
+            }
+        }
+
+        return inertia('Suscriptions/Index', [
+            'suscriptions' => $suscriptions,
+            'editing' => $isEditing
+        ]);
+    }
+
+    public function show($id): Response|RedirectResponse
+    {
+        $suscription = Suscription::with(['suscriptionPlan', 'microsite', 'initialPayment'])->findOrFail($id);
+
+        $payments = Payment::where('suscription_id', $suscription->id)->with(['currency'])->get();
+
+        return inertia('Suscriptions/Show', [
+            'suscription' => $suscription,
+            'payments' => $payments,
+            'flash' => ['message' => 'No tienes permiso para ver los pagos de esta suscripción.'],
+        ]);
     }
 
     public function destroy($id): RedirectResponse|JsonResponse
     {
         $suscription = Suscription::where('id', $id)
-            ->with(['suscriptionPlan', 'microsite', 'payment'])
+            ->with(['suscriptionPlan', 'microsite', 'initialPayment'])
             ->first();
         $tokenization = $suscription->payment;
         $paymentMethod = $tokenization->payment_method;

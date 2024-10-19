@@ -4,6 +4,8 @@ namespace App\Payments;
 
 use App\Actions\CreatePaymentAction;
 use App\Models\BuyerIdType;
+use App\Models\Currency;
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Http;
@@ -17,8 +19,8 @@ class PlaceToPayGateway implements PaymentMethod
     protected array $data;
 
     const URI = '/api/session';
-
     const URI_INVALIDATE = '/api/instrument/invalidate';
+    const URI_COLLECT = '/api/collect';
 
     public function __construct(array $data)
     {
@@ -41,6 +43,20 @@ class PlaceToPayGateway implements PaymentMethod
         Log::info('Payment response:', (array) $response);
 
         return $this->handleResponse($response, $data, $dataPayment);
+    }
+
+    public function collect(array $data): array
+    {
+        $URI = self::URI_COLLECT;
+        $collectEndpoint = $this->endpoint.$URI;
+        $dataCollect = $this->prepareCollect($data);
+        Log::info('Collect Data:', $dataCollect);
+
+        $response = Http::post($collectEndpoint, $dataCollect);
+        $responseData = $response->json();
+        Log::info('Collect response:', (array) $responseData);
+
+        return (array) $responseData;
     }
 
     /**
@@ -186,6 +202,18 @@ class PlaceToPayGateway implements PaymentMethod
         ];
     }
 
+    private function preparePayerData($data): array
+    {
+        return [
+            'documentType' => $data['documentType'],
+            'document' => $data['document'],
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'email' => $data['email'],
+            'mobile' => $data['mobile']
+        ];
+    }
+
     private function prepareOptionalFields($data): array
     {
         $preparedFields = [];
@@ -214,14 +242,27 @@ class PlaceToPayGateway implements PaymentMethod
         ];
     }
 
-    private function prepareData($data): array
+    private function expiration($data): string
+    {
+        $expirationRange = $data['expiration'] ?? $data['microsite']['expiration'];
+        $date = new DateTime;
+        $date->modify('+'.$expirationRange.' minutes');
+
+        return $date->format('c');
+    }
+
+    private function returnUrl($data): string
     {
         $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
         $data['randomReturn'] = $randomReturn;
-        $expirationRange = $data['expiration'];
-        $date = new DateTime;
-        $date->modify('+'.$expirationRange.' minutes');
-        $expiration = $date->format('c');
+        return route('payments.return', $randomReturn);
+    }
+
+    private function prepareData($data): array
+    {
+        $expiration = $this->expiration($data);
+        $randomReturn = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 10));
+        $data['randomReturn'] = $randomReturn;
         $userIp = $data['userIp'];
         $userAgent = $data['userAgent'];
         $returnUrl = route('payments.return', $randomReturn);
@@ -233,7 +274,7 @@ class PlaceToPayGateway implements PaymentMethod
                 'buyer' => $this->prepareBuyerData($data),
                 'fields' => $this->prepareOptionalFields($data),
                 'expiration' => $expiration,
-                'returnUrl' => $returnUrl,
+                'returnUrl' => $this->returnUrl($data),
                 'ipAddress' => $userIp,
                 'userAgent' => $userAgent,
             ];
@@ -249,5 +290,22 @@ class PlaceToPayGateway implements PaymentMethod
                 'userAgent' => $userAgent,
             ];
         }
+    }
+
+    public function prepareCollect(array $data): array
+    {
+        $data['initial_payment']['currencyCode'] = Currency::where('id', $data['initial_payment']['currency_id'])->pluck('code')->first();
+        $today = Carbon::today();
+        $data['initial_payment']['description'] = 'Pago suscripción - ' . $today;
+        return [
+            'auth' => $this->prepareAuth(),
+            'payment' => $this->preparePaymentBody($data['initial_payment']),
+            'payer' => $this->preparePayerData($data['payer']),
+            'instrument' => $this->prepareTokenData($data),
+            'expiration' => $this->expiration($data),
+            'returnUrl' => $this->returnUrl($data),
+            'ipAddress' =>  gethostbyname(gethostname()),
+            'userAgent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
+        ];
     }
 }

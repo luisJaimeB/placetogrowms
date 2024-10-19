@@ -17,6 +17,10 @@ const props = defineProps({
         type: Array,
         required: true
     },
+    subscriptionTerm: {
+        type: Array,
+        required: true
+    },
     microsites: {
         type: Array,
         required: false
@@ -28,10 +32,10 @@ const form = useForm({
     items: [],
     periodicity: '',
     amount: '',
-    interval: '',
-    next_payment: '',
-    due_date: '',
+    subscriptionTerm: '',
     microsite_id: '',
+    attempts: '',
+    lapse: ''
 });
 
 const submitForm = () => {
@@ -54,7 +58,7 @@ const submitForm = () => {
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <PlansForm :form="form" :microsites="microsites" :periodicities="periodicities" @submit="submitForm" v-if="$page.props.user.permissions.includes('planes.create')"/>
+                            <PlansForm :form="form" :subscriptionTerm="subscriptionTerm" :microsites="microsites" :periodicities="periodicities" @submit="submitForm" v-if="$page.props.user.permissions.includes('planes.create')"/>
                         </div>
                     </div>
                 </div>

@@ -30,4 +30,9 @@ class PaymentGatewayService
     {
         return $this->gateway->invalidateToken($this->data);
     }
+
+    public function collect()
+    {
+        return $this->gateway->collect($this->data);
+    }
 }

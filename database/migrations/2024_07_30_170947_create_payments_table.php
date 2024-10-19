@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('reference', 32)->unique()->nullable();
             $table->string('description', 100)->nullable();
             $table->date('date')->nullable();
-            $table->json('buyer');
+            $table->json('buyer')->nullable();
             $table->json('payer')->nullable();
             $table->string('return_url')->nullable();
             $table->string('proccess_url')->nullable();

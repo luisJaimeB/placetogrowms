@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateSuscriptionPlanAction;
 use App\Constants\Periodicities;
+use App\Constants\SubscriptionTerm;
 use App\Http\Requests\CreateSuscriptionRequest;
 use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 
-class SuscriptionController extends Controller
+class SuscriptionPlanController extends Controller
 {
     public function index(): Response
     {
@@ -28,10 +29,12 @@ class SuscriptionController extends Controller
             ->get();
 
         $periodicities = Periodicities::toArray();
+        $subscriptionTerm = SubscriptionTerm::toArray();
 
         return Inertia('SuscriptionPlanes/Create', [
             'periodicities' => $periodicities,
             'microsites' => $microsites,
+            'subscriptionTerm' => $subscriptionTerm
         ]);
     }
 
@@ -51,11 +54,13 @@ class SuscriptionController extends Controller
             ->get();
 
         $periodicities = Periodicities::toArray();
+        $subscriptionTerm = SubscriptionTerm::toArray();
 
         return inertia('SuscriptionPlanes/Edit', [
             'plan' => $plan,
             'periodicities' => $periodicities,
             'microsites' => $microsites,
+            'subscriptionTerm' => $subscriptionTerm
         ]);
     }
 

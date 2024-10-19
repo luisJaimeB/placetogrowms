@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Constants\Periodicities;
+use App\Constants\SubscriptionTerm;
 use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
 use App\Models\User;
@@ -17,13 +18,20 @@ class SuscriptionPlanFactory extends Factory
         return [
             'name' => $this->faker->word.' '.$this->faker->word,
             'periodicity' => $this->faker->randomElement(Periodicities::toArray()),
-            'interval' => $this->faker->word,
             'amount' => $this->faker->numberBetween(1, 9999999999),
-            'next_payment' => $this->faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
-            'due_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
-            'microsite_id' => Microsite::factory(),
+            'microsite_id' => null,
+            'attempts' => 3,
+            'lapse' => 8,
+            'subscriptionTerm' => $this->faker->randomElement(SubscriptionTerm::toArray()),
             'items' => json_encode(['item1', 'item2']),
             'user_id' => User::factory(),
         ];
+    }
+
+    public function withMicrositeId($micrositeId): Factory|MicrositeFactory
+    {
+        return $this->state([
+            'microsite_id' => $micrositeId,
+        ]);
     }
 }

@@ -47,9 +47,9 @@ class Payment extends Model
         return $this->belongsTo(Currency::class);
     }
 
-    public function suscription(): HasOne
+    public function subscription(): BelongsTo
     {
-        return $this->hasOne(Suscription::class);
+        return $this->belongsTo(Suscription::class, 'subscription_id');
     }
 
     public function invoices(): HasMany

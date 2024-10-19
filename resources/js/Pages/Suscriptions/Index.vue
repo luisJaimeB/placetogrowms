@@ -8,6 +8,7 @@ export default {
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import {useI18n} from "vue-i18n";
+import {SButton, SCard, SDefinitionTerm, SLink, SSectionDescription, SSectionTitle} from "@placetopay/spartan-vue";
 
 const { t } = useI18n();
 
@@ -15,13 +16,22 @@ defineProps({
     suscriptions: {
         type: Object,
         required: true
-    }
+    },
+    editing: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
 })
 
 const deleteSuscription = id =>{
     if (confirm('¿Estás seguro, la cancelación de tu suscripción no se podrá reversar?')) {
         router.delete(route('subscriptions.destroy', id))
     }
+}
+
+function goToSuscriptionIndex(suscriptionId) {
+    router.visit(route('subscriptions.show', { id: suscriptionId }));
 }
 </script>
 
@@ -35,19 +45,22 @@ const deleteSuscription = id =>{
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div v-if="suscriptions.length === 0" class="text-center mt-16">
+                    <p class="text-lg font-medium text-gray-500">No se tienen suscripciones activas.</p>
+                </div>
                 <!-- Tarjetas -->
-                <ul v-for="suscription in suscriptions" :key="suscription.id" class="bg-white shadow overflow-hidden sm:rounded-md max-w-sm mx-auto mt-16">
+                <!-- <ul v-for="suscription in suscriptions" :key="suscription.id" class="bg-white shadow overflow-hidden sm:rounded-md max-w-sm mx-auto mt-16">
                     <li>
                         <div class="px-4 py-5 sm:px-6">
-                            <!-- Título del plan -->
+
                             <h3 class="text-lg leading-6 font-medium text-gray-900">{{ suscription.suscription_plan.name }}</h3>
-                            <!-- Nombre del micrositio -->
+
                             <div class="mt-4 flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-500">
                                     <strong>Micrositio:</strong> {{ suscription.microsite.name }}
                                 </p>
                             </div>
-                            <!-- Descripción -->
+
                             <div class="mt-2">
                                 <ul class="mt-1 max-w-2xl text-sm text-gray-500">
                                     <li v-for="(item, index) in suscription.suscription_plan.items" :key="index" class="flex items-center">
@@ -61,7 +74,7 @@ const deleteSuscription = id =>{
                                 </ul>
                             </div>
 
-                            <!-- Estado y acción de editar -->
+
                             <div class="mt-4 flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-500">Status: <span class="text-green-600">{{ suscription.status }}</span></p>
                                 <button @click="deleteSuscription(suscription.id)" class="bg-red-400 text-white px-2 py-1 rounded">
@@ -72,7 +85,52 @@ const deleteSuscription = id =>{
                             </div>
                         </div>
                     </li>
-                </ul>
+                </ul> -->
+
+                <div v-for="suscription in suscriptions" :key="suscription.id">
+                    <SCard class="mx-auto w-full max-w-4xl mt-4">
+                        <div class="flex justify-between gap-8">
+                            <div>
+                                <SSectionTitle>{{ suscription.suscription_plan.name }}</SSectionTitle>
+                                <SSectionDescription>
+                                    {{ suscription.microsite.name }}
+                                </SSectionDescription>
+                            </div>
+                            <div class="space-x-3">
+                                <SButton variant="danger" @click="deleteSuscription(suscription.id)">Delete</SButton>
+                                <SButton v-if="editing" @click="goToSuscriptionIndex(suscription.id)">Show</SButton>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                <SDefinitionTerm class="sm:col-span-1">
+                                    Monto
+                                    <template #description>{{ suscription.suscription_plan.amount }}</template>
+                                </SDefinitionTerm>
+
+                                <SDefinitionTerm class="sm:col-span-1">
+                                    Status
+                                    <template #description><span class="text-green-600">{{ suscription.status }}</span></template>
+                                </SDefinitionTerm>
+
+                                <SDefinitionTerm class="sm:col-span-1">
+                                    Próximo pago
+                                    <template #description>
+                                        {{ suscription.next_billing_date }}
+                                    </template>
+                                </SDefinitionTerm>
+
+                                <SDefinitionTerm class="sm:col-span-1">
+                                    Finalización suscripción
+                                    <template #description>
+                                        {{ suscription.expiration_date }}
+                                    </template>
+                                </SDefinitionTerm>
+                            </dl>
+                        </div>
+                    </SCard>
+                </div>
+
             </div>
         </div>
     </AuthenticatedLayout>

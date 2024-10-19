@@ -2,9 +2,11 @@
 
 namespace App\Actions;
 
+use App\Constants\SubscriptionTerm;
 use App\Constants\SuscriptionsStatus;
 use App\Contracts\Create;
 use App\Models\Suscription;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class CreateSuscriptionAction implements Create
@@ -14,6 +16,7 @@ class CreateSuscriptionAction implements Create
         $suscription = new Suscription;
         $suscription->payer = $data['request']['payer'];
         $token = null;
+        $periodicity = $data['plan'][0]['periodicity'];
 
         foreach ($data['subscription']['instrument'] as $instrument) {
             if ($instrument['keyword'] === 'token') {
@@ -26,9 +29,43 @@ class CreateSuscriptionAction implements Create
         $suscription->user_id = $data['user']['id'];
         $suscription->microsite_id = $data['plan'][0]['microsite_id'];
         $suscription->payment_id = $data['payment_id'];
+        $suscription->next_billing_date = self::nextBilling($periodicity);
+        $suscription->expiration_date = self::expirationDate($data['plan'][0]['subscriptionTerm']);
         $suscription->status = SuscriptionsStatus::active;
         $suscription->save();
 
         return $suscription;
+    }
+
+    private static function nextBilling(string $periodicity): string
+    {
+        $today = Carbon::today();
+        return match ($periodicity) {
+            'diario' => $today->addDay()->toDateString(),
+            'quincenal' => $today->addDays(15)->toDateString(),
+            'mensual' => $today->addMonth()->toDateString(),
+            'trimestral' => $today->addMonths(3)->toDateString(),
+            'semestral' => $today->addMonths(6)->toDateString(),
+            'anual' => $today->addYear()->toDateString(),
+            default => throw new \InvalidArgumentException("Periodicidad no válida: $periodicity"),
+        };
+    }
+
+    private static function expirationDate(string $subscriptionTerm): Carbon
+    {
+        $today = Carbon::today();
+
+        switch ($subscriptionTerm) {
+            case SubscriptionTerm::monthly->value:
+                return $today->addMonth();
+            case SubscriptionTerm::trimester->value:
+                return $today->addMonths(3);
+            case SubscriptionTerm::semester->value:
+                return $today->addMonths(6);
+            case SubscriptionTerm::annual->value:
+                return $today->addYear();
+            default:
+                throw new \InvalidArgumentException('Invalid subscription term');
+        }
     }
 }

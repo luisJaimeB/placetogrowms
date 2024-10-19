@@ -19,8 +19,10 @@ class SuscriptionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'payment_id' => Payment::factory(),
-            'microsite_id' => Microsite::factory(),
+            'payment_id' => null,
+            'microsite_id' => null,
+            'next_billing_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
+            'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
             'status' => SuscriptionsStatus::active->value,
             'token' => Str::random(32),
             'plan_id' => SuscriptionPlan::factory(),
@@ -28,5 +30,19 @@ class SuscriptionFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
         ];
+    }
+
+    public function withMicrositeId($micrositeId): Factory|MicrositeFactory
+    {
+        return $this->state([
+            'microsite_id' => $micrositeId,
+        ]);
+    }
+
+    public function withPaymentId($paymentId): Factory
+    {
+        return $this->state([
+            'payment_id' => $paymentId,
+        ]);
     }
 }

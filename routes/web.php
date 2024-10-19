@@ -11,7 +11,7 @@ use App\Http\Controllers\MicrositeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetLocaleController;
-use App\Http\Controllers\SuscriptionController;
+use App\Http\Controllers\SuscriptionPlanController;
 use App\Http\Controllers\Suscriptor\SuscriptionController as SuscriptionSuscriptorController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,14 +32,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/microsites/{microsite}', [MicrositeController::class, 'show'])->middleware('can:microsites.show')->name('microsites.show');
     Route::delete('/microsites/{microsite}', [MicrositeController::class, 'destroy'])->middleware('can:microsites.delete')->name('microsites.destroy');
 
-    Route::get('/planes', [SuscriptionController::class, 'index'])->middleware('can:planes.index')->name('planes.index');
-    Route::get('/planes/create', [SuscriptionController::class, 'create'])->middleware('can:planes.create')->name('planes.create');
-    Route::get('/planes/{plan}/edit', [SuscriptionController::class, 'edit'])->middleware('can:planes.update')->name('planes.edit');
-    Route::post('/planes', [SuscriptionController::class, 'store'])->middleware('can:planes.create')->name('planes.store');
-    Route::patch('/planes/{plan}', [SuscriptionController::class, 'update'])->middleware('can:planes.update')->name('planes.update');
-    Route::delete('/planes/{plan}', [SuscriptionController::class, 'destroy'])->middleware('can:planes.delete')->name('planes.destroy');
+    Route::get('/planes', [SuscriptionPlanController::class, 'index'])->middleware('can:planes.index')->name('planes.index');
+    Route::get('/planes/create', [SuscriptionPlanController::class, 'create'])->middleware('can:planes.create')->name('planes.create');
+    Route::get('/planes/{plan}/edit', [SuscriptionPlanController::class, 'edit'])->middleware('can:planes.update')->name('planes.edit');
+    Route::post('/planes', [SuscriptionPlanController::class, 'store'])->middleware('can:planes.create')->name('planes.store');
+    Route::patch('/planes/{plan}', [SuscriptionPlanController::class, 'update'])->middleware('can:planes.update')->name('planes.update');
+    Route::delete('/planes/{plan}', [SuscriptionPlanController::class, 'destroy'])->middleware('can:planes.delete')->name('planes.destroy');
 
     Route::get('/subscriptions', [SuscriptionSuscriptorController::class, 'index'])->middleware('can:subscriptions.index')->name('subscriptions.index');
+    Route::get('/subscriptions/{subscription}', [SuscriptionSuscriptorController::class, 'show'])->middleware('can:subscriptions.show')->name('subscriptions.show');
     Route::delete('/subscriptions/{subscription}', [SuscriptionSuscriptorController::class, 'destroy'])->middleware('can:subscriptions.delete')->name('subscriptions.destroy');
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->middleware('can:invoices.index')->name('invoices.index');

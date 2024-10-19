@@ -43,8 +43,23 @@ class PaymentFactory extends Factory
             ]),
             'return_id' => $return_id,
             'return_url' => route('payments.return', $return_id),
-            'microsite_id' => Microsite::factory()->create(),
+            'microsite_id' => null,
             'payment_method' => 'placetopay',
+            'suscription_id' => null,
         ];
+    }
+
+    public function withMicrositeId($micrositeId): Factory|MicrositeFactory
+    {
+        return $this->state([
+            'microsite_id' => $micrositeId,
+        ]);
+    }
+
+    public function withSubscriptionId($subscriptionId)
+    {
+        return $this->state([
+            'suscription_id' => $subscriptionId
+        ]);
     }
 }
