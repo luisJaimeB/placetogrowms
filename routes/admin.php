@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/users', [UserController::class, 'index'])->middleware('can:users.index')->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->middleware('can:users.create')->name('users.create');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('can:users.update')->name('users.edit');
     Route::post('/users', [UserController::class, 'store'])->middleware('can:users.create')->name('users.store');
     Route::patch('/users/{user}', [UserController::class, 'update'])->middleware('can:users.update')->name('users.update');
