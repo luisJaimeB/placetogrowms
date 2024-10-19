@@ -178,11 +178,6 @@ const getLogoUrl = (path) => {
     object-fit: contain;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 .table th, .table td {
     padding: 12px;
     text-align: left;

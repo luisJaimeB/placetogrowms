@@ -32,6 +32,10 @@ const props = defineProps({
     identification_types: {
         type: Object,
         required: true
+    },
+    surchargeRates: {
+        type: Array,
+        required: true
     }
 })
 
@@ -84,7 +88,29 @@ defineEmits(['submit'])
                 <InputError :message="$page.props.errors.microsite_id" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
-                <SInputDateBlock :label="t('fields.dueDate')" id="next_payment" v-model="form.expiration_date" :errorText="$page.props.errors.expiration_date"/>
+                <SInputDateBlock :label="t('fields.dueDate')" id="expiration_date" v-model="form.expiration_date" :errorText="$page.props.errors.expiration_date"/>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <SInputDateBlock label="Fecha de recobro" id="surcharge_date" v-model="form.surcharge_date" :errorText="$page.props.errors.surcharge_date"/>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <InputLabel for="surcharge_rate" value="Tipo de recargo"/>
+                <select id="surcharge_rate" v-model="form.surcharge_rate" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option v-for="surchargeRate in surchargeRates" :key="surchargeRate" :value="surchargeRate">
+                        {{ surchargeRate }}
+                    </option>
+                </select>
+                <InputError :message="$page.props.errors.surcharge_rate" class="mt-2" />
+            </div>
+            <div v-if="form.surcharge_rate === 'additional amount'" class="col-span-6 sm:col-span-3">
+                <InputLabel for="additional_amount" value="additional Amount" />
+                <TextInput id="additional_amount" placeholder="Añada el monto adicional." v-model="form.additional_amount" type="text" class="mt-1 block w-full" @input="filterInput"/>
+                <InputError :message="$page.props.errors.additional_amount" class="mt-2" />
+            </div>
+            <div v-if="form.surcharge_rate === 'percent'" class="col-span-6 sm:col-span-3">
+                <InputLabel for="percent" value="percent" />
+                <TextInput id="percent" placeholder="Añada el porcentaje" v-model="form.percent" type="text" class="mt-1 block w-full" @input="filterInput" />
+                <InputError :message="$page.props.errors.percent" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="identification_type" :value="t('fields.buyerIdType')"/>
@@ -132,14 +158,14 @@ defineEmits(['submit'])
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <InputLabel for="amount" :value="t('fields.amount')" />
-                <TextInput id="amount" v-model="form.amount" type="number" class="mt-1 block w-full" @input="filterInput"/>
+                <TextInput id="amount" v-model="form.amount" type="text" class="mt-1 block w-full" @input="filterInput"/>
                 <InputError :message="$page.props.errors.amount" class="mt-2" />
             </div>
         </template>
 
         <template #actions>
             <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
-            <SButton variant="primary">
+            <SButton variant="primary" type="submit">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
             </SButton>
         </template>
