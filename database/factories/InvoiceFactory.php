@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Constants\InvoicesStatus;
+use App\Constants\SurchargeRate;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
 use App\Models\Invoice;
@@ -18,6 +19,7 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         $currencyIds = Currency::pluck('id')->toArray();
+        $expirationDate = $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d');
 
         return [
             'status' => InvoicesStatus::active,
@@ -33,6 +35,11 @@ class InvoiceFactory extends Factory
             'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
             'user_id' => User::factory(),
             'payment_id' => null,
+            'surcharge_date' => $this->faker->dateTimeBetween('now', $expirationDate)->format('Y-m-d'),
+            'surcharge_rate' => $this->faker->randomElement(SurchargeRate::toArray()),
+            'percent' => $this->faker->optional()->numberBetween(0, 100),
+            'additional_amount' => $this->faker->optional()->numberBetween(1000, 10000000),
+            'surcharge_applied' => false,
         ];
     }
 

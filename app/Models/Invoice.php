@@ -25,6 +25,10 @@ class Invoice extends Model
         'expiration_date',
         'user_id',
         'payment_id',
+        'surcharge_rate',
+        'percent',
+        'additional_amount',
+        'surcharge_applied',
     ];
 
     protected $casts = [

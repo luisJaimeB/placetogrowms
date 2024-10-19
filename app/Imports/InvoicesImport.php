@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Constants\InvoicesStatus;
 use App\Models\Invoice;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -22,7 +23,7 @@ class InvoicesImport implements ToModel, WithHeadingRow, WithValidation
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|null
      */
     public function model(array $row)
     {
@@ -58,7 +59,7 @@ class InvoicesImport implements ToModel, WithHeadingRow, WithValidation
             'description' => ['required', 'string', 'max:500'],
             'currency_id' => ['required', 'exists:currencies,id'],
             'amount' => ['required', 'numeric', 'between:0,9999999999.99'],
-            'expiration_date' => ['required', 'date', 'after:today'],
+            'expiration_date' => ['required', 'date'],//|after:today
         ];
     }
 }

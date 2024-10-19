@@ -5,6 +5,7 @@ namespace Tests\Feature\Invoices;
 use App\Constants\InvoicesStatus;
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\SurchargeRate;
 use App\Constants\TypesSites;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
@@ -78,6 +79,7 @@ class UpdateInvoiceTest extends TestCase
     public function test_authorized_user_can_update_a_invoice(): void
     {
         Carbon::setTestNow(now());
+        $expirationDate = $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d');
 
         $data = [
             'status' => InvoicesStatus::paid->value,
@@ -93,6 +95,10 @@ class UpdateInvoiceTest extends TestCase
             'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
             'user_id' => $this->user->id,
             'payment_id' => null,
+            'surcharge_date' => $this->faker->dateTimeBetween('now', $expirationDate)->format('Y-m-d'),
+            'surcharge_rate' => $this->faker->randomElement(SurchargeRate::toArray()),
+            'percent' => $this->faker->optional()->numberBetween(0, 100),
+            'additional_amount' => $this->faker->optional()->numberBetween(1000, 10000000),
         ];
 
         $response = $this->actingAs($this->user)

@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImportInvoiceRequest;
 use App\Jobs\ImportInvoicesJob;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 
 class InvoiceImportController extends Controller
 {
-    public function index() {}
-
     public function create(): Response
     {
         return inertia('Imports/Create');
     }
 
-    public function import(ImportInvoiceRequest $request)
+    public function import(ImportInvoiceRequest $request): RedirectResponse
     {
         $data = $request->validated();
         Log::info('Import data request:', $data);

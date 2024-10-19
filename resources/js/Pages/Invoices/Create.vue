@@ -20,6 +20,10 @@ const props = defineProps({
     identification_types: {
         type: Object,
         required: true
+    },
+    surchargeRates: {
+        type: Array,
+        required: true
     }
 })
 
@@ -34,6 +38,10 @@ const form = useForm({
     currency_id: '',
     amount: '',
     expiration_date: '',
+    surcharge_date: '',
+    surcharge_rate: '',
+    percent: '',
+    additional_amount: '',
 });
 
 const submitForm = () => {
@@ -56,7 +64,7 @@ const submitForm = () => {
                 <div class="bg-withe overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <InvoicesForm :form="form" :identification_types="identification_types" :microsites="microsites" @submit="submitForm" v-if="$page.props.user.permissions.includes('invoices.create')"/>
+                            <InvoicesForm :form="form" :surchargeRates="surchargeRates" :identification_types="identification_types" :microsites="microsites" @submit="submitForm" v-if="$page.props.user.permissions.includes('invoices.create')"/>
                         </div>
                     </div>
                 </div>

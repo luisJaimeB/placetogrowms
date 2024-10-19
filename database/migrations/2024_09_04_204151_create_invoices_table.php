@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\InvoicesStatus;
+use App\Constants\SurchargeRate;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('microsites')
                 ->onDelete('cascade');
-            $table->string('order_number');
+            $table->string('order_number')->unique();
             $table->unsignedBigInteger('identification_type_id');
             $table->foreign('identification_type_id')
                 ->references('id')
@@ -37,6 +38,11 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('amount');
             $table->string('expiration_date');
+            $table->date('surcharge_date');
+            $table->boolean('surcharge_applied')->default(false)->nullable();
+            $table->enum('surcharge_rate', SurchargeRate::toArray());
+            $table->float('percent')->nullable();
+            $table->float('additional_amount')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
