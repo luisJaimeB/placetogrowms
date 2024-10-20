@@ -1,124 +1,35 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale, Title} from 'chart.js';
-import { Pie, Bar } from 'vue-chartjs'
-import {Head, router} from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { useI18n } from "vue-i18n";
+import DashboardInvoice from "@/Components/dashboards/DashboardInvoice.vue";
+import DashboardSuscription from "@/Components/dashboards/DashboardSuscription.vue";
+import DashboardPayments from "@/Components/dashboards/DashboardPayments.vue";
 
 const { t } = useI18n();
 
 const props = defineProps({
     payments: {
         type: Array,
-        required: true
+        required: false
     },
     invoices: {
         type: Object,
-        required: true
+        required: false
+    },
+    suscriptions: {
+        type: Object,
+        required: false
+    },
+    typeSiteIdFlag: {
+        type: Number,
+        required: false
+    },
+    message: {
+        type: String,
+        required: false
     }
 });
-
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title)
-const rawPieLabels = new Set()
-const rawBarLabels = new Set()
-const statusColors = {
-    ACTIVE: '#41B883',
-    PAY: '#00D8FF',
-    EXPIRED: '#E46651'
-}
-let paid = 0
-let pending = 0
-let expired = 0
-let paidData =  new Array(12).fill(0)
-let activeData =  new Array(12).fill(0)
-const allInvoices = props.invoices.length
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-]
-
-Object.values(props.invoices).forEach(invoice => {
-
-    const createdDate = new Date(invoice.created_at)
-    const monthIndex = createdDate.getMonth()
-
-    switch (invoice.status) {
-        case 'ACTIVE':
-            pending++
-            rawBarLabels.add(invoice.status)
-            rawPieLabels.add(invoice.status)
-            activeData[monthIndex]++;
-            break
-        case 'PAY':
-            paid++
-            rawBarLabels.add(invoice.status)
-            paidData[monthIndex]++;
-            break
-        case 'EXPIRED':
-            expired++
-            rawPieLabels.add(invoice.status)
-            break
-    }
-})
-const pieLabels = Array.from(rawPieLabels).sort()
-const barLabels = Array.from(rawBarLabels).sort()
-const pieColors = pieLabels.map(label => statusColors[label])
-
-const dataBar = {
-    labels: months,
-    datasets: [
-        {
-            label: barLabels.filter(label => label === 'ACTIVE'),
-            backgroundColor: statusColors['ACTIVE'],
-            data: activeData.filter(value => value !== null),
-            borderColor: '#ddd',
-            borderWidth: 1,
-        },
-        {
-            label: barLabels.filter(label => label === 'PAY'),
-            backgroundColor: statusColors['PAY'],
-            data: paidData.filter(value => value !== null),
-            borderColor: '#ddd',
-            borderWidth: 1,
-        }
-    ]
-}
-
-const dataPie = {
-    labels: pieLabels,
-    datasets: [
-        {
-            backgroundColor: pieColors,
-            data: [pending > 0 ? pending : null,
-                expired > 0 ? expired : null].filter(value => value !== null),
-            borderColor: '#ddd',
-            borderWidth: 1,
-        }
-    ]
-}
-
-const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-}
-
-const expiredInvoices = () => {
-    return props.invoices.filter(invoice => invoice.status === 'EXPIRED')
-}
-
-function paymentDetail(paymentId) {
-    router.visit(route('payment.details', { id: paymentId }));
-}
 
 </script>
 
@@ -154,7 +65,7 @@ function paymentDetail(paymentId) {
                 </table>
             </div>
         </div> -->
-        <div class="container mx-auto p-4">
+        <!--<div class="container mx-auto p-4">
 
             <div class="payment-section mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-xl font-bold mb-4">Facturas</h2>
@@ -230,6 +141,18 @@ function paymentDetail(paymentId) {
                 </div>
             </div>
 
+        </div>-->
+        <div>
+            <h1>{{ props.message }}</h1>
+        </div>
+        <div v-if="typeSiteIdFlag === 1">
+            <DashboardPayments :payments="payments"></DashboardPayments>
+        </div>
+        <div v-if="typeSiteIdFlag === 2">
+            <DashboardInvoice :invoices="invoices"></DashboardInvoice>
+        </div>
+        <div v-if="typeSiteIdFlag === 3">
+            <DashboardSuscription :suscriptions="suscriptions"></DashboardSuscription>
         </div>
 
     </AuthenticatedLayout>

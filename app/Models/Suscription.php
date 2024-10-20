@@ -21,6 +21,8 @@ class Suscription extends Model
         'payment_id',
         'status',
         'next_billing_date',
+        'expiration_date',
+        'recovery_count'
     ];
 
     protected $casts = [

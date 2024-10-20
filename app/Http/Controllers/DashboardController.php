@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Invoice;
 use App\Models\Microsite;
 use App\Models\Payment;
+use App\Models\Suscription;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,19 +45,39 @@ class DashboardController extends Controller
     public function dashboard(): Response
     {
         $user = auth()->user();
-        $invoices = Invoice::with('currency')->get();
+        $microsites = Microsite::where('user_id', $user->id)
+            ->with(['currencies'])
+            ->get()
+            ->keyBy('type_site_id');
 
-        if ($user->role === Roles::ADMIN) {
-            $payments = Payment::with('microsite')->get();
+        $invoices = null;
+        $suscriptions = null;
+        $payments = null;
+        $typeSiteIdFlag = null;
+        $message= null;
+
+        if ($microsites->has(1)) {
+            $payments = Payment::where('microsite_id', $microsites->get(1)->id)->get();
+            $typeSiteIdFlag = 1;
+        } elseif ($microsites->has(2)) {
+            $invoices = Invoice::where('microsite_id', $microsites->get(2)->id)->get();
+            $typeSiteIdFlag = 2;
+        } elseif ($microsites->has(3)) {
+            $suscriptions = Suscription::where('microsite_id', $microsites->get(3)->id)
+                ->with(['microsite', 'initialPayment', 'user', 'suscriptionPlan'])
+                ->get();
+            $typeSiteIdFlag = 3;
         } else {
-            $payments = Payment::with('microsite')->whereHas('microsite', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->get();
+            $typeSiteIdFlag = 0;
+            $message = 'debes crear un micrositio primero';
         }
 
         return inertia('Dashboard', [
-            'payments' => $payments,
             'invoices' => $invoices,
+            'suscriptions' => $suscriptions,
+            'payments' => $payments,
+            'typeSiteIdFlag' => $typeSiteIdFlag,
+            'message' => $message
         ]);
     }
 }

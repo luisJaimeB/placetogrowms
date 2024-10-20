@@ -12,6 +12,6 @@ enum SuscriptionsStatus: string implements Arrayable
     case ACTIVE = 'Active';
     case INACTIVE = 'Inactive';
     case CANCELLED = 'Cancelled';
-    case FREEZE = 'freeze';
-    case SUSPENDED = 'suspended';
+    case FREEZE = 'Freeze';
+    case SUSPENDED = 'Suspended';
 }
