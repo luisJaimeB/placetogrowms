@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ImportInvoicesJob;
 use Illuminate\Console\Command;
 
 class ImportInvoices extends Command
@@ -11,20 +12,20 @@ class ImportInvoices extends Command
      *
      * @var string
      */
-    protected $signature = 'app:import-invoices';
+    protected $signature = 'invoice:import-invoices';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import masive invoices';
 
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        //
+        ImportInvoicesJob::dispatch();
     }
 }
