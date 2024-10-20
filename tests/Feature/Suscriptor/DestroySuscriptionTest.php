@@ -20,22 +20,22 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-#[AllowDynamicProperties] class DestroySuscriptionTest extends TestCase
+class DestroySuscriptionTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
      * @throws Exception
      */
-    public function destroy_cancels_suscription_and_redirects(): void
+    public function test_destroy_cancels_suscription_and_redirects(): void
     {
-        $this->admin = Role::create(['name' => Roles::ADMIN->value]);
-        $this->customer = Role::create(['name' => Roles::CUSTOMER->value]);
-        $this->permission = Permission::create(['name' => Permissions::MICROSITES_INDEX->value]);
-        $this->permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX->value]);
+        $admin = Role::create(['name' => Roles::ADMIN->value]);
+        $customer = Role::create(['name' => Roles::CUSTOMER->value]);
+        $permission = Permission::create(['name' => Permissions::MICROSITES_INDEX->value]);
+        $permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX->value]);
 
-        $this->admin->givePermissionTo($this->permission);
-        $this->customer->givePermissionTo($this->permission2);
+        $admin->givePermissionTo($permission);
+        $customer->givePermissionTo($permission2);
         $user = User::factory()->create();
         $this->actingAs($user);
 
@@ -68,7 +68,7 @@ use Tests\TestCase;
         ]);
     }
 
-    public function destroy_returns_error_on_exception(): void
+    public function test_destroy_returns_error_on_exception(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);

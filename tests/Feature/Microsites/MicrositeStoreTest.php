@@ -86,8 +86,6 @@ class MicrositeStoreTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors();
 
-        $response->dumpSession();
-
         $microsite = Microsite::where('name', $data['name'])->first();
 
         $this->assertNotNull($microsite, 'Microsite was not created');
@@ -122,19 +120,13 @@ class MicrositeStoreTest extends TestCase
             'expiration' => fake()->numberBetween(1, 100),
         ];
 
-        // Crea un mock de CreateMicrositeAction
         $mock = Mockery::mock(CreateMicrositeAction::class);
         $mock->shouldReceive('execute')->andReturn(false);
 
-        // Reemplaza la instancia en el contenedor de Laravel
         $this->app->instance(CreateMicrositeAction::class, $mock);
 
         $response = $this->actingAs($user)->post($this->route, $data);
-
-        // Verifica que la redirección ocurra
         $response->assertRedirect();
-
-        // Verifica que el mensaje de error esté en la sesión
         $response->assertSessionHas('error', 'Microsite could not be created.');
     }
 

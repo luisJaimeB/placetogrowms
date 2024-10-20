@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Plans;
 
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\Permissions;
 use App\Constants\Roles;
 use App\Constants\SubscriptionTerm;
@@ -73,7 +73,7 @@ class StorePlanTest extends TestCase
 
         $data = [
             'name' => $this->faker->word.' '.$this->faker->word,
-            'periodicity' => Periodicities::diario->value,
+            'periodicity' => Periodicity::Daily->value,
             'amount' => $this->faker->numberBetween(1, 9999999999),
             'microsite_id' => $this->microsite->id,
             'attempts' => 3,
