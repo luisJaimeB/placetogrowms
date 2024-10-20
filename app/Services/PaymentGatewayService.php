@@ -10,7 +10,7 @@ class PaymentGatewayService
 
     protected array $data;
 
-    public function __construct(PaymentMethod $gateway, $data)
+    public function __construct(PaymentMethod $gateway, array $data)
     {
         $this->gateway = $gateway;
         $this->data = $data;

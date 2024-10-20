@@ -297,6 +297,7 @@ class PlaceToPayGateway implements PaymentMethod
         $data['initial_payment']['currencyCode'] = Currency::where('id', $data['initial_payment']['currency_id'])->pluck('code')->first();
         $today = Carbon::today();
         $data['initial_payment']['description'] = 'Pago suscripción - ' . $today;
+
         return [
             'auth' => $this->prepareAuth(),
             'payment' => $this->preparePaymentBody($data['initial_payment']),

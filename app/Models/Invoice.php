@@ -34,6 +34,7 @@ class Invoice extends Model
     protected $casts = [
         'order_number' => 'string',
         'identification_number' => 'string',
+        'expiration_date' => 'date'
     ];
 
     public function microsite(): BelongsTo

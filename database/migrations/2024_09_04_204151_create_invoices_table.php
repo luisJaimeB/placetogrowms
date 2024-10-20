@@ -37,7 +37,7 @@ return new class extends Migration
                 ->on('currencies')
                 ->onDelete('cascade');
             $table->string('amount');
-            $table->string('expiration_date');
+            $table->date('expiration_date');
             $table->date('surcharge_date');
             $table->boolean('surcharge_applied')->default(false)->nullable();
             $table->enum('surcharge_rate', SurchargeRate::toArray());
