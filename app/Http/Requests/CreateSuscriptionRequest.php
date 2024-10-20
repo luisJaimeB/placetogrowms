@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +27,7 @@ class CreateSuscriptionRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:4', 'max:120'],
-            'periodicity' => ['required', Rule::in(Periodicities::toArray())],
+            'periodicity' => ['required', Rule::in(Periodicity::toArray())],
             'amount' => ['required', 'numeric', 'between:0,9999999999.99'],
             'subscriptionTerm' => ['required', 'string', Rule::in(SubscriptionTerm::toArray())],
             'microsite_id' => ['required', 'exists:microsites,id'],
@@ -54,12 +54,12 @@ class CreateSuscriptionRequest extends FormRequest
     private static function getPeriodicityOrder(): array
     {
         return [
-            'diario' => 1,
-            'quincenal' => 2,
-            'mensual' => 3,
-            'trimestral' => 4,
-            'semestral' => 5,
-            'anual' => 6,
+            Periodicity::Daily->value => 1,
+            Periodicity::Biweekly->value => 2,
+            Periodicity::Monthly->value => 3,
+            Periodicity::Quarterly->value => 4,
+            Periodicity::Semester->value => 5,
+            Periodicity::Annual->value => 6,
         ];
     }
 

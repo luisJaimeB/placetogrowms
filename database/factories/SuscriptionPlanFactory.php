@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
 use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
@@ -17,7 +17,7 @@ class SuscriptionPlanFactory extends Factory
     {
         return [
             'name' => $this->faker->word.' '.$this->faker->word,
-            'periodicity' => $this->faker->randomElement(Periodicities::toArray()),
+            'periodicity' => $this->faker->randomElement(Periodicity::toArray()),
             'amount' => $this->faker->numberBetween(1, 9999999999),
             'microsite_id' => null,
             'attempts' => 3,

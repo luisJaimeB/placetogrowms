@@ -26,8 +26,15 @@ class SuscriptionFactory extends Factory
             'status' => SuscriptionsStatus::ACTIVE->value,
             'token' => Str::random(32),
             'plan_id' => SuscriptionPlan::factory(),
-            'payer' => json_encode(['name' => $this->faker->name]),
-            'recovery_count' => 3,
+            'payer' => [
+                'document' => '1010457586',
+                'documentType' => 'CC',
+                'name' => 'John Doe',
+                'surname' => 'Test',
+                'email' => 'pruebacertificacionp2p@gmail.com',
+                'mobile' => '+573106662222'
+            ],
+            'recovery_count' => 0,
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateSuscriptionPlanAction;
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
 use App\Http\Requests\CreateSuscriptionRequest;
 use App\Models\Microsite;
@@ -28,7 +28,7 @@ class SuscriptionPlanController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        $periodicities = Periodicities::toArray();
+        $periodicities = Periodicity::toArray();
         $subscriptionTerm = SubscriptionTerm::toArray();
 
         return Inertia('SuscriptionPlanes/Create', [
@@ -53,7 +53,7 @@ class SuscriptionPlanController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        $periodicities = Periodicities::toArray();
+        $periodicities = Periodicity::toArray();
         $subscriptionTerm = SubscriptionTerm::toArray();
 
         return inertia('SuscriptionPlanes/Edit', [
