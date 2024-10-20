@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
 use App\Constants\SuscriptionsStatus;
 use App\Contracts\Create;
@@ -41,12 +42,12 @@ class CreateSuscriptionAction implements Create
     {
         $today = Carbon::today();
         return match ($periodicity) {
-            'diario' => $today->addDay()->toDateString(),
-            'quincenal' => $today->addDays(15)->toDateString(),
-            'mensual' => $today->addMonth()->toDateString(),
-            'trimestral' => $today->addMonths(3)->toDateString(),
-            'semestral' => $today->addMonths(6)->toDateString(),
-            'anual' => $today->addYear()->toDateString(),
+            Periodicity::Daily->value => $today->addDay()->toDateString(),
+            Periodicity::Biweekly->value => $today->addDays(15)->toDateString(),
+            Periodicity::Monthly->value => $today->addMonth()->toDateString(),
+            Periodicity::Quarterly->value => $today->addMonths(3)->toDateString(),
+            Periodicity::Semester->value => $today->addMonths(6)->toDateString(),
+            Periodicity::Annual->value => $today->addYear()->toDateString(),
             default => throw new \InvalidArgumentException("Periodicidad no válida: $periodicity"),
         };
     }

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Actions\CreatePaymentAction;
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SuscriptionsStatus;
 use App\Factories\PaymentFactory;
 use App\Jobs\CollectSubscription;
@@ -39,9 +39,10 @@ class ChargeSubscriptions extends Command
     {
         $today = Carbon::today();
 
-        $subscriptions = Suscription::where('next_billing_date', '<=', $today)
+        $subscriptions = Suscription::query()
+            ->where('next_billing_date', '<=', $today)
             ->where('expiration_date', '>=', $today)
-            ->where('status',  [SuscriptionsStatus::ACTIVE, SuscriptionsStatus::FREEZE])
+            ->whereIn('status',  [SuscriptionsStatus::ACTIVE, SuscriptionsStatus::FREEZE])
             ->with(['initialPayment', 'microsite', 'suscriptionPlan'])
             ->get();
 

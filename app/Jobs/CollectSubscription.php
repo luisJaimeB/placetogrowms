@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Actions\CreatePaymentAction;
 use App\Constants\PaymentStatus;
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SuscriptionsStatus;
 use App\Factories\PaymentFactory;
 use App\Models\Suscription;
@@ -44,9 +44,9 @@ class CollectSubscription implements ShouldQueue
             CreatePaymentAction::execute($response);
 
             if (isset($response['status']['status']) && $response['status']['status'] === PaymentStatus::APPROVED->value) {
+                $nextBillingDate = $this->calculateNextBillingDate($this->subscription);
                 $this->subscription->recovery_count = 0;
                 $this->subscription->status = SuscriptionsStatus::ACTIVE;
-                $nextBillingDate = $this->calculateNextBillingDate($this->subscription);
                 $this->subscription->next_billing_date = $nextBillingDate;
                 $this->subscription->save();
 
@@ -60,32 +60,33 @@ class CollectSubscription implements ShouldQueue
                     $this->subscription->status = SuscriptionsStatus::SUSPENDED;
                     Log::info('Estado del pago actualizado en: ' . $this->subscription->status->value);
                 } else {
+                    $this->subscription->next_billing_date = $this->subscription->next_billing_date->addDay();
                     $this->subscription->status = SuscriptionsStatus::FREEZE;
                     Log::info('Estado del pago actualizado en: ' . $this->subscription->status->value);
                 }
-
                 $this->subscription->save();
 
                 Log::info('Pago rechazado para la suscripción ID: ' . $this->subscription->id . '. Contador de recobros: ' . $this->subscription->recovery_count);
             }
 
         } catch (Exception $e) {
+            report($e);
             Log::error('Error procesando la suscripción ID: ' . $this->subscription->id . '. Error: ' . $e->getMessage());
         }
     }
 
-    protected function calculateNextBillingDate($subscription): Carbon
+    protected function calculateNextBillingDate(Suscription $subscription): Carbon
     {
         $periodicity = $subscription->suscriptionPlan->periodicity;
         $nextBillingDate = Carbon::parse($subscription->next_billing_date);
 
         return match ($periodicity) {
-            Periodicities::diario->value => $nextBillingDate->addDay(),
-            Periodicities::quincenal->value => $nextBillingDate->addDays(15),
-            Periodicities::mensual->value => $nextBillingDate->addMonth(),
-            Periodicities::trimestral->value => $nextBillingDate->addMonths(3),
-            Periodicities::semestral->value => $nextBillingDate->addMonths(6),
-            Periodicities::anual->value => $nextBillingDate->addYear(),
+            Periodicity::Daily->value => $nextBillingDate->addDay()->subDays($subscription->recovery_count),
+            Periodicity::Biweekly->value => $nextBillingDate->addDays(15)->subDays($subscription->recovery_count),
+            Periodicity::Monthly->value => $nextBillingDate->addMonth()->subDays($subscription->recovery_count),
+            Periodicity::Quarterly->value => $nextBillingDate->addMonths(3)->subDays($subscription->recovery_count),
+            Periodicity::Semester->value => $nextBillingDate->addMonths(6)->subDays($subscription->recovery_count),
+            Periodicity::Annual->value => $nextBillingDate->addYear()->subDays($subscription->recovery_count),
             default => throw new \InvalidArgumentException('No se pudo calcular el siguiente pago'),
         };
     }

@@ -39,10 +39,9 @@ class BillingReminder extends Notification implements ShouldQueue
             ->line('Este es un recordatorio de que tu suscripción será cobrada el día de mañana.')
             ->line('Detalles de la suscripción:')
             ->line('Plan: ' . $this->subscription->suscriptionPlan->name)
-            ->line('Fecha de cobro: ' . $this->subscription->next_billing_date->format('d-m-Y'))
-            ->action('Ver Suscripción', url('/suscriptions/' . $this->subscription->id))
+            ->line('Fecha de cobro: ' . $this->subscription->next_billing_date)
+            ->line('Monto:' . $this->subscription->suscriptionPlan->amount)
             ->line('Gracias por usar nuestros servicios!');
-
     }
 
     /**

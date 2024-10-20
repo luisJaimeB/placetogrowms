@@ -1,6 +1,6 @@
 <?php
 
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->json('items')->nullable();
-            $table->enum('periodicity', Periodicities::toArray());
+            $table->enum('periodicity', Periodicity::toArray());
             $table->decimal('amount', 12, 2);
             $table->enum('subscriptionTerm', SubscriptionTerm::toArray());
             $table->integer('lapse');

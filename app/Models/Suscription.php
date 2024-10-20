@@ -20,11 +20,13 @@ class Suscription extends Model
         'microsite_id',
         'payment_id',
         'status',
+        'next_billing_date',
     ];
 
     protected $casts = [
         'payer' => 'array',
         'status' => SuscriptionsStatus::class,
+        'next_billing_date' => 'date'
     ];
 
     public function user(): BelongsTo

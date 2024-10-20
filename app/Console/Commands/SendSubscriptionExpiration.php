@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Invoice;
 use App\Models\Suscription;
 use App\Notifications\BillingReminder;
 use Carbon\Carbon;
@@ -9,14 +10,14 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class SendBillingReminders extends Command
+class SendSubscriptionExpiration extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'billing:reminders';
+    protected $signature = 'subscription:expiration-notify';
 
     /**
      * The console command description.
@@ -28,17 +29,14 @@ class SendBillingReminders extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $this->info('Command started.');
 
         $tomorrow = Carbon::tomorrow()->format('Y-m-d');
 
-        $subscriptions = Suscription::where('next_billing_date', '=', $tomorrow)
+        $subscriptions = Suscription::where('expiration_date', '=', $tomorrow)
             ->with('user', 'suscriptionPlan')
             ->get();
-
-        $this->info('Found ' . $subscriptions->count() . ' subscriptions.');
 
         foreach ($subscriptions as $subscription) {
             try {
