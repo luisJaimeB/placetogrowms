@@ -12,6 +12,7 @@ class InvoiceReminder extends Notification
     use Queueable;
 
     private Invoice $invoice;
+
     /**
      * Create a new notification instance.
      */
@@ -36,13 +37,13 @@ class InvoiceReminder extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Recordatorio de vencimiento de factura')
-                    ->greeting('Hola ' . $notifiable->name . ',')
-                    ->line('La factura con el número de orden: ' . $this->invoice->order_number)
-                    ->line('Está próxima a vencer, en la fecha: ' . $this->invoice->expiration_date)
-                    ->line('Con un monto de: ' . $this->invoice->amount)
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Recordatorio de vencimiento de factura')
+            ->greeting('Hola '.$notifiable->name.',')
+            ->line('La factura con el número de orden: '.$this->invoice->order_number)
+            ->line('Está próxima a vencer, en la fecha: '.$this->invoice->expiration_date)
+            ->line('Con un monto de: '.$this->invoice->amount)
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**

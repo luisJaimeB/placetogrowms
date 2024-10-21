@@ -24,10 +24,15 @@ class MicrositeUpdateTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'microsites.update';
+
     private string $route;
+
     private Role $admin;
+
     private Permission $permission;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

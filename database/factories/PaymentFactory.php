@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Constants\PaymentStatus;
 use App\Models\Currency;
-use App\Models\Microsite;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -59,7 +58,7 @@ class PaymentFactory extends Factory
     public function withSubscriptionId($subscriptionId)
     {
         return $this->state([
-            'suscription_id' => $subscriptionId
+            'suscription_id' => $subscriptionId,
         ]);
     }
 }

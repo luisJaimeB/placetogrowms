@@ -21,47 +21,47 @@ class CreatePaymentAction implements Executable
             $payment->payment_method = $data['paymentMethod'];
             $payment->microsite_id = $data['micrositeId'];
 
-            if (isset($data['suscriptionId'])){
+            if (isset($data['suscriptionId'])) {
                 $payment->suscription_id = $data['suscriptionId'];
             }
 
-            if (isset($data['plan'])){
+            if (isset($data['plan'])) {
                 $payment->plan = $data['plan'];
             }
 
-            if (isset($data['payment']['autorization'])){
+            if (isset($data['payment']['autorization'])) {
                 $payment->cus_code = $data['payment']['autorization'];
             }
 
-            if (isset($data['request']['ipAddress'])){
+            if (isset($data['request']['ipAddress'])) {
                 $payment->ip_address = $data['request']['ipAddress'];
             }
 
-            if (isset($data['request']['userAgent'])){
+            if (isset($data['request']['userAgent'])) {
                 $payment->user_agent = $data['request']['userAgent'];
             }
 
-            if (isset($data['request']['payer'])){
+            if (isset($data['request']['payer'])) {
                 $payment->payer = self::PayerCast($data['request']['payer']);
             }
 
-            if (isset($data['buyer'])){
+            if (isset($data['buyer'])) {
                 $payment->buyer = $data['buyer'];
             } else {
                 $payment->buyer = self::buyerCast($data);
             }
 
-            if (isset($data['status']['date'])){
+            if (isset($data['status']['date'])) {
                 $payment->date = $data['status']['date'];
             }
 
-            if (isset($data['request']['payment']['description'])){
+            if (isset($data['request']['payment']['description'])) {
                 $payment->description = $data['request']['payment']['description'];
             } else {
                 $payment->description = $data['description'];
             }
 
-            if (isset($data['request']['payment']['amount']['total'])){
+            if (isset($data['request']['payment']['amount']['total'])) {
                 $payment->amount = $data['request']['payment']['amount']['total'];
             } else {
                 $payment->amount = $data['amount'];
@@ -71,15 +71,15 @@ class CreatePaymentAction implements Executable
                 $payment->plan = $data['plan'];
             }
 
-            if (isset($data['status']['status'])){
+            if (isset($data['status']['status'])) {
                 $payment->status = $data['status']['status'];
             }
 
-            if (isset($data['payment']['reference'])){
+            if (isset($data['payment']['reference'])) {
                 $payment->reference = $data['payment']['reference'];
             }
 
-            if (isset($data['requestId'])){
+            if (isset($data['requestId'])) {
                 $payment->request_id = $data['requestId'];
             }
 

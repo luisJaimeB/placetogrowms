@@ -22,11 +22,17 @@ class IndexInvoiceTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'invoices.index';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

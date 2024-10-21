@@ -22,11 +22,17 @@ class IndexPlanTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'planes.index';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

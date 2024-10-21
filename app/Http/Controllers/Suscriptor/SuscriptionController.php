@@ -44,7 +44,7 @@ class SuscriptionController extends Controller
 
         return inertia('Suscriptions/Index', [
             'suscriptions' => $suscriptions,
-            'editing' => $isEditing
+            'editing' => $isEditing,
         ]);
     }
 

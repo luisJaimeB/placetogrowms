@@ -22,10 +22,15 @@ class DeleteInvoiceTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'invoices.destroy';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Invoice $invoice;
 
     protected function setUp(): void

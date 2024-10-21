@@ -12,7 +12,7 @@ return [
         'payB' => 'Pagar',
         'backToCommerce' => 'Volver al comercio',
         'search' => 'Buscar',
-        'cancel' => 'Cancelar'
+        'cancel' => 'Cancelar',
     ],
     'fields' => [
         'id' => 'ID',

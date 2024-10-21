@@ -26,12 +26,19 @@ class UpdatePlanTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'planes.update';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Microsite $microsite;
+
     private SuscriptionPlan $plan;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

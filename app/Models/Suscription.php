@@ -22,13 +22,13 @@ class Suscription extends Model
         'status',
         'next_billing_date',
         'expiration_date',
-        'recovery_count'
+        'recovery_count',
     ];
 
     protected $casts = [
         'payer' => 'array',
         'status' => SuscriptionsStatus::class,
-        'next_billing_date' => 'date'
+        'next_billing_date' => 'date',
     ];
 
     public function user(): BelongsTo

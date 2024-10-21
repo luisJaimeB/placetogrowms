@@ -12,7 +12,6 @@ use App\Models\SuscriptionPlan;
 use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -21,9 +20,13 @@ use Tests\TestCase;
     use RefreshDatabase;
 
     private Microsite $microsite;
+
     private TypeSite $typeSite;
+
     private Payment $payment;
+
     private SuscriptionPlan $plan;
+
     private Role $adminrole;
 
     public function it_shows_all_suscriptions_for_admin(): void

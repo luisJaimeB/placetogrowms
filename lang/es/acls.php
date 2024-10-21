@@ -1,7 +1,8 @@
 <?php
+
 return [
     'titles' => [
-        'acls' => 'ACLS'
+        'acls' => 'ACLS',
     ],
     'strings' => [
         'updateAcl' => 'Actualiza el Acl',
@@ -16,5 +17,5 @@ return [
             'edit' => 'Editar Acl',
             'update' => 'Actualizar Acl',
         ],
-    ]
+    ],
 ];

@@ -81,7 +81,7 @@ class DestroySuscriptionTest extends TestCase
             'user_id' => $user->id,
             'payment_id' => $payment->id,
             'status' => SuscriptionsStatus::ACTIVE->value,
-            'plan' => $plan->id
+            'plan' => $plan->id,
         ]);
 
         $gatewayMock = $this->createMock(PaymentGatewayService::class);

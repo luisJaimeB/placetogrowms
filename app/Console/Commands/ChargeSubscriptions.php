@@ -2,17 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\CreatePaymentAction;
-use App\Constants\Periodicity;
 use App\Constants\SuscriptionsStatus;
-use App\Factories\PaymentFactory;
 use App\Jobs\CollectSubscription;
 use App\Models\Suscription;
-use App\Services\PaymentGatewayService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ChargeSubscriptions extends Command
@@ -33,6 +28,7 @@ class ChargeSubscriptions extends Command
 
     /**
      * Execute the console command.
+     *
      * @throws Exception|Throwable
      */
     public function handle(): void
@@ -42,7 +38,7 @@ class ChargeSubscriptions extends Command
         $subscriptions = Suscription::query()
             ->where('next_billing_date', '<=', $today)
             ->where('expiration_date', '>=', $today)
-            ->whereIn('status',  [SuscriptionsStatus::ACTIVE, SuscriptionsStatus::FREEZE])
+            ->whereIn('status', [SuscriptionsStatus::ACTIVE, SuscriptionsStatus::FREEZE])
             ->with(['initialPayment', 'microsite', 'suscriptionPlan'])
             ->get();
 

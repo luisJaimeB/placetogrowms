@@ -34,7 +34,7 @@ class SuscriptionPlanController extends Controller
         return Inertia('SuscriptionPlanes/Create', [
             'periodicities' => $periodicities,
             'microsites' => $microsites,
-            'subscriptionTerm' => $subscriptionTerm
+            'subscriptionTerm' => $subscriptionTerm,
         ]);
     }
 
@@ -60,7 +60,7 @@ class SuscriptionPlanController extends Controller
             'plan' => $plan,
             'periodicities' => $periodicities,
             'microsites' => $microsites,
-            'subscriptionTerm' => $subscriptionTerm
+            'subscriptionTerm' => $subscriptionTerm,
         ]);
     }
 

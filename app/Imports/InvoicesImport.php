@@ -24,10 +24,6 @@ class InvoicesImport implements ToModel, WithHeadingRow, WithValidation
         $this->userId = $userId;
     }
 
-    /**
-     * @param array $row
-     * @return Model|Invoice|null
-     */
     public function model(array $row): Model|Invoice|null
     {
         Log::info('User ID in InvoicesImport:', ['user_id' => $this->userId]);

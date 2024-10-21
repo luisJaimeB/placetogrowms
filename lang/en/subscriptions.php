@@ -1,4 +1,5 @@
 <?php
+
 return [
     'titles' => [
         'suscriptionPlanes' => 'Subscription Plans',
@@ -6,7 +7,7 @@ return [
         'allSuscriptions' => 'Total Subscriptions',
         'activeSuscriptions' => 'Active Subscriptions',
         'freezeSuscriptions' => 'Frozen Subscriptions',
-        'suspendenSuscriptions' => 'Suspended Subscriptions'
+        'suspendenSuscriptions' => 'Suspended Subscriptions',
     ],
     'strings' => [
         'updateSuscriptionPlan' => 'Update the plan',
@@ -40,6 +41,6 @@ return [
         'clientSuscription' => 'Client',
         'createdSuscription' => 'Issue Date',
         'expiredDateSuscription' => 'Expiration Date',
-        'SuscriptionPlan' => 'Plan'
+        'SuscriptionPlan' => 'Plan',
     ],
 ];

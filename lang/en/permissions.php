@@ -1,7 +1,8 @@
 <?php
-return  [
+
+return [
     'titles' => [
-        'permissions' => 'Permissions'
+        'permissions' => 'Permissions',
     ],
     'strings' => [
         'updatePermission' => 'Update the permission',
@@ -15,6 +16,6 @@ return  [
             'delete' => 'Delete Permission',
             'edit' => 'Edit Permission',
             'update' => 'Update Permission',
-        ]
-    ]
+        ],
+    ],
 ];

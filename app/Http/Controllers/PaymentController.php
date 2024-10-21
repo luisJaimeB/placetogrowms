@@ -43,6 +43,7 @@ class PaymentController extends Controller
                 $query->where('user_id', $user->id);
             })->with(['microsite'])->get();
         }
+
         return inertia('Payments/IndexPayment', ['payments' => $payments]);
     }
 

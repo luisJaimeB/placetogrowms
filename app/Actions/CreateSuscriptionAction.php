@@ -41,6 +41,7 @@ class CreateSuscriptionAction implements Create
     private static function nextBilling(string $periodicity): string
     {
         $today = Carbon::today();
+
         return match ($periodicity) {
             Periodicity::Daily->value => $today->addDay()->toDateString(),
             Periodicity::Biweekly->value => $today->addDays(15)->toDateString(),

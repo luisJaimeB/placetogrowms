@@ -93,5 +93,4 @@ class HandleReturnPaymentTest extends TestCase
 
         $response->assertStatus(404);
     }
-
 }

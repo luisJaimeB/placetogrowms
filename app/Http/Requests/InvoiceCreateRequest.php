@@ -25,9 +25,9 @@ class InvoiceCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_number' => ['required', 'string','max:32', 'unique:invoices,order_number'],
+            'order_number' => ['required', 'string', 'max:32', 'unique:invoices,order_number'],
             'debtor_name' => ['required', 'string', 'min:4', 'max:255'],
-            'microsite_id' => ['required', 'integer','exists:microsites,id'],
+            'microsite_id' => ['required', 'integer', 'exists:microsites,id'],
             'identification_type_id' => ['required', 'integer', 'exists:buyer_id_types,id'],
             'identification_number' => ['required', 'string', 'min:4', 'max:20'],
             'email' => ['required', 'email:filter,rfc,dns,spoof', 'max:120'],

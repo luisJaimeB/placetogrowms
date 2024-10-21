@@ -18,9 +18,13 @@ class CreateInvoiceTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'invoices.create';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
 
     protected function setUp(): void

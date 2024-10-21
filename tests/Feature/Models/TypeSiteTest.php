@@ -10,6 +10,7 @@ use Tests\TestCase;
 class TypeSiteTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_type_site_has_many_microsites()
     {
         $typeSite = TypeSite::factory()->create();
@@ -19,5 +20,4 @@ class TypeSiteTest extends TestCase
         $this->assertCount(3, $typeSite->microsites);
         $this->assertInstanceOf(Microsite::class, $typeSite->microsites->first());
     }
-
 }

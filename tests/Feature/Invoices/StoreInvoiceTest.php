@@ -28,13 +28,21 @@ class StoreInvoiceTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'invoices.store';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
+
     private BuyerIdType $buyerIdType;
+
     private Currency $currency;
 
     protected function setUp(): void

@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Invoice;
 use App\Models\Suscription;
 use App\Notifications\BillingReminder;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class SendSubscriptionExpiration extends Command
 {
@@ -40,11 +38,11 @@ class SendSubscriptionExpiration extends Command
 
         foreach ($subscriptions as $subscription) {
             try {
-                $this->info('Sending reminder to user ID: ' . $subscription->user->id);
+                $this->info('Sending reminder to user ID: '.$subscription->user->id);
                 $subscription->user->notify(new BillingReminder($subscription));
-                $this->info('Reminder sent to user ID: ' . $subscription->user->id);
+                $this->info('Reminder sent to user ID: '.$subscription->user->id);
             } catch (Exception $e) {
-                $this->error('Failed to send reminder to user ID: ' . $subscription->user->id . '. Error: ' . $e->getMessage());
+                $this->error('Failed to send reminder to user ID: '.$subscription->user->id.'. Error: '.$e->getMessage());
             }
         }
 

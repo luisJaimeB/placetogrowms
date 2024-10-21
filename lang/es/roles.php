@@ -1,7 +1,8 @@
 <?php
-return  [
+
+return [
     'titles' => [
-        'roles' => 'Roles'
+        'roles' => 'Roles',
     ],
     'strings' => [
         'updateRol' => 'Actualiza el rol',
@@ -16,5 +17,5 @@ return  [
             'edit' => 'Editar Rol',
             'update' => 'Actualizar Rol',
         ],
-    ]
+    ],
 ];

@@ -14,7 +14,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Mockery;
 
 class SendInvoiceExpirationTest extends TestCase
 {
@@ -43,8 +42,8 @@ class SendInvoiceExpirationTest extends TestCase
 
         // Execute the command
         $this->artisan(SendInvoiceExpiration::class)
-            ->expectsOutput('Sending reminder to user ID: ' . $user->id)
-            ->expectsOutput('Reminder sent to user ID: ' . $user->id)
+            ->expectsOutput('Sending reminder to user ID: '.$user->id)
+            ->expectsOutput('Reminder sent to user ID: '.$user->id)
             ->expectsOutput('Command finished.')
             ->assertExitCode(0);
 
@@ -91,7 +90,7 @@ class SendInvoiceExpirationTest extends TestCase
         // Create an invoice that expires tomorrow
         $invoice = Invoice::factory()->withMicrositeId($microsite)->create([
             'user_id' => $user->id,
-            'currency_id' =>$currency->id,
+            'currency_id' => $currency->id,
             'expiration_date' => Carbon::tomorrow()->format('Y-m-d'),
         ]);
 
@@ -101,8 +100,8 @@ class SendInvoiceExpirationTest extends TestCase
 
         // Execute the command
         $this->artisan(SendInvoiceExpiration::class)
-            ->expectsOutput('Sending reminder to user ID: ' . $user->id)
-            ->expectsOutput('Failed to send reminder to user ID: ' . $user->id . '. Error: Notification Error')
+            ->expectsOutput('Sending reminder to user ID: '.$user->id)
+            ->expectsOutput('Failed to send reminder to user ID: '.$user->id.'. Error: Notification Error')
             ->expectsOutput('Command finished.')
             ->assertExitCode(0);
     }

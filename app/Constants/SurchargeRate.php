@@ -7,7 +7,6 @@ use App\Contracts\Arrayable;
 
 enum SurchargeRate: string implements Arrayable
 {
-
     use EnumArrayable;
 
     case PERCENT = 'percent';

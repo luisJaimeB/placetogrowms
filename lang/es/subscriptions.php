@@ -1,4 +1,5 @@
 <?php
+
 return [
     'titles' => [
         'suscriptionPlanes' => 'Planes de Suscripción',
@@ -6,7 +7,7 @@ return [
         'allSuscriptions' => 'Suscripciones totales',
         'activeSuscriptions' => 'Suscripciones activas',
         'freezeSuscriptions' => 'Suscripciones conjeladas',
-        'suspendenSuscriptions' => 'Suscipciones suspendidas'
+        'suspendenSuscriptions' => 'Suscipciones suspendidas',
     ],
     'strings' => [
         'updateSuscriptionPlan' => 'Actualiza el plan',
@@ -40,6 +41,6 @@ return [
         'clientSuscription' => 'Cliente',
         'createdSuscription' => 'Fecha de emisión',
         'expiredDateSuscription' => 'Fecha de vencimiento',
-        'SuscriptionPlan' => 'Plan'
+        'SuscriptionPlan' => 'Plan',
     ],
 ];

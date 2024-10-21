@@ -12,6 +12,7 @@ use Tests\TestCase;
 class PrepareCollectTest extends TestCase
 {
     use RefreshDatabase;
+
     private Currency $currency;
 
     protected function setUp(): void
@@ -47,7 +48,7 @@ class PrepareCollectTest extends TestCase
 
         $result = $placeToPayGateway->prepareCollect($data);
 
-        $expectedDescription = 'Pago suscripción - ' . Carbon::today();
+        $expectedDescription = 'Pago suscripción - '.Carbon::today();
         $this->assertEquals($expectedDescription, $result['payment']['description']);
         $this->assertEquals($data['payer'], $result['payer']);
         $this->assertNotEmpty($result['expiration']);

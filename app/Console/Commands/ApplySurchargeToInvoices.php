@@ -27,6 +27,7 @@ class ApplySurchargeToInvoices extends Command
     {
         parent::__construct();
     }
+
     /**
      * Execute the console command.
      */
@@ -39,6 +40,7 @@ class ApplySurchargeToInvoices extends Command
 
             if ($invoices->isEmpty()) {
                 $this->info('No se encontraron facturas para aplicar recargos.');
+
                 return;
             }
 
@@ -56,7 +58,7 @@ class ApplySurchargeToInvoices extends Command
 
             $this->info('Recargos aplicados a las facturas exitosamente.');
         } catch (Exception $e) {
-            $this->error('Ocurrió un error al aplicar los recargos: ' . $e->getMessage());
+            $this->error('Ocurrió un error al aplicar los recargos: '.$e->getMessage());
         }
     }
 }

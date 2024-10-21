@@ -19,7 +19,9 @@ class UserIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.index';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void

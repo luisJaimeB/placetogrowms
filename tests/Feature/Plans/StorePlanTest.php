@@ -25,11 +25,17 @@ class StorePlanTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'planes.store';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Microsite $microsite;
+
     private TypeSite $typesSite;
 
     protected function setUp(): void

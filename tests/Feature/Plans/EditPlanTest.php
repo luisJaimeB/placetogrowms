@@ -22,12 +22,19 @@ class EditPlanTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'planes.edit';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private SuscriptionPlan $plan;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

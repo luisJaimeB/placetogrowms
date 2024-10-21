@@ -37,11 +37,11 @@ class SendInvoiceExpiration extends Command
 
         foreach ($invoices as $invoice) {
             try {
-                $this->info('Sending reminder to user ID: ' . $invoice->user->id);
+                $this->info('Sending reminder to user ID: '.$invoice->user->id);
                 $invoice->user->notify(new InvoiceReminder($invoice));
-                $this->info('Reminder sent to user ID: ' . $invoice->user->id);
+                $this->info('Reminder sent to user ID: '.$invoice->user->id);
             } catch (Exception $e) {
-                $this->error('Failed to send reminder to user ID: ' . $invoice->user->id . '. Error: ' . $e->getMessage());
+                $this->error('Failed to send reminder to user ID: '.$invoice->user->id.'. Error: '.$e->getMessage());
             }
         }
 

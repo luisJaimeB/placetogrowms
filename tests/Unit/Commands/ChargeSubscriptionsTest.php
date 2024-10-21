@@ -48,7 +48,7 @@ class ChargeSubscriptionsTest extends TestCase
                 'status' => SuscriptionsStatus::ACTIVE,
             ]);
 
-        Http::fake(fn(Request $request) => Http::response(json_encode($this->makeSuccessfulData())));
+        Http::fake(fn (Request $request) => Http::response(json_encode($this->makeSuccessfulData())));
 
         $this->artisan('subscriptions:charge')
             ->assertOk();
@@ -113,7 +113,7 @@ class ChargeSubscriptionsTest extends TestCase
                 'status' => SuscriptionsStatus::ACTIVE,
             ]);
 
-        Http::fake(fn(Request $request) => Http::response(json_encode($this->makeRejectedData())));
+        Http::fake(fn (Request $request) => Http::response(json_encode($this->makeRejectedData())));
 
         $this->artisan('subscriptions:charge')
             ->assertOk();
@@ -229,7 +229,7 @@ class ChargeSubscriptionsTest extends TestCase
                 'status' => 'APPROVED',
                 'reason' => '00',
                 'message' => 'La petición ha sido aprobada exitosamente',
-                'date' => '2022-07-27T14:51:27-05:00'
+                'date' => '2022-07-27T14:51:27-05:00',
             ],
             'request' => [
                 'locale' => 'es_CO',
@@ -247,8 +247,8 @@ class ChargeSubscriptionsTest extends TestCase
                         'state' => 'Poblado',
                         'postalCode' => '55555',
                         'country' => 'Colombia',
-                        'phone' => '+573111111111'
-                    ]
+                        'phone' => '+573111111111',
+                    ],
                 ],
                 'buyer' => [
                     'document' => '1122334455',
@@ -264,8 +264,8 @@ class ChargeSubscriptionsTest extends TestCase
                         'state' => 'Poblado',
                         'postalCode' => '55555',
                         'country' => 'Colombia',
-                        'phone' => '+573111111111'
-                    ]
+                        'phone' => '+573111111111',
+                    ],
                 ],
                 'payment' => [
                     'reference' => '12345',
@@ -277,15 +277,15 @@ class ChargeSubscriptionsTest extends TestCase
                             [
                                 'kind' => 'valueAddedTax',
                                 'amount' => 1000,
-                                'base' => 0
-                            ]
+                                'base' => 0,
+                            ],
                         ],
                         'details' => [
                             [
                                 'kind' => 'discount',
-                                'amount' => 1000
-                            ]
-                        ]
+                                'amount' => 1000,
+                            ],
+                        ],
                     ],
                     'allowPartial' => false,
                     'shipping' => [
@@ -302,8 +302,8 @@ class ChargeSubscriptionsTest extends TestCase
                             'state' => 'Poblado',
                             'postalCode' => '55555',
                             'country' => 'Colombia',
-                            'phone' => '+573111111111'
-                        ]
+                            'phone' => '+573111111111',
+                        ],
                     ],
                     'items' => [
                         [
@@ -312,15 +312,15 @@ class ChargeSubscriptionsTest extends TestCase
                             'category' => 'physical',
                             'qty' => '1',
                             'price' => 1000,
-                            'tax' => 0
-                        ]
+                            'tax' => 0,
+                        ],
                     ],
                     'fields' => [
                         [
                             'keyword' => 'test_field_value',
                             'value' => 'test_field',
-                            'displayOn' => 'approved'
-                        ]
+                            'displayOn' => 'approved',
+                        ],
                     ],
                     'recurring' => [
                         'periodicity' => 'D',
@@ -328,7 +328,7 @@ class ChargeSubscriptionsTest extends TestCase
                         'nextPayment' => '2019-08-24',
                         'maxPeriods' => 1,
                         'dueDate ' => '2019-09-24',
-                        'notificationUrl ' => 'https://checkout.placetopay.com'
+                        'notificationUrl ' => 'https://checkout.placetopay.com',
                     ],
                     'subscribe' => false,
                     'dispersion' => [
@@ -337,19 +337,19 @@ class ChargeSubscriptionsTest extends TestCase
                             'agreementType' => 'MERCHANT',
                             'amount' => [
                                 'currency' => 'USD',
-                                'total' => 200
-                            ]
-                        ]
+                                'total' => 200,
+                            ],
+                        ],
                     ],
                     'modifiers' => [
                         [
                             'type' => 'FEDERAL_GOVERNMENT',
                             'code' => 17934,
                             'additional' => [
-                                'invoice' => '123345'
-                            ]
-                        ]
-                    ]
+                                'invoice' => '123345',
+                            ],
+                        ],
+                    ],
                 ],
                 'subscription' => [
                     'reference' => '12345',
@@ -357,15 +357,15 @@ class ChargeSubscriptionsTest extends TestCase
                     'fields' => [
                         'keyword' => '1111',
                         'value' => 'lastDigits',
-                        'displayOn' => 'none'
-                    ]
+                        'displayOn' => 'none',
+                    ],
                 ],
                 'fields' => [
                     [
                         'keyword' => 'processUrl',
                         'value' => 'https://checkout.redirection.test/session/1/a592098e22acc709ec7eb30fc0973060',
-                        'displayOn' => 'none'
-                    ]
+                        'displayOn' => 'none',
+                    ],
                 ],
                 'paymentMethod' => 'visa',
                 'expiration' => '2019-08-24T14:15:22Z',
@@ -375,7 +375,7 @@ class ChargeSubscriptionsTest extends TestCase
                 'userAgent' => 'PlacetoPay Sandbox',
                 'skipResult' => false,
                 'noBuyerFill' => false,
-                'type' => 'checkin'
+                'type' => 'checkin',
             ],
             'payment' => [
                 [
@@ -383,7 +383,7 @@ class ChargeSubscriptionsTest extends TestCase
                         'status' => 'APPROVED',
                         'reason' => '00',
                         'message' => 'La petición ha sido aprobada exitosamente',
-                        'date' => '2022-07-27T14:51:27-05:00'
+                        'date' => '2022-07-27T14:51:27-05:00',
                     ],
                     'internalReference' => 12345,
                     'reference' => '12345',
@@ -393,13 +393,13 @@ class ChargeSubscriptionsTest extends TestCase
                     'amount' => [
                         'from' => [
                             'currency ' => 'COP',
-                            'total ' => 10000
+                            'total ' => 10000,
                         ],
                         'to' => [
                             'currency ' => 'COP',
-                            'total ' => 10000
+                            'total ' => 10000,
                         ],
-                        'factor' => 1
+                        'factor' => 1,
                     ],
                     'receipt' => '052617800175',
                     'franchise' => 'PS_VS',
@@ -409,8 +409,8 @@ class ChargeSubscriptionsTest extends TestCase
                         [
                             'keyword' => '1111',
                             'value' => 'lastDigits',
-                            'displayOn' => 'none'
-                        ]
+                            'displayOn' => 'none',
+                        ],
                     ],
                     'dispersion' => null,
                     'agreement' => null,
@@ -419,62 +419,62 @@ class ChargeSubscriptionsTest extends TestCase
                         'base' => 3000,
                         'code' => '17934',
                         'type' => 'FRANCHISE',
-                        'amount' => 1000
+                        'amount' => 1000,
                     ],
-                    'subscription' => null
-                ]
+                    'subscription' => null,
+                ],
             ],
             'subscription' => [
                 'status' => [
                     'status' => 'OK',
                     'reason' => '00',
                     'message' => 'La petición ha sido aprobada exitosamente',
-                    'date' => '2022-07-27T14:51:27-05:00'
+                    'date' => '2022-07-27T14:51:27-05:00',
                 ],
                 'type' => 'token',
                 'instrument' => [
                     [
                         'keyword' => 'token',
                         'value' => 'a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'subtoken',
                         'value' => '8740257204881111',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'franchise',
                         'value' => 'visa',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'franchiseName',
                         'value' => 'Visa',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'issuerName',
                         'value' => 'JPMORGAN CHASE BANK, N.A.',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'lastDigits',
                         'value' => '1111',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'validUntil',
                         'value' => '2029-12-31',
-                        'displayOn' => 'none'
+                        'displayOn' => 'none',
                     ],
                     [
                         'keyword' => 'installments',
                         'value' => null,
-                        'displayOn' => 'none'
-                    ]
-                ]
-            ]
+                        'displayOn' => 'none',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -486,7 +486,7 @@ class ChargeSubscriptionsTest extends TestCase
                 'status' => 'REJECTED',
                 'reason' => 'XN',
                 'message' => 'Se ha rechazado la petición',
-                'date' => '2024-10-19T14:38:16-05:00'
+                'date' => '2024-10-19T14:38:16-05:00',
             ],
             'request' => [
                 'locale' => 'es_CO',
@@ -496,40 +496,40 @@ class ChargeSubscriptionsTest extends TestCase
                     'name' => 'jhon doe',
                     'surname' => 'pruebas',
                     'email' => 'pruebacertificacionp2p@gmail.com',
-                    'mobile' => '+573106672283'
+                    'mobile' => '+573106672283',
                 ],
                 'payment' => [
                     'reference' => 'pay-EA128BB0C6',
                     'description' => 'Pago suscripción - 2024-10-19 00:00:00',
                     'amount' => [
                         'currency' => 'COP',
-                        'total' => 100000
+                        'total' => 100000,
                     ],
                     'allowPartial' => false,
-                    'subscribe' => false
+                    'subscribe' => false,
                 ],
                 'returnUrl' => 'https://checkout-co.placetopay.dev/home',
                 'ipAddress' => '190.121.143.138',
-                'userAgent' => 'GuzzleHttp/7'
+                'userAgent' => 'GuzzleHttp/7',
             ],
             'payment' => [
                 [
                     'amount' => [
                         'to' => [
                             'total' => 22499.01,
-                            'currency' => 'CLP'
+                            'currency' => 'CLP',
                         ],
                         'from' => [
                             'total' => 100000,
-                            'currency' => 'COP'
+                            'currency' => 'COP',
                         ],
-                        'factor' => 0.22499
+                        'factor' => 0.22499,
                     ],
                     'status' => [
                         'date' => '2024-10-19T14:38:15-05:00',
                         'reason' => '05',
                         'status' => 'REJECTED',
-                        'message' => 'Rechazada'
+                        'message' => 'Rechazada',
                     ],
                     'receipt' => '670815370147',
                     'refunded' => false,
@@ -542,54 +542,54 @@ class ChargeSubscriptionsTest extends TestCase
                         [
                             'value' => '4549106521651',
                             'keyword' => 'merchantCode',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => '98765432',
                             'keyword' => 'terminalNumber',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => 'C',
                             'keyword' => 'cardType',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => '411076',
                             'keyword' => 'bin',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => 1,
                             'keyword' => 'installments',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => true,
                             'keyword' => 'onTest',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => '0016',
                             'keyword' => 'lastDigits',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => '8fcc3f3bf5074f1222cd6a41b49bf644',
                             'keyword' => 'id',
-                            'displayOn' => 'none'
+                            'displayOn' => 'none',
                         ],
                         [
                             'value' => '05',
                             'keyword' => 'b24',
-                            'displayOn' => 'none'
-                        ]
+                            'displayOn' => 'none',
+                        ],
                     ],
                     'internalReference' => 437297,
-                    'paymentMethodName' => 'Visa'
-                ]
+                    'paymentMethodName' => 'Visa',
+                ],
             ],
-            'subscription' => null
+            'subscription' => null,
         ];
     }
 }

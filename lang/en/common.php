@@ -12,7 +12,7 @@ return [
         'payB' => 'Pay',
         'backToCommerce' => 'Back to Commerce',
         'search' => 'Search',
-        'cancel' => 'Cancel'
+        'cancel' => 'Cancel',
     ],
     'fields' => [
         'id' => 'ID',

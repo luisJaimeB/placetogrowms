@@ -56,9 +56,11 @@ class AclController extends Controller
 
         return redirect()->route('acls.index');
     }
-     public function edit($id): Response
-     {
-         $acl = Acl::where('id', $id)->get();
+
+    public function edit($id): Response
+    {
+        $acl = Acl::where('id', $id)->get();
+
         return inertia('Admin/Acls/Edit', ['acl' => $acl]);
-     }
+    }
 }

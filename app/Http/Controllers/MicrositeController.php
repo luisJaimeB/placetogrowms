@@ -15,7 +15,6 @@ use App\Models\OptionalField;
 use App\Models\Payment;
 use App\Models\SuscriptionPlan;
 use App\Models\TypeSite;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +26,7 @@ class MicrositeController extends Controller
     use AuthorizesRequests;
 
     public function __construct(private CreateMicrositeAction $createMicrositeAction) {}
+
     public function index(): Response
     {
         $user = auth()->user();

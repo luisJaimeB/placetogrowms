@@ -1,4 +1,5 @@
 <?php
+
 return [
     'titles' => [
         'microsites' => 'Microsites',

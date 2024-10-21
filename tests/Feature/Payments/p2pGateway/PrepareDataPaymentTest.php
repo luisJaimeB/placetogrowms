@@ -164,5 +164,4 @@ class PrepareDataPaymentTest extends TestCase
         $this->assertStringStartsWith('subs-', $subscriptionBody['reference']);
         $this->assertEquals(15, strlen($subscriptionBody['reference']));
     }
-
 }

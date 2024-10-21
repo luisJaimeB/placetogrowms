@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateSuscriptionPlanAction implements Create
 {
-
     public static function execute(array $data): Model|false
     {
         $plan = new SuscriptionPlan;

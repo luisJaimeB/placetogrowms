@@ -22,9 +22,13 @@ class MicrositeIndexTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.index';
+
     private string $route;
+
     private Role $admin;
+
     private Role $customer;
+
     private Microsite $microsite;
 
     protected function setUp(): void
@@ -113,5 +117,4 @@ class MicrositeIndexTest extends TestCase
             ->assertSee($micrositeAllowed->name)
             ->assertDontSee($micrositeNotAllowed->name);
     }
-
 }

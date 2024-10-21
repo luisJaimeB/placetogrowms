@@ -1,4 +1,5 @@
 <?php
+
 return [
     'titles' => [
         'invoices' => 'Invoices',
@@ -23,7 +24,7 @@ return [
         'currency' => 'Currency',
         'amount' => 'Amount',
         'additionalAmount' => 'Additional amount',
-        'percent' => 'Percent'
+        'percent' => 'Percent',
     ],
     'actions' => [
         'invoices' => [

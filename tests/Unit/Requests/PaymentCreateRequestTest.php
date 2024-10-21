@@ -16,15 +16,16 @@ use Tests\TestCase;
 class PaymentCreateRequestTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_authorization()
     {
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $this->assertTrue($request->authorize());
     }
 
     public function test_validation_rules()
     {
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $rules = $request->rules();
 
         // Verifica que todas las reglas de validación estén presentes
@@ -69,7 +70,7 @@ class PaymentCreateRequestTest extends TestCase
             'plan' => null,
         ];
 
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $validator = Validator::make($data, $request->rules());
 
         $this->assertTrue($validator->passes());
@@ -79,7 +80,7 @@ class PaymentCreateRequestTest extends TestCase
     {
         $data = []; // Sin datos
 
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $validator = Validator::make($data, $request->rules());
 
         $this->assertTrue($validator->fails());
@@ -114,7 +115,7 @@ class PaymentCreateRequestTest extends TestCase
             'plan' => $plan->id,
         ];
 
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $validator = Validator::make($data, $request->rules());
 
         $this->assertTrue($validator->fails());
@@ -139,7 +140,7 @@ class PaymentCreateRequestTest extends TestCase
             'plan' => null,
         ];
 
-        $request = new PaymentCreateRequest();
+        $request = new PaymentCreateRequest;
         $validator = Validator::make($data, $request->rules());
 
         $this->assertTrue($validator->passes());

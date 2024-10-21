@@ -23,13 +23,21 @@ class EditInvoiceTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'invoices.edit';
+
     private string $route;
+
     private Role $adminrole;
+
     private Permission $permission;
+
     private User $user;
+
     private Invoice $invoice;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
+
     protected function setUp(): void
     {
         parent::setUp();

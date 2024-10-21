@@ -33,7 +33,7 @@ class CreateSuscriptionRequest extends FormRequest
             'microsite_id' => ['required', 'exists:microsites,id'],
             'items' => ['nullable', 'array'],
             'lapse' => ['required', 'numeric', 'between:6,24'],
-            'attempts' => ['required', 'numeric', 'between:1,3']
+            'attempts' => ['required', 'numeric', 'between:1,3'],
         ];
     }
 

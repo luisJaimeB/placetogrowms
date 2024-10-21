@@ -19,6 +19,7 @@ class UserCreateTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'users.create';
+
     private string $route;
 
     protected function setUp(): void

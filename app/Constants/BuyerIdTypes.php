@@ -4,7 +4,6 @@ namespace App\Constants;
 
 use App\Concerns\EnumArrayable;
 use App\Contracts\Arrayable;
-use ReflectionClass;
 
 enum BuyerIdTypes: string implements Arrayable
 {
@@ -14,9 +13,10 @@ enum BuyerIdTypes: string implements Arrayable
     case TI = 'TI';
     case NIT = 'NIT';
     case RUT = 'RUT';
+
     public function documentType(): string
     {
-        return match($this) {
+        return match ($this) {
             self::CC => 'Cédula de ciudadanía',
             self::TI => 'Tarjeta de identidad',
             self::CE => 'Cédula de extranjería',
@@ -27,7 +27,7 @@ enum BuyerIdTypes: string implements Arrayable
 
     public static function toTypes(): array
     {
-        return array_map(fn($case) => [
+        return array_map(fn ($case) => [
             'code' => $case->value,
             'document_type' => $case->documentType(),
         ], self::cases());

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\Roles;
 use App\Models\Category;
 use App\Models\Invoice;
 use App\Models\Microsite;
@@ -54,7 +53,7 @@ class DashboardController extends Controller
         $suscriptions = null;
         $payments = null;
         $typeSiteIdFlag = null;
-        $message= null;
+        $message = null;
 
         if ($microsites->has(1)) {
             $payments = Payment::where('microsite_id', $microsites->get(1)->id)->get();
@@ -77,7 +76,7 @@ class DashboardController extends Controller
             'suscriptions' => $suscriptions,
             'payments' => $payments,
             'typeSiteIdFlag' => $typeSiteIdFlag,
-            'message' => $message
+            'message' => $message,
         ]);
     }
 }

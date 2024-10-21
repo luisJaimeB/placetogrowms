@@ -20,8 +20,11 @@ class MicrositeDestroyTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'microsites.destroy';
+
     private string $route;
+
     private Microsite $microsite;
+
     private TypeSite $typeSite;
 
     protected function setUp(): void

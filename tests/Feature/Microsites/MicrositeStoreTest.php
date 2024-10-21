@@ -26,7 +26,9 @@ class MicrositeStoreTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'microsites.store';
+
     private string $route;
+
     private Role $admin;
 
     protected function setUp(): void
@@ -106,7 +108,6 @@ class MicrositeStoreTest extends TestCase
         ]);
     }
 
-
     public function store_returns_back_with_error_when_microsite_is_null(): void
     {
         /** @var User $user */
@@ -129,5 +130,4 @@ class MicrositeStoreTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('error', 'Microsite could not be created.');
     }
-
 }

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -34,5 +33,4 @@ class MicrositeFactory extends Factory
             'type_site_id' => $typeSiteId,
         ]);
     }
-
 }

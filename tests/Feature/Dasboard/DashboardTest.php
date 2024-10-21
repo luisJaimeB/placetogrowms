@@ -21,13 +21,21 @@ class DashboardTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'dashboard';
+
     private string $route;
+
     private Role $admin;
+
     private Role $customer;
+
     private Permission $permission;
+
     private Permission $permission2;
+
     private TypeSite $typeSite;
+
     private Microsite $microsite;
+
     private User $user;
 
     protected function setUp(): void

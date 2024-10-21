@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Constants\Periodicity;
 use App\Constants\SubscriptionTerm;
-use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

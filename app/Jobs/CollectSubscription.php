@@ -50,7 +50,7 @@ class CollectSubscription implements ShouldQueue
                 $this->subscription->next_billing_date = $nextBillingDate;
                 $this->subscription->save();
 
-                Log::info('Pago aprobado para la suscripción ID: ' . $this->subscription->id);
+                Log::info('Pago aprobado para la suscripción ID: '.$this->subscription->id);
 
             } elseif (isset($response['status']['status']) && $response['status']['status'] === PaymentStatus::REJECTED->value) {
                 $this->subscription->recovery_count++;
@@ -58,20 +58,20 @@ class CollectSubscription implements ShouldQueue
 
                 if ($this->subscription->recovery_count >= $maxAttempts) {
                     $this->subscription->status = SuscriptionsStatus::SUSPENDED;
-                    Log::info('Estado del pago actualizado en: ' . $this->subscription->status->value);
+                    Log::info('Estado del pago actualizado en: '.$this->subscription->status->value);
                 } else {
                     $this->subscription->next_billing_date = $this->subscription->next_billing_date->addDay();
                     $this->subscription->status = SuscriptionsStatus::FREEZE;
-                    Log::info('Estado del pago actualizado en: ' . $this->subscription->status->value);
+                    Log::info('Estado del pago actualizado en: '.$this->subscription->status->value);
                 }
                 $this->subscription->save();
 
-                Log::info('Pago rechazado para la suscripción ID: ' . $this->subscription->id . '. Contador de recobros: ' . $this->subscription->recovery_count);
+                Log::info('Pago rechazado para la suscripción ID: '.$this->subscription->id.'. Contador de recobros: '.$this->subscription->recovery_count);
             }
 
         } catch (Exception $e) {
             report($e);
-            Log::error('Error procesando la suscripción ID: ' . $this->subscription->id . '. Error: ' . $e->getMessage());
+            Log::error('Error procesando la suscripción ID: '.$this->subscription->id.'. Error: '.$e->getMessage());
         }
     }
 

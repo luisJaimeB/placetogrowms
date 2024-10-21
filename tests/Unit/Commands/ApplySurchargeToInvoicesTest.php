@@ -8,7 +8,6 @@ use App\Models\Invoice;
 use App\Models\Microsite;
 use App\Models\TypeSite;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,7 +18,9 @@ class ApplySurchargeToInvoicesTest extends TestCase
     use RefreshDatabase;
 
     private Microsite $microsite;
+
     private TypeSite $typeSite;
+
     private Currency $currency;
 
     protected function setUp(): void

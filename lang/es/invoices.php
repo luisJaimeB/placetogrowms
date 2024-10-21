@@ -1,4 +1,5 @@
 <?php
+
 return [
     'titles' => [
         'invoices' => 'Facturas',
@@ -23,7 +24,7 @@ return [
         'currency' => 'Moneda',
         'amount' => 'Monto',
         'additionalAmount' => 'Valor adicional',
-        'percent' => 'Porciento'
+        'percent' => 'Porciento',
     ],
     'actions' => [
         'invoices' => [

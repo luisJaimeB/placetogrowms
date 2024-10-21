@@ -18,9 +18,13 @@ class PermissionEditTest extends TestCase
     use RefreshDatabase;
 
     private const RESOURCE_NAME = 'permissions.edit';
+
     private string $route;
+
     private User $customer;
+
     private Role $admin;
+
     private Permission $permission;
 
     protected function setUp(): void

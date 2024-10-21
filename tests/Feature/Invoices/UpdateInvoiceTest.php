@@ -29,15 +29,22 @@ class UpdateInvoiceTest extends TestCase
     use WithFaker;
 
     private const RESOURCE_NAME = 'invoices.update';
-    private string $route;
-    private Role $adminrole;
-    private Permission $permission;
-    private User $user;
-    private Microsite $microsite;
-    private BuyerIdType $buyerIdType;
-    private Currency $currency;
-    private Invoice $invoice;
 
+    private string $route;
+
+    private Role $adminrole;
+
+    private Permission $permission;
+
+    private User $user;
+
+    private Microsite $microsite;
+
+    private BuyerIdType $buyerIdType;
+
+    private Currency $currency;
+
+    private Invoice $invoice;
 
     protected function setUp(): void
     {
