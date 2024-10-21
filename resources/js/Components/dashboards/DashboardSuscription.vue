@@ -134,25 +134,25 @@ const expiredSuscriptions = () => {
     <div class="container mx-auto p-4">
 
         <div class="payment-section mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-xl font-bold mb-4">Suscripciones</h2>
+            <h2 class="text-xl font-bold mb-4">{{ t('titles.suscriptions') }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">Suscripciones Totales</h3>
+                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">{{ t('titles.allSuscriptions') }}</h3>
                     <p class="mt-4 text-3xl font-bold text-blue-600">{{ allSuscriptions }}</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">Suscripciones Activas</h3>
+                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">{{ t('titles.activeSuscriptions') }}</h3>
                     <p class="mt-4 text-3xl font-bold text-green-600">{{ active }}</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">Suscripciones Conjeladas</h3>
+                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">{{ t('titles.freezeSuscriptions') }}</h3>
                     <p class="mt-4 text-3xl font-bold text-yellow-600">{{ freeze }}</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">Suscripciones Suspendidas</h3>
+                    <h3 class="text-gray-500 text-left uppercase text-xs font-medium">{{ t('titles.suspendenSuscriptions') }}</h3>
                     <p class="mt-4 text-3xl font-bold text-red-600">{{ suspended }}</p>
                 </div>
             </div>
@@ -160,10 +160,10 @@ const expiredSuscriptions = () => {
 
 
         <div class="payment-section mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-xl font-bold mb-4">Métricas</h2>
+            <h2 class="text-xl font-bold mb-4">{{ t('titles.metrics') }}</h2>
 
             <div class="card bg-white shadow-lg rounded-lg p-4 mb-4">
-                <h2 class="text-lg font-semibold mb-2">Facturas Activas vs Pagadas</h2>
+                <h2 class="text-lg font-semibold mb-2">{{ t('strings.actFrezPaydSuscriptions') }}</h2>
                 <div class="relative" style="height: 300px;">
                     <Bar :data="dataBar" :options="options" />
                 </div>
@@ -171,24 +171,24 @@ const expiredSuscriptions = () => {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card bg-white shadow-lg rounded-lg p-4 mb-4">
-                    <h2 class="text-lg font-semibold mb-2">Suscripciones Freeze vs Suspendidas</h2>
+                    <h2 class="text-lg font-semibold mb-2">{{ t('strings.freezSuspSuscriptions') }}</h2>
                     <div class="relative" style="height: 300px;">
                         <Pie :data="dataPie" :options="options" />
                     </div>
                 </div>
 
                 <div class="card bg-white shadow-lg rounded-lg p-4 mb-4">
-                    <h2 class="text-lg font-semibold mb-2">Detalles de Suscripciones vencidas</h2>
+                    <h2 class="text-lg font-semibold mb-2">{{ t('strings.detailExpiredSuscriptions') }}</h2>
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead>
                             <tr class="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Número de Suscripción</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Fecha de Emisión</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Fecha de Vencimiento</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ t('fields.suscriptionNumber') }}</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ t('fields.clientSuscription') }}</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">{{ t('fields.createdSuscription') }}</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">{{ t('fields.expiredDateSuscription') }}</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ t('fields.SuscriptionPlan') }}</th>
                             </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light">

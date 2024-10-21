@@ -9,6 +9,22 @@ return [
         'createInvoice' => 'Crea una nueva factura',
         'createInvoiceDesc' => 'Crea una nueva factura',
     ],
+    'labels' => [
+        'microsite' => 'Micrositios',
+        'expirationDate' => 'Fecha de vencimiento',
+        'surchargeDate' => 'Fecha de cobro adicional',
+        'surchargeRate' => 'Tipo de recargo',
+        'buyerType' => 'Tipo de documento',
+        'buyerNumber' => 'Número de documento',
+        'invoiceDebtorName' => 'Títular de la factura',
+        'email' => 'Correo electrónico',
+        'description' => 'Descripción',
+        'orderNumber' => 'Número de orden',
+        'currency' => 'Moneda',
+        'amount' => 'Monto',
+        'additionalAmount' => 'Valor adicional',
+        'percent' => 'Porciento'
+    ],
     'actions' => [
         'invoices' => [
             'create' => 'Crear Factura',

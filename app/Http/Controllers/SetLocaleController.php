@@ -12,9 +12,18 @@ class SetLocaleController extends Controller
     {
         App::setLocale($locale);
 
-        $messages = Lang::get('common');
+        $common = trans('common');
+        $acls = trans('acls');
+        $permissions = trans('permissions');
+        $roles = trans('roles');
+        $users = trans('users');
+        $imports = trans('imports');
+        $invoices = trans('invoices');
+        $microsites = trans('microsites');
+        $payments = trans('payments');
+        $subscriptions = trans('subscriptions');
 
-        //dd($messages);
+        $messages = array_replace_recursive($common, $users, $payments, $imports, $invoices, $subscriptions, $microsites, $roles, $permissions, $acls);
 
         return response()->json([
             'locale' => $locale,

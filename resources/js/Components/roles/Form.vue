@@ -26,7 +26,7 @@ defineProps({
     },
     permissions:
     {
-        type: Array,
+        type: Object,
         required: true
     }
 })

@@ -101,7 +101,7 @@ defineEmits(['submit'])
         </template>
 
         <template #actions>
-            <SButton variant="secondary" @click="goBack" class="mr-4">Cancelar</SButton>
+            <SButton variant="secondary" @click="goBack" class="mr-4">{{ t('buttons.cancel') }}</SButton>
             <SButton variant="primary">
                 {{ updating ? t('buttons.updateB') : t('buttons.createB') }}
             </SButton>

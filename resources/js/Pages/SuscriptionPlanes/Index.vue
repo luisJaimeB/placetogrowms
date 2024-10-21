@@ -49,8 +49,8 @@ const deletePlan = id =>{
                     <!-- Si no hay planes de suscripción, mostrar una tarjeta con el mensaje -->
                     <div v-if="plans.length === 0" class="relative rounded-2xl ml-4 flex flex-col">
                         <div class="flex-1 pl-8">
-                            <h3 class="text-xl font-semibold text-gray-900">No tienes planes de suscripción creados</h3>
-                            <p class="mt-4 text-gray-600">Parece que aún no has creado ningún plan de suscripción. Puedes crear uno usando el botón de arriba.</p>
+                            <h3 class="text-xl font-semibold text-gray-900">{{ t('strings.nothingSuscriptions') }}</h3>
+                            <p class="mt-4 text-gray-600">{{ t('strings.descNothingSuscriptions') }}</p>
                         </div>
                     </div>
 
@@ -61,7 +61,7 @@ const deletePlan = id =>{
                             <p class="mt-4 flex items-baseline">
                                 <span class="text-5xl font-extrabold tracking-tight">${{ plan.amount }}</span><span class="ml-1 text-xl font-semibold">/{{ plan.periodicity }}</span>
                             </p>
-                            <p class="mt-6">El cobro se realizará con una periodicidad {{ plan.periodicity }}</p>
+                            <p class="mt-6">{{ t('strings.periodicitySuscription') }} {{ plan.periodicity }}</p>
                             <ul role="list" class="mt-6 space-y-6">
                                 <li v-for="(item, index) in plan.items" :key="index" class="flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 w-6 h-6 text-emerald-500" aria-hidden="true">
