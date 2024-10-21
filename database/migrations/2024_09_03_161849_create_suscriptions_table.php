@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('token');
             $table->unsignedBigInteger('plan_id');
+            $table->date('next_billing_date');
+            $table->date('expiration_date');
             $table->foreign('plan_id')
                 ->references('id')
                 ->on('suscription_plans')

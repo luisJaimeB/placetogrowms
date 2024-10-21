@@ -10,7 +10,7 @@ class PaymentGatewayService
 
     protected array $data;
 
-    public function __construct(PaymentMethod $gateway, $data)
+    public function __construct(PaymentMethod $gateway, array $data)
     {
         $this->gateway = $gateway;
         $this->data = $data;
@@ -29,5 +29,10 @@ class PaymentGatewayService
     public function cancelToken()
     {
         return $this->gateway->invalidateToken($this->data);
+    }
+
+    public function collect()
+    {
+        return $this->gateway->collect($this->data);
     }
 }

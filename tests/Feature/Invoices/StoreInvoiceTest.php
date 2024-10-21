@@ -5,9 +5,12 @@ namespace Tests\Feature\Invoices;
 use App\Constants\InvoicesStatus;
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\SurchargeRate;
+use App\Constants\TypesSites;
 use App\Models\BuyerIdType;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,6 +39,8 @@ class StoreInvoiceTest extends TestCase
 
     private Microsite $microsite;
 
+    private TypeSite $typeSite;
+
     private BuyerIdType $buyerIdType;
 
     private Currency $currency;
@@ -46,7 +51,8 @@ class StoreInvoiceTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $this->microsite = Microsite::factory()->create();
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
         $this->buyerIdType = BuyerIdType::factory()->create();
         $this->currency = Currency::factory()->create();
         $this->user = User::factory()->create();
@@ -66,7 +72,7 @@ class StoreInvoiceTest extends TestCase
 
     public function test_unauthorized_user_cant_access_to_invoices_store(): void
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -78,6 +84,10 @@ class StoreInvoiceTest extends TestCase
     public function test_authorized_user_can_store_a_invoice(): void
     {
         Carbon::setTestNow(now());
+        $expirationDate = $this->faker->dateTimeBetween('+30 days', '+60 days');
+        $maxSurchargeDate = (clone $expirationDate)->modify('-1 day');
+
+        $surchargeDate = $this->faker->dateTimeBetween('now', $maxSurchargeDate->format('Y-m-d'))->format('Y-m-d');
 
         $data = [
             'status' => InvoicesStatus::paid->value,
@@ -90,11 +100,16 @@ class StoreInvoiceTest extends TestCase
             'description' => $this->faker->sentence(10),
             'amount' => $this->faker->randomFloat(2, 0, 9999999999.99),
             'currency_id' => $this->currency->id,
-            'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
+            'expiration_date' => $expirationDate->format('Y-m-d'),
             'user_id' => $this->user->id,
             'payment_id' => null,
+            'surcharge_date' => $surchargeDate,
+            'surcharge_rate' => $this->faker->randomElement(SurchargeRate::toArray()),
+            'percent' => $this->faker->optional()->numberBetween(0, 100),
+            'additional_amount' => $this->faker->optional()->numberBetween(1000, 10000000),
         ];
 
+        //dd($data);
         $response = $this->actingAs($this->user)
             ->post($this->route, $data);
 

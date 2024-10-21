@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->nullable();
+            $table->enum('status', PaymentStatus::toArray())->nullable();
             $table->integer('request_id')->unique()->nullable();
             $table->unsignedBigInteger('type');
             $table->decimal('amount', 12, 2);
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->string('reference', 32)->unique()->nullable();
             $table->string('description', 100)->nullable();
             $table->date('date')->nullable();
-            $table->json('buyer');
+            $table->json('buyer')->nullable();
             $table->json('payer')->nullable();
             $table->string('return_url')->nullable();
             $table->string('proccess_url')->nullable();

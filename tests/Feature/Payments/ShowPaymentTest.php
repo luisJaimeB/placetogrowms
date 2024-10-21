@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Payments;
 
+use App\Constants\TypesSites;
+use App\Models\Microsite;
 use App\Models\Payment;
+use App\Models\TypeSite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +15,9 @@ class ShowPaymentTest extends TestCase
 
     public function testPaymentResultShow()
     {
-        $payment = Payment::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $payment = Payment::factory()->withMicrositeId($microsite)->create();
         $response = $this->get(route('payments.show', $payment));
 
         $response->assertStatus(200);

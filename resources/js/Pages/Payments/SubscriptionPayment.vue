@@ -65,10 +65,9 @@ const submitForm = () => {
         .catch(error => {
             console.error(error);
             if (error.response && error.response.data.errors) {
-                // Asume que error.response.data.errors es un objeto con arrays de mensajes de error
                 const formattedErrors = {};
                 Object.keys(error.response.data.errors).forEach(key => {
-                    formattedErrors[key] = error.response.data.errors[key][0]; // Toma el primer mensaje de error
+                    formattedErrors[key] = error.response.data.errors[key][0];
                 });
                 form.setError(formattedErrors);
             } else {

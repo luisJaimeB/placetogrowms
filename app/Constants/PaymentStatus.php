@@ -2,11 +2,15 @@
 
 namespace App\Constants;
 
-class PaymentStatus
+use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
+
+enum PaymentStatus: string implements Arrayable
 {
-    public const string APPROVED = 'APPROVED';
+    use EnumArrayable;
+    case APPROVED = 'APPROVED';
 
-    public const string PENDING = 'PENDIGN';
+    case PENDING = 'PENDIGN';
 
-    public const string REJECTED = 'REJECTED';
+    case REJECTED = 'REJECTED';
 }

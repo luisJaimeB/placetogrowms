@@ -3,6 +3,7 @@
 namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
+use App\Constants\TypesSites;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Microsite;
@@ -32,13 +33,16 @@ class MicrositeUpdateTest extends TestCase
 
     private Microsite $microsite;
 
+    private TypeSite $typeSite;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->admin = Role::create(['name' => 'Admin']);
-        $this->permission = Permission::create(['name' => Permissions::MICROSITES_UPDATE]);
-        $this->microsite = Microsite::factory()->create();
+        $this->permission = Permission::create(['name' => Permissions::MICROSITES_UPDATE->value]);
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
 
         $this->admin->givePermissionTo($this->permission);
         $this->route = route(self::RESOURCE_NAME, $this->microsite);
@@ -70,13 +74,12 @@ class MicrositeUpdateTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($this->admin);
-        $siteType = TypeSite::factory()->create();
         $category = Category::factory()->create();
         $currency = Currency::factory()->create();
 
         $updatedData = [
             'name' => fake()->name(),
-            'type_site_id' => $siteType->id,
+            'type_site_id' => $this->siteType->id,
             'category_id' => $category->id,
             'expiration' => fake()->numberBetween(1, 100),
             'currency' => [$currency->id],

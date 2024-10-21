@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Payments;
 
+use App\Constants\TypesSites;
 use App\Models\Microsite;
 use App\Models\TypeSite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,20 +14,20 @@ class CreatePaymentTest extends TestCase
 
     public function test_create_payment_view_for_donation_microsite()
     {
-        $this->runTestForMicrositeType('Donation', 'Payments/CreatePayment');
+        $this->runTestForMicrositeType(TypesSites::SITE_TYPE_DONATION->value, 'Payments/CreatePayment');
     }
 
     public function test_create_payment_view_for_invoice_microsite()
     {
-        $this->runTestForMicrositeType('Invoice', 'Payments/InvoicePayment');
+        $this->runTestForMicrositeType(TypesSites::SITE_TYPE_INVOICE->value, 'Payments/InvoicePayment');
     }
 
     public function test_create_payment_view_for_subscription_microsite()
     {
-        $this->runTestForMicrositeType('Subscription', 'Payments/SubscriptionPayment');
+        $this->runTestForMicrositeType(TypesSites::SITE_TYPE_SUBSCRIPTION->value, 'Payments/SubscriptionPayment');
     }
 
-    private function runTestForMicrositeType($typeName, $expectedComponent)
+    private function runTestForMicrositeType($typeName, $expectedComponent): void
     {
         $siteType = TypeSite::create(['name' => $typeName]);
         $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();

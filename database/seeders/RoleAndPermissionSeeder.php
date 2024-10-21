@@ -47,6 +47,7 @@ class RoleAndPermissionSeeder extends Seeder
 
                     Permissions::SUBSCRIPTIONS_INDEX,
                     Permissions::SUBSCRIPTIONS_DELETE,
+                    Permissions::SUBSCRIPTIONS_SHOW,
 
                     Permissions::INVOICES_INDEX,
                     Permissions::INVOICES_CREATE,

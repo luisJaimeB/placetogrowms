@@ -2,18 +2,14 @@
 
 namespace App\Constants;
 
-use ReflectionClass;
+use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
 
-final class TypesSites
+enum TypesSites: string implements Arrayable
 {
-    public const string SITE_TYPE_INVOICE = 'Invoice';
+    use EnumArrayable;
 
-    public const string SITE_TYPE_SUBSCRIPTION = 'Subscription';
-
-    public const string SITE_TYPE_DONATION = 'Donation';
-
-    public static function toArray(): array
-    {
-        return (new ReflectionClass(self::class))->getConstants();
-    }
+    case SITE_TYPE_INVOICE = 'Invoice';
+    case SITE_TYPE_SUBSCRIPTION = 'Subscription';
+    case SITE_TYPE_DONATION = 'Donation';
 }

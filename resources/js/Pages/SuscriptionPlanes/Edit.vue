@@ -6,7 +6,6 @@ export default {
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UserForm from '@/Components/permissions/Form.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import {useI18n} from "vue-i18n";
 import PlansForm from "@/Components/plans/Form.vue";
@@ -22,6 +21,10 @@ const props = defineProps({
     type: Array,
         required: true
     },
+    subscriptionTerm: {
+        type: Array,
+        required: true
+    },
     microsites: {
         type: Array,
         required: false
@@ -33,9 +36,7 @@ const form = useForm({
     amount: props.plan.amount,
     microsite_id: props.plan.microsite_id,
     periodicity: props.plan.periodicity,
-    interval: props.plan.interval,
-    next_payment: props.plan.next_payment,
-    due_date: props.plan.due_date,
+    subscriptionTerm: props.plan.subscriptionTerm,
     items: props.plan.items
 })
 </script>
@@ -52,7 +53,7 @@ const form = useForm({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <PlansForm :updating="true" :form="form" :periodicities="periodicities" :microsites="microsites" @submit="form.patch(route('planes.update', plan.id))"/>
+                        <PlansForm :updating="true" :form="form" :subscriptionTerm="subscriptionTerm" :periodicities="periodicities" :microsites="microsites" @submit="form.patch(route('planes.update', plan.id))"/>
                     </div>
                 </div>
             </div>

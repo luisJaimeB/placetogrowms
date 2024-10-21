@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Payments;
 
+use App\Constants\TypesSites;
 use App\Factories\PaymentFactory;
 use App\Http\Controllers\PaymentController;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Models\Currency;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Payments\PlaceToPayGateway;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -69,7 +71,8 @@ class ProcessPaymentTest extends TestCase
     private function getRequestData(): array
     {
         $currency = Currency::factory()->create();
-        $microsite = Microsite::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
 
         return [
             'paymentMethod' => 'placetopay',

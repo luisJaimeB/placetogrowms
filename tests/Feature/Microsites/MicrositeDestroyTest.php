@@ -3,7 +3,9 @@
 namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
+use App\Constants\TypesSites;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,11 +25,14 @@ class MicrositeDestroyTest extends TestCase
 
     private Microsite $microsite;
 
+    private TypeSite $typeSite;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->microsite = Microsite::factory()->create();
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
         $this->route = route(self::RESOURCE_NAME, $this->microsite);
 
         $adminRole = Role::create(['name' => 'Admin']);

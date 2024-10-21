@@ -1,5 +1,6 @@
 // resources/js/app.js
 import './bootstrap';
+import '@placetopay/spartan-vue/style.css';
 import '../css/app.css';
 
 import { createApp, h } from 'vue';
@@ -10,6 +11,7 @@ import i18n from './i18n';
 import axios from 'axios';
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

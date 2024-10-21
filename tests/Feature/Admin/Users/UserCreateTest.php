@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin\Users;
 
 use App\Constants\Permissions;
+use App\Constants\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -27,8 +28,8 @@ class UserCreateTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $adminRole = Role::create(['name' => 'Admin']);
-        $createPermission = Permission::create(['name' => Permissions::USERS_CREATE]);
+        $adminRole = Role::create(['name' => Roles::ADMIN->value]);
+        $createPermission = Permission::create(['name' => Permissions::USERS_CREATE->value]);
 
         $adminRole->givePermissionTo($createPermission);
     }

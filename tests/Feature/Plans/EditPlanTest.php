@@ -4,7 +4,10 @@ namespace Tests\Feature\Plans;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
+use App\Models\Microsite;
 use App\Models\SuscriptionPlan;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -30,11 +33,17 @@ class EditPlanTest extends TestCase
 
     private SuscriptionPlan $plan;
 
+    private Microsite $microsite;
+
+    private TypeSite $typeSite;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->plan = SuscriptionPlan::factory()->create();
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_SUBSCRIPTION->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
+        $this->plan = SuscriptionPlan::factory()->withMicrositeId($this->microsite->id)->create();
 
         $this->route = route(self::RESOURCE_NAME, $this->plan);
 
@@ -72,7 +81,7 @@ class EditPlanTest extends TestCase
                 ->component('SuscriptionPlanes/Edit')
                 ->where('plan.id', $this->plan->id)
                 ->where('plan.name', $this->plan->name)
-                ->has('plan.interval')
+                ->has('plan.lapse')
                 ->has('plan.items')
             );
     }

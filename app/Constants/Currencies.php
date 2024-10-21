@@ -2,16 +2,12 @@
 
 namespace App\Constants;
 
-use ReflectionClass;
+use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
 
-class Currencies
+enum Currencies: string implements Arrayable
 {
-    public const string USD = 'USD';
-
-    public const string COP = 'COP';
-
-    public static function toArray(): array
-    {
-        return (new ReflectionClass(self::class))->getConstants();
-    }
+    use EnumArrayable;
+    case USD = 'USD';
+    case COP = 'COP';
 }

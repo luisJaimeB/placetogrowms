@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\SurchargeRate;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class InvoiceUpdateRequest extends FormRequest
 {
@@ -17,12 +20,12 @@ class InvoiceUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'order_number' => 'required|string|max:32',
+            'order_number' => 'required|string|max:32|unique:invoices,order_number',
             'debtor_name' => 'required|string|min:4|max:255',
             'identification_type_id' => 'required|integer|exists:buyer_id_types,id',
             'identification_number' => 'required|string|min:4|max:20',
@@ -30,6 +33,9 @@ class InvoiceUpdateRequest extends FormRequest
             'description' => 'required|string|max:500',
             'amount' => 'required|numeric|between:0,9999999999.99',
             'expiration_date' => 'required|date|after:today',
+            'surcharge_rate' => ['required', Rule::in(SurchargeRate::toArray())],
+            'percent' => ['nullable', 'numeric', 'between:0,101'],
+            'additionalAmount' => ['nullable', 'numeric', 'between:1000,10000000'],
         ];
     }
 }

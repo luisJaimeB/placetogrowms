@@ -7,6 +7,7 @@ use App\Constants\InvoicesStatus;
 use App\Contracts\Create;
 use App\Models\Acl;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,14 @@ class CreateInvoiceAction implements Create
         $invoice->amount = $data['amount'];
         $invoice->expiration_date = $data['expiration_date'];
         $invoice->microsite_id = $data['microsite_id'];
+        $invoice->surcharge_date = Carbon::parse($data['surcharge_date'])->format('Y-m-d');
+        $invoice->surcharge_rate = $data['surcharge_rate'];
+        if (isset($data['additional_amount'])) {
+            $invoice->additional_amount = $data['additional_amount'];
+        }
+        if (isset($data['percent'])) {
+            $invoice->percent = $data['percent'];
+        }
         $invoice->user_id = Auth::id();
         $invoice->save();
 

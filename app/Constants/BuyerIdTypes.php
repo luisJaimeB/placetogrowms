@@ -2,37 +2,34 @@
 
 namespace App\Constants;
 
-use ReflectionClass;
+use App\Concerns\EnumArrayable;
+use App\Contracts\Arrayable;
 
-class BuyerIdTypes
+enum BuyerIdTypes: string implements Arrayable
 {
-    public const array CC = [
-        'code' => 'CC',
-        'document_type' => 'Cédula de ciudadanía',
-    ];
+    use EnumArrayable;
+    case CC = 'CC';
+    case CE = 'CE';
+    case TI = 'TI';
+    case NIT = 'NIT';
+    case RUT = 'RUT';
 
-    public const array CE = [
-        'code' => 'CE',
-        'document_type' => 'Cédula de extranjería',
-    ];
-
-    public const array TI = [
-        'code' => 'TI',
-        'document_type' => 'Tarjeta de identidad',
-    ];
-
-    public const array NIT = [
-        'code' => 'NIT',
-        'document_type' => 'Número de Identificación Tributaria	',
-    ];
-
-    public const array RUT = [
-        'code' => 'RUT',
-        'document_type' => 'Registro único tributario',
-    ];
-
-    public static function toArray(): array
+    public function documentType(): string
     {
-        return (new ReflectionClass(self::class))->getConstants();
+        return match ($this) {
+            self::CC => 'Cédula de ciudadanía',
+            self::TI => 'Tarjeta de identidad',
+            self::CE => 'Cédula de extranjería',
+            self::NIT => 'Número de Identificación Tributaria',
+            self::RUT => 'Registro único tributario',
+        };
+    }
+
+    public static function toTypes(): array
+    {
+        return array_map(fn ($case) => [
+            'code' => $case->value,
+            'document_type' => $case->documentType(),
+        ], self::cases());
     }
 }

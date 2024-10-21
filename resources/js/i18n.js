@@ -2,9 +2,9 @@ import { createI18n } from 'vue-i18n';
 
 const i18n = createI18n({
     globalInjection: true,
-    locale: 'es', // Idioma por defecto
+    locale: 'es',
     fallbackLocale: 'en',
-    messages: {}, // Inicialmente vacío
+    messages: {},
 });
 
 const loadMessages = async (locale) => {

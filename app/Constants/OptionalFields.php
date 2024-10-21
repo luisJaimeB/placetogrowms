@@ -4,7 +4,7 @@ namespace App\Constants;
 
 use ReflectionClass;
 
-class Optionalfields
+class OptionalFields
 {
     public const array ADDRESS = [
         'label' => 'address',
