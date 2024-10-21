@@ -17,7 +17,7 @@ class HandleReturnPaymentTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHandleReturn()
+    public function test_handle_return()
     {
         $responseData = [
             'status' => [
@@ -83,7 +83,7 @@ class HandleReturnPaymentTest extends TestCase
         ]);
     }
 
-    public function testHandleReturnError()
+    public function test_handle_return_error()
     {
         $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
         $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
@@ -93,4 +93,5 @@ class HandleReturnPaymentTest extends TestCase
 
         $response->assertStatus(404);
     }
+
 }

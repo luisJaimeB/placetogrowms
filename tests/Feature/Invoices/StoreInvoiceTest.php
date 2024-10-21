@@ -76,7 +76,10 @@ class StoreInvoiceTest extends TestCase
     public function test_authorized_user_can_store_a_invoice(): void
     {
         Carbon::setTestNow(now());
-        $expirationDate = $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d');
+        $expirationDate = $this->faker->dateTimeBetween('+30 days', '+60 days');
+        $maxSurchargeDate = (clone $expirationDate)->modify('-1 day');
+
+        $surchargeDate = $this->faker->dateTimeBetween('now', $maxSurchargeDate->format('Y-m-d'))->format('Y-m-d');
 
         $data = [
             'status' => InvoicesStatus::paid->value,
@@ -89,15 +92,16 @@ class StoreInvoiceTest extends TestCase
             'description' => $this->faker->sentence(10),
             'amount' => $this->faker->randomFloat(2, 0, 9999999999.99),
             'currency_id' => $this->currency->id,
-            'expiration_date' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
+            'expiration_date' => $expirationDate->format('Y-m-d'),
             'user_id' => $this->user->id,
             'payment_id' => null,
-            'surcharge_date' => $this->faker->dateTimeBetween('now', $expirationDate)->format('Y-m-d'),
+            'surcharge_date' => $surchargeDate,
             'surcharge_rate' => $this->faker->randomElement(SurchargeRate::toArray()),
             'percent' => $this->faker->optional()->numberBetween(0, 100),
             'additional_amount' => $this->faker->optional()->numberBetween(1000, 10000000),
         ];
 
+        //dd($data);
         $response = $this->actingAs($this->user)
             ->post($this->route, $data);
 

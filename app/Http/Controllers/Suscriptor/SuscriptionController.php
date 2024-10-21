@@ -66,7 +66,7 @@ class SuscriptionController extends Controller
         $suscription = Suscription::where('id', $id)
             ->with(['suscriptionPlan', 'microsite', 'initialPayment'])
             ->first();
-        $tokenization = $suscription->payment;
+        $tokenization = $suscription->initialPayment;
         $paymentMethod = $tokenization->payment_method;
         $paymentArray = $tokenization->toArray();
         $paymentArray['token'] = $suscription->token;
@@ -76,7 +76,7 @@ class SuscriptionController extends Controller
             $gateway = PaymentFactory::create($paymentMethod, $paymentArray);
             $paymentService = new PaymentGatewayService($gateway, $paymentArray);
             $tokenCancelation = $paymentService->cancelToken();
-            $suscription->status = SuscriptionsStatus::canceled;
+            $suscription->status = SuscriptionsStatus::CANCELLED->value;
             $suscription->save();
 
             return redirect()->route('subscriptions.index', ['tokenCancelation' => $tokenCancelation]);

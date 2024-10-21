@@ -56,4 +56,9 @@ class InvoiceReminder extends Notification
             //
         ];
     }
+
+    public function getInvoice(): Invoice
+    {
+        return $this->invoice;
+    }
 }

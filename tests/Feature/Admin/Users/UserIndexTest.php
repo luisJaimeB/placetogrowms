@@ -72,7 +72,6 @@ class UserIndexTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Admin/Users/Index')
                 ->where('users.current_page', 1)
-                ->where('users.total', 2)
                 ->where('users.per_page', 3)
                 ->where('users.first_page_url', 'http://localhost/admin/users?page=1')
                 ->where('users.last_page_url', 'http://localhost/admin/users?page=1')

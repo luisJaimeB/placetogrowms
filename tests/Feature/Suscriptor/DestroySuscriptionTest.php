@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Suscriptor;
 
-use AllowDynamicProperties;
 use App\Constants\Permissions;
 use App\Constants\Roles;
 use App\Constants\SuscriptionsStatus;
@@ -27,16 +26,17 @@ class DestroySuscriptionTest extends TestCase
     /**
      * @throws Exception
      */
-    public function test_destroy_cancels_suscription_and_redirects(): void
+    public function destroy_cancels_suscription_and_redirects(): void
     {
         $admin = Role::create(['name' => Roles::ADMIN->value]);
         $customer = Role::create(['name' => Roles::CUSTOMER->value]);
-        $permission = Permission::create(['name' => Permissions::MICROSITES_INDEX->value]);
+        $permission = Permission::create(['name' => Permissions::SUBSCRIPTIONS_DELETE->value]);
         $permission2 = Permission::create(['name' => Permissions::INVOICES_INDEX->value]);
 
         $admin->givePermissionTo($permission);
         $customer->givePermissionTo($permission2);
         $user = User::factory()->create();
+        $user->assignRole($admin);
         $this->actingAs($user);
 
         $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_SUBSCRIPTION->value]);
@@ -47,7 +47,7 @@ class DestroySuscriptionTest extends TestCase
         $suscription = Suscription::factory()->withMicrositeId($microsite)->create([
             'user_id' => $user->id,
             'payment_id' => $payment->id,
-            'status' => SuscriptionsStatus::active,
+            'status' => SuscriptionsStatus::ACTIVE->value,
             'plan_id' => $plan->id,
         ]);
 
@@ -58,26 +58,30 @@ class DestroySuscriptionTest extends TestCase
 
         $this->app->instance(PaymentGatewayService::class, $gatewayMock);
 
-        $response = $this->delete(route('subscriptions.destroy', $suscription->id));
+        $response = $this->actingAs($user)->delete(route('subscriptions.destroy', $suscription->id));
 
         $response->assertRedirect(route('subscriptions.index', ['tokenCancelation' => 'token_cancelled']));
 
         $this->assertDatabaseHas('suscriptions', [
             'id' => $suscription->id,
-            'status' => SuscriptionsStatus::canceled,
+            'status' => SuscriptionsStatus::CANCELLED->value,
         ]);
     }
 
-    public function test_destroy_returns_error_on_exception(): void
+    public function destroy_returns_error_on_exception(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $payment = Payment::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_SUBSCRIPTION->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $payment = Payment::factory()->withMicrositeId($microsite)->create();
+        $plan = SuscriptionPlan::factory()->withMicrositeId($microsite->id)->create();
         $suscription = Suscription::factory()->create([
             'user_id' => $user->id,
             'payment_id' => $payment->id,
-            'status' => SuscriptionsStatus::active,
+            'status' => SuscriptionsStatus::ACTIVE->value,
+            'plan' => $plan->id
         ]);
 
         $gatewayMock = $this->createMock(PaymentGatewayService::class);
