@@ -1,13 +1,18 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 style="
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #4CAF50, #2E8B57);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+    margin-bottom: 20px;
+">
+    placetogrowms
+</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-# placetogrowms
 
 This project is built with Laravel 11 and InertiaJS.
 
@@ -70,8 +75,27 @@ When running the seeders, the application will create two users: one with admini
 **Test cards:** 
 https://docs.placetopay.dev/gateway/testing-card
 
+**Note:**
+When you create a Subscription type microsite, it will send you to the subscription plans view, so that you can create them from there.
+
 **Standart Users:** 
 
 ```bash
 Usuario:Admin      correo: luisyi1998@gmail.com  password: 123456
 Usuario:Customer   correo: delectuslab@gmail.com  password: 123456 
+```
+
+## Dependencies
+The Spartan plugin from placetopay is used. As a recommendation, use the develop branch and validate the package.json.
+URL: https://github.com/placetopay-org/spartan-vue/tree/develop
+
+## CSV to Invoices
+The .csv file for importing invoices must follow the following format:
+
+```
+microsite_id,order_number,identification_type_id,identification_number,debtor_name,email,description,currency_id,amount,expiration_date,surcharge_date,surcharge_rate,percent,additional_amount
+1,inv-321654,1,1007182654,Jhon doe,pruebacertificacionp2p@gmail.com,description pruebas,1,1000,2024-10-31,2024-10-22,percent,10,1000
+1,inv-123456,1,1007182655,Luis Jaime,pruebacertificacionp2p@gmail.com,description pruebas,1,10000,2025-11-29,2024-10-23,percent,10,1000
+1,inv-987654,1,1007182656,Luis Barbosa,delectuslab@gmail.com,description pruebas,1,15000,2025-11-30,2024-10-21,percent,10,1000
+1,inv-654987,1,1007182657,Jhon Pruebas,luisyi1998@gmail.com,description pruebas,1,12600,2025-11-25,2024-10-22,percent,10,1000
+```
