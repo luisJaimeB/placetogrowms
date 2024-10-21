@@ -26,7 +26,6 @@ use Tests\TestCase;
     private SuscriptionPlan $plan;
     private Role $adminrole;
 
-    #[Test]
     public function it_shows_all_suscriptions_for_admin(): void
     {
         $this->adminrole = Role::create(['name' => Roles::ADMIN]);
@@ -49,7 +48,6 @@ use Tests\TestCase;
             );
     }
 
-    #[Test]
     public function it_shows_user_suscriptions(): void
     {
         $user = User::factory()->create();

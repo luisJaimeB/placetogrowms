@@ -19,7 +19,7 @@ class InvoiceImportControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_create_returns_inertia_response()
+    public function test_create_returns_inertia_response(): void
     {
         $adminRole = Role::create(['name' => 'Admin']);
         $createPermission = Permission::create(['name' => Permissions::IMPORTS_CREATE]);
@@ -34,7 +34,7 @@ class InvoiceImportControllerTest extends TestCase
         $response->assertInertia(fn ($page) => $page->component('Imports/Create'));
     }
 
-    public function test_import_dispatched_successfully()
+    public function test_import_dispatched_successfully(): void
     {
         $user = User::factory()->create();
         Auth::login($user);
@@ -52,7 +52,7 @@ class InvoiceImportControllerTest extends TestCase
         $response->assertRedirect()->with('success', 'Invoices import dispatched successfully!');
     }
 
-    public function test_import_handles_error()
+    public function test_import_handles_error(): void
     {
         Queue::fake();
         $user = User::factory()->create();

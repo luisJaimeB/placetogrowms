@@ -67,7 +67,7 @@ class DashboardTest extends TestCase
         );
     }
 
-    public function test_non_admin_user_sees_own_payments(): void
+    public function non_admin_user_sees_own_payments(): void
     {
         $this->actingAs($this->user);
 

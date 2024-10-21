@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\CreateSuscriptionAction;
 use App\Actions\CreateUserAction;
 use App\Constants\InvoicesStatus;
+use App\Constants\Roles;
 use App\Factories\PaymentFactory;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Http\Requests\PaymentInvoiceSearchRequest;
@@ -20,15 +21,33 @@ use App\Strategies\Microsites\DonationMicrositeStrategy;
 use App\Strategies\Microsites\InvoiceMicrositeStrategy;
 use App\Strategies\Microsites\MicrositeContext;
 use App\Strategies\Microsites\SubscriptionMicrositeStrategy;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class PaymentController extends Controller
 {
+    public function index(): Response
+    {
+        $user = Auth::user();
+        $paymentsQuery = Payment::query();
+
+        if ($user->hasRole(Roles::ADMIN->value)) {
+            $payments = $paymentsQuery->with('microsite')->get();
+        } else {
+            $payments = $paymentsQuery->whereHas('microsite', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->with(['microsite'])->get();
+        }
+        return inertia('Payments/IndexPayment', ['payments' => $payments]);
+    }
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function create($id): Response
     {
@@ -51,7 +70,7 @@ class PaymentController extends Controller
                 $context->setStrategy(new SubscriptionMicrositeStrategy);
                 break;
             default:
-                throw new \Exception('Unknown microsite type');
+                throw new Exception('Unknown microsite type');
         }
 
         $component = $context->renderComponent($microsite);
@@ -92,7 +111,7 @@ class PaymentController extends Controller
                 default => response()->json(['message' => 'Respuesta procesada correctamente', 'data' => $response]),
             };
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -172,7 +191,7 @@ class PaymentController extends Controller
 
             return redirect()->route('payment.show', ['payment' => $payment])
                 ->with('success', 'Payment processed successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -218,7 +237,7 @@ class PaymentController extends Controller
         ], 400);
     }
 
-    public function invoiceIndex(Invoice $invoice)
+    public function invoiceIndex(Invoice $invoice): Response|ResponseFactory
     {
         $invoice->load(['microsite', 'buyeridtype', 'currency', 'user']);
 

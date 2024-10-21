@@ -33,7 +33,6 @@ class InvoicesImport implements ToModel, WithHeadingRow, WithValidation
         Log::info('User ID in InvoicesImport:', ['user_id' => $this->userId]);
 
         Log::info('Importing row:', $row);
-        Log::info('Surcharge Date:', ['surcharge_date' => $row['surcharge_date']]);
 
         return new Invoice([
             'microsite_id' => $row['microsite_id'],
