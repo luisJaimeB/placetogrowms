@@ -27,7 +27,7 @@ The main goals of the project include:
 
 ## Requirements
 
-- PHP >= 8.2
+- PHP >= 8.3
 - Laravel >= 11.x
 - Node.js >= 20.x
 - NPM >= 10.7.x
@@ -69,6 +69,20 @@ The main goals of the project include:
    ```bash
    npm run dev
 
+8. **Add your gateway enviroment variables**
+
+   ```bash
+   PACETOPAY_ENDPOINT=""
+   PLACETOPAY_LOGIN=""
+   PLACETOPAY_SECRET=""
+
+9. **Add your mail enviroment variables**
+
+   ```bash
+   PACETOPAY_ENDPOINT=""
+   PLACETOPAY_LOGIN=""
+   PLACETOPAY_SECRET=""
+
 ## Usage
 When running the seeders, the application will create two users: one with administrative privileges and another for customer access. To get started, log in using the following credentials:
 
@@ -94,8 +108,8 @@ The .csv file for importing invoices must follow the following format:
 
 ```
 microsite_id,order_number,identification_type_id,identification_number,debtor_name,email,description,currency_id,amount,expiration_date,surcharge_date,surcharge_rate,percent,additional_amount
-1,inv-321654,1,1007182654,Jhon doe,pruebacertificacionp2p@gmail.com,description pruebas,1,1000,2024-10-31,2024-10-22,percent,10,1000
-1,inv-123456,1,1007182655,Luis Jaime,pruebacertificacionp2p@gmail.com,description pruebas,1,10000,2025-11-29,2024-10-23,percent,10,1000
-1,inv-987654,1,1007182656,Luis Barbosa,delectuslab@gmail.com,description pruebas,1,15000,2025-11-30,2024-10-21,percent,10,1000
-1,inv-654987,1,1007182657,Jhon Pruebas,luisyi1998@gmail.com,description pruebas,1,12600,2025-11-25,2024-10-22,percent,10,1000
+1,inv-321654,1,1007182654,Jhon doe,pruebacertificacionp2p@gmail.com,description pruebas,1,1000,2025-10-31,2024-11-22,percent,10,1000
+1,inv-123456,1,1007182655,Luis Jaime,pruebacertificacionp2p@gmail.com,description pruebas,1,10000,2025-11-29,2024-11-23,percent,10,1000
+1,inv-987654,1,1007182656,Luis Barbosa,delectuslab@gmail.com,description pruebas,1,15000,2025-11-30,2024-11-21,percent,10,1000
+1,inv-654987,1,1007182657,Jhon Pruebas,luisyi1998@gmail.com,description pruebas,1,12600,2025-11-25,2024-11-22,percent,10,1000
 ```
