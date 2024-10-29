@@ -4,8 +4,11 @@ namespace Tests\Feature\Invoices;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\Currency;
 use App\Models\Invoice;
+use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -31,12 +34,18 @@ class EditInvoiceTest extends TestCase
 
     private Invoice $invoice;
 
+    private Microsite $microsite;
+
+    private TypeSite $typeSite;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         Currency::factory()->create();
-        $this->invoice = Invoice::factory()->create();
+        $this->siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($this->siteType->id)->create();
+        $this->invoice = Invoice::factory()->withMicrositeId($this->microsite->id)->create();
 
         $this->route = route(self::RESOURCE_NAME, $this->invoice);
 

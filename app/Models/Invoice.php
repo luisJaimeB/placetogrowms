@@ -25,11 +25,18 @@ class Invoice extends Model
         'expiration_date',
         'user_id',
         'payment_id',
+        'surcharge_rate',
+        'surcharge_date',
+        'percent',
+        'additional_amount',
+        'surcharge_applied',
     ];
 
     protected $casts = [
         'order_number' => 'string',
         'identification_number' => 'string',
+        'expiration_date' => 'date',
+        'surcharge_date' => 'date',
     ];
 
     public function microsite(): BelongsTo

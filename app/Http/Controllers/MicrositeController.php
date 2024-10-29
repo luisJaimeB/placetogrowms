@@ -15,7 +15,6 @@ use App\Models\OptionalField;
 use App\Models\Payment;
 use App\Models\SuscriptionPlan;
 use App\Models\TypeSite;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +24,8 @@ use Throwable;
 class MicrositeController extends Controller
 {
     use AuthorizesRequests;
+
+    public function __construct(private CreateMicrositeAction $createMicrositeAction) {}
 
     public function index(): Response
     {
@@ -63,11 +64,11 @@ class MicrositeController extends Controller
         ]);
     }
 
-    public function store(MicrositeRequest $request): redirectResponse
+    public function store(MicrositeRequest $request): RedirectResponse
     {
         try {
             $data = $request->validated();
-            $microsite = CreateMicrositeAction::execute($data);
+            $microsite = $this->createMicrositeAction->execute($data);
 
             if (! $microsite) {
                 return back()->with('error', 'Microsite could not be created.')->withInput();
@@ -79,7 +80,6 @@ class MicrositeController extends Controller
         } catch (Throwable $e) {
             return back()->withErrors([
                 'error' => 'Microsite could not be created: '.$e->getMessage(),
-                'stack' => $e->getTraceAsString(),
             ])->withInput();
         }
     }
@@ -87,13 +87,6 @@ class MicrositeController extends Controller
     public function show($id): Response|RedirectResponse
     {
         $microsite = Microsite::with(['typeSite', 'category', 'currencies'])->findOrFail($id);
-
-        /**try {
-            $this->authorize('viewPayments', $microsite);
-        } catch (AuthorizationException $e) {
-
-            return redirect()->back()->with('error', 'No tienes permiso para ver los pagos de este micrositio.');
-        }**/
 
         $payments = Payment::where('microsite_id', $id)->with(['currency'])->get();
 

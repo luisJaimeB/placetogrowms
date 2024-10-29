@@ -1,6 +1,7 @@
 <?php
 
-use App\Constants\Periodicities;
+use App\Constants\Periodicity;
+use App\Constants\SubscriptionTerm;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,12 +16,12 @@ return new class extends Migration
         Schema::create('suscription_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('items');
-            $table->enum('periodicity', Periodicities::toArray());
-            $table->string('interval');
+            $table->json('items')->nullable();
+            $table->enum('periodicity', Periodicity::toArray());
             $table->decimal('amount', 12, 2);
-            $table->string('next_payment');
-            $table->string('due_date');
+            $table->enum('subscriptionTerm', SubscriptionTerm::toArray());
+            $table->integer('lapse');
+            $table->integer('attempts');
             $table->unsignedBigInteger('microsite_id');
             $table->foreign('microsite_id')
                 ->references('id')

@@ -4,8 +4,11 @@ namespace Tests\Feature\Invoices;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\Currency;
 use App\Models\Invoice;
+use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
@@ -35,13 +38,15 @@ class DeleteInvoiceTest extends TestCase
         parent::setUp();
 
         Currency::factory()->create();
-        $this->invoice = Invoice::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
+        $this->invoice = Invoice::factory()->withMicrositeId($microsite->id)->create();
 
         $this->route = route(self::RESOURCE_NAME, $this->invoice);
 
         $this->user = User::factory()->create();
-        $this->adminrole = Role::create(['name' => Roles::ADMIN]);
-        $this->permission = Permission::create(['name' => Permissions::INVOICES_DELETE]);
+        $this->adminrole = Role::create(['name' => Roles::ADMIN->value]);
+        $this->permission = Permission::create(['name' => Permissions::INVOICES_DELETE->value]);
 
         $this->adminrole->givePermissionTo($this->permission);
         $this->user->assignRole($this->adminrole);

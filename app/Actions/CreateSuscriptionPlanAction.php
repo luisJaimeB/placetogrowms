@@ -17,11 +17,12 @@ class CreateSuscriptionPlanAction implements Create
         $plan->microsite_id = $data['microsite_id'];
         $plan->user_id = Auth::id();
         $plan->periodicity = $data['periodicity'];
-        $plan->interval = $data['interval'];
-        $plan->next_payment = $data['next_payment'];
         $plan->amount = $data['amount'];
-        $plan->due_date = $data['due_date'];
-        $plan->items = $data['items'];
+        $plan->subscriptionTerm = $data['subscriptionTerm'];
+        $plan->attempts = $data['attempts'];
+        $plan->lapse = $data['lapse'];
+        $plan->items = $data['items'] ?? ['Debits automatics'];
+
         $plan->save();
 
         return $plan;

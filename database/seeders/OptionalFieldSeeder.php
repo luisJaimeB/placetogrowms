@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Constants\Optionalfields;
+use App\Constants\OptionalFields;
 use App\Models\OptionalField;
 use Illuminate\Database\Seeder;
 
@@ -14,9 +14,9 @@ class OptionalFieldSeeder extends Seeder
     public function run(): void
     {
         $optionalFields = [
-            Optionalfields::CITY,
-            Optionalfields::ADDRESS,
-            Optionalfields::COUNTRY,
+            OptionalFields::CITY,
+            OptionalFields::ADDRESS,
+            OptionalFields::COUNTRY,
         ];
 
         foreach ($optionalFields as $optionalField) {

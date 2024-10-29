@@ -9,4 +9,6 @@ interface PaymentMethod
     public function getInfomation($payment);
 
     public function invalidateToken(array $data);
+
+    public function collect(array $data);
 }

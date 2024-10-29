@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Microsites;
 
+use App\Actions\CreateMicrositeAction;
 use App\Constants\Permissions;
 use App\Constants\Roles;
 use App\Models\Category;
@@ -11,6 +12,7 @@ use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -35,8 +37,8 @@ class MicrositeStoreTest extends TestCase
 
         $this->route = route(self::RESOURCE_NAME);
 
-        $this->admin = Role::create(['name' => Roles::ADMIN]);
-        $updatePermission = Permission::create(['name' => Permissions::MICROSITES_CREATE]);
+        $this->admin = Role::create(['name' => Roles::ADMIN->value]);
+        $updatePermission = Permission::create(['name' => Permissions::MICROSITES_CREATE->value]);
 
         $this->admin->givePermissionTo($updatePermission);
     }
@@ -86,8 +88,6 @@ class MicrositeStoreTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors();
 
-        $response->dumpSession();
-
         $microsite = Microsite::where('name', $data['name'])->first();
 
         $this->assertNotNull($microsite, 'Microsite was not created');
@@ -106,5 +106,28 @@ class MicrositeStoreTest extends TestCase
             'microsite_id' => $microsite->id,
             'currency_id' => $currency->id,
         ]);
+    }
+
+    public function store_returns_back_with_error_when_microsite_is_null(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user->assignRole('Admin');
+
+        $data = [
+            'name' => fake()->name(),
+            'type_site_id' => 1,
+            'category_id' => 1,
+            'expiration' => fake()->numberBetween(1, 100),
+        ];
+
+        $mock = Mockery::mock(CreateMicrositeAction::class);
+        $mock->shouldReceive('execute')->andReturn(false);
+
+        $this->app->instance(CreateMicrositeAction::class, $mock);
+
+        $response = $this->actingAs($user)->post($this->route, $data);
+        $response->assertRedirect();
+        $response->assertSessionHas('error', 'Microsite could not be created.');
     }
 }

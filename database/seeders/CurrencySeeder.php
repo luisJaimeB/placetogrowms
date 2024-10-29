@@ -10,10 +10,7 @@ class CurrencySeeder extends Seeder
 {
     public function run(): void
     {
-        $currencies = [
-            Currencies::USD,
-            Currencies::COP,
-        ];
+        $currencies = Currencies::toArray();
 
         foreach ($currencies as $currency) {
             Currency::query()->create([

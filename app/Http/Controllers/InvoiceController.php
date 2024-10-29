@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateInvoiceAction;
 use App\Constants\InvoicesStatus;
+use App\Constants\SurchargeRate;
 use App\Http\Requests\InvoiceCreateRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Models\BuyerIdType;
@@ -22,17 +23,21 @@ class InvoiceController extends Controller
             ->with(['microsite', 'currency'])
             ->get();
 
-        return inertia('Invoices/Index', ['invoices' => $invoices]);
+        return inertia('Invoices/Index', [
+            'invoices' => $invoices,
+        ]);
     }
 
     public function create(): Response
     {
+        $surchargeRates = SurchargeRate::toArray();
         $microsites = Microsite::with(['currencies'])->get();
         $identification_types = BuyerIdType::all();
 
         return Inertia('Invoices/Create', [
             'microsites' => $microsites,
             'identification_types' => $identification_types,
+            'surchargeRates' => $surchargeRates,
         ]);
     }
 

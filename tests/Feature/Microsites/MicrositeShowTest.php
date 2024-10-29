@@ -4,7 +4,9 @@ namespace Tests\Feature\Microsites;
 
 use App\Constants\Permissions;
 use App\Constants\Roles;
+use App\Constants\TypesSites;
 use App\Models\Microsite;
+use App\Models\TypeSite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -25,6 +27,8 @@ class MicrositeShowTest extends TestCase
 
     private Role $admin;
 
+    private TypeSite $typeSite;
+
     private Microsite $microsite;
 
     protected function setUp(): void
@@ -36,7 +40,8 @@ class MicrositeShowTest extends TestCase
 
         $this->admin->givePermissionTo($readPermission);
 
-        $this->microsite = Microsite::factory()->create();
+        $siteType = TypeSite::create(['name' => TypesSites::SITE_TYPE_INVOICE->value]);
+        $this->microsite = Microsite::factory()->withTypeSiteId($siteType->id)->create();
 
         $this->route = route(self::RESOURCE_NAME, $this->microsite);
     }

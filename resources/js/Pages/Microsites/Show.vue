@@ -7,8 +7,8 @@ export default {
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import {computed, onMounted} from "vue";
-import {useI18n} from "vue-i18n";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 
 defineProps({
@@ -37,13 +37,6 @@ const assetsUrl = computed(() => {
 const getLogoUrl = (path) => {
     return path ? `/microsite/logo/${path}` : null;
 };
-
-/**onMounted(() => {
-    if (flash.message) {
-        toast.error(flash.message);
-    }
-});**/
-
 </script>
 
 <template>
@@ -183,11 +176,6 @@ const getLogoUrl = (path) => {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
 }
 
 .table th, .table td {

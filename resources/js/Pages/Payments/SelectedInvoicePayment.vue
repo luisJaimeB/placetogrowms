@@ -7,10 +7,9 @@ export default {
 <script setup>
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {useI18n} from "vue-i18n";
-import InputError from "@/Components/InputError.vue";
-import {Link, router, useForm} from "@inertiajs/vue3";
-import {useToast} from "vue-toastification";
+import { useI18n } from "vue-i18n";
+import { useForm } from "@inertiajs/vue3";
+import { useToast } from "vue-toastification";
 
 const props = defineProps({
     invoice: {
@@ -53,10 +52,8 @@ const submitForm = () => {
   axios.post(route('payments.process'), form)
       .then(response => {
         if (response.data.redirect_url) {
-          // Redirige al usuario a la URL de redirección
           window.location.href = response.data.redirect_url;
         } else if (response.data.error) {
-          // Maneja errores del servidor
           console.error(response.data.error);
           form.setError({ general: response.data.error });
           toast.error(response.data.error, {
@@ -67,7 +64,6 @@ const submitForm = () => {
       .catch(error => {
         console.error(error);
         if (error.response && error.response.status === 422) {
-          // Maneja errores de validación
           const errors = error.response.data.errors;
           for (const key in errors) {
             if (errors.hasOwnProperty(key)) {

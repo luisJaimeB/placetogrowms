@@ -26,6 +26,10 @@ const submitForm = () => {
     });
 };
 
+// Log the flash messages to the console
+console.log('Flash messages:', props.flash);
+console.log('Errors:', props.errors);
+
 if (props.flash && props.flash.success) {
     toast.success(props.flash.success);
 }

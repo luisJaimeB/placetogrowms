@@ -11,9 +11,9 @@ class TypeSiteSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            TypesSites::SITE_TYPE_DONATION,
-            TypesSites::SITE_TYPE_INVOICE,
-            TypesSites::SITE_TYPE_SUBSCRIPTION,
+            TypesSites::SITE_TYPE_DONATION->value,
+            TypesSites::SITE_TYPE_INVOICE->value,
+            TypesSites::SITE_TYPE_SUBSCRIPTION->value,
         ];
 
         foreach ($types as $type) {
