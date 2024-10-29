@@ -35,7 +35,7 @@ class ApplySurchargeToInvoices extends Command
     {
         try {
             $invoices = Invoice::where('surcharge_date', '<=', Carbon::today())
-                ->whereNull('surcharge_applied')
+                ->where('surcharge_applied', false)
                 ->get();
 
             if ($invoices->isEmpty()) {
