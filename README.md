@@ -79,9 +79,11 @@ The main goals of the project include:
 9. **Add your mail enviroment variables**
 
    ```bash
-   PACETOPAY_ENDPOINT=""
-   PLACETOPAY_LOGIN=""
-   PLACETOPAY_SECRET=""
+   MAIL_MAILER=
+   MAIL_HOST=
+   MAIL_PORT=
+   MAIL_USERNAME=
+   MAIL_PASSWORD=
 
 ## Usage
 When running the seeders, the application will create two users: one with administrative privileges and another for customer access. To get started, log in using the following credentials:
